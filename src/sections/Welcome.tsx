@@ -67,8 +67,8 @@ export function Welcome() {
   }, [reduce])
 
   return (
-    <section className="bg-sand pb-8 pt-6" aria-label="Welcome">
-      <div className="mx-auto max-w-[560px] px-5 text-center">
+    <section className="bg-sand pb-12 pt-8 sm:pb-16 sm:pt-10" aria-label="Welcome">
+      <div className="mx-auto max-w-[620px] px-5 text-center">
         <Reveal>
           {/* Minimum height container to completely prevent Cumulative Layout Shift (CLS) */}
           <div className="flex min-h-[clamp(76px,24vw,120px)] items-center justify-center">
@@ -92,20 +92,23 @@ export function Welcome() {
         </Reveal>
         <Reveal delay={0.1}>
           {/* TODO_COPY: welcome paragraph lives in content.ts */}
-          <p className="label mx-auto mt-3 max-w-[300px] !text-[11px] !leading-[2] text-ink">{t.welcome.body}</p>
+          <p className="label mx-auto mt-3 max-w-[320px] !text-[11px] !leading-[2] text-ink">{t.welcome.body}</p>
         </Reveal>
+      </div>
 
-        <div ref={row} className="mt-8 grid grid-cols-[1fr_1.02fr_1fr] items-start gap-2.5 sm:gap-4">
+      {/* Expanded photo gallery container for superior editorial scale */}
+      <div className="mx-auto max-w-[840px] px-4 sm:px-6">
+        <div ref={row} className="mt-8 grid grid-cols-[1fr_1.06fr_1fr] items-start gap-3 sm:mt-12 sm:gap-5 lg:gap-6">
           {t.welcome.photos.map((p, i) => (
             <motion.div
               key={p.key}
-              className={i === 1 ? '' : 'mt-3'}
+              className={i === 1 ? '' : 'mt-4 sm:mt-6'}
               initial={{ opacity: 0, y: reduce ? 0 : 60 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-5% 0px' }}
               transition={{ duration: 0.9, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
             >
-              <div className="wl-par group overflow-hidden rounded-[3px]">
-                <PhotoSlot src={p.src} alt={p.alt} tone={p.tone} width={3} height={i === 1 ? 4.6 : 4.2} />
+              <div className="wl-par group overflow-hidden rounded-[4px] shadow-[0_4px_18px_rgba(74,68,54,0.08)]">
+                <PhotoSlot src={p.src} alt={p.alt} tone={p.tone} width={3} height={i === 1 ? 4.5 : 4.1} />
               </div>
             </motion.div>
           ))}
@@ -114,3 +117,4 @@ export function Welcome() {
     </section>
   )
 }
+
