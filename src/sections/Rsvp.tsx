@@ -104,7 +104,7 @@ export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) 
                   <button
                     key={String(val)} type="button" role="radio" aria-checked={attending === val}
                     onClick={() => setValue('attending', val as boolean, { shouldValidate: true })}
-                    className={`label rounded-full border px-3 py-3 !text-[10px] transition-colors ${attending === val ? 'border-olive-deep bg-olive-deep text-cream' : 'border-gold text-gold'}`}
+                    className={`label rounded-full border px-3 py-3 !text-[10px] transition-colors ${attending === val ? 'border-olive-deep bg-olive-deep text-[#f8f5ee]' : 'border-gold text-gold'}`}
                   >{text as string}</button>
                 ))}
               </div>
