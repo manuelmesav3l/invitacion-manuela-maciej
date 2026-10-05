@@ -28,9 +28,10 @@ alter table rsvps enable row level security;
 revoke all on guests, rsvps from anon, authenticated;
 
 create or replace function get_guest(p_token text) returns json
-language plpgsql security definer set search_path = public as $$
+language plpgsql security definer set search_path = public, pg_temp as $$
 declare g guests; r rsvps;
 begin
+  if p_token is null or length(trim(p_token)) < 3 then return null; end if;
   select * into g from guests where token = p_token;
   if not found then return null; end if;
   select * into r from rsvps where guest_id = g.id;
@@ -43,7 +44,7 @@ end $$;
 
 create or replace function submit_rsvp(
   p_token text, p_full_name text, p_attending boolean, p_companions int, p_dietary text, p_message text
-) returns void language plpgsql security definer set search_path = public as $$
+) returns void language plpgsql security definer set search_path = public, pg_temp as $$
 declare g guests; comp int := greatest(0, coalesce(p_companions, 0));
 begin
   if p_token is null or p_token = '' then
