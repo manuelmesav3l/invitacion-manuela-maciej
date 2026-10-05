@@ -12,10 +12,11 @@ const en = {
     title: 'Welcome!',
     body: 'Welcome text coming soon.', // TODO_COPY
     photos: [
-      { key: 'palacio', alt: 'Palacio de la Cultura Rafael Uribe Uribe, Medellín', src: '', tone: ['#9db3c9', '#6b7a5a'] },
-      { key: 'guatape', alt: 'Guatapé reservoir and islands', src: '', tone: ['#5a9ad0', '#3b6a3a'] },
-      { key: 'plaza', alt: 'Medellín metro passing over the plaza', src: '', tone: ['#c9a06a', '#7a6a58'] },
-    ], // TODO_ASSET — set `src` to real photos in /public/assets
+      { key: 'metro', alt: 'Metro de Medellín pasando sobre la plaza y el Palacio de la Cultura', src: '/assets/welcome-metro.webp', tone: ['#9db3c9', '#6b7a5a'] },
+      { key: 'pueblo', alt: 'Plaza colonial con iglesia, palma real y puesto de frutas', src: '/assets/welcome-pueblo.webp', tone: ['#5a9ad0', '#3b6a3a'] },
+      { key: 'botero', alt: 'Esculturas de Fernando Botero en la Plaza Botero', src: '/assets/welcome-botero.webp', tone: ['#c9a06a', '#7a6a58'] },
+    ],
+
   },
   venue: {
     title: { initial: 'T', rest: 'HE VENUE' },
