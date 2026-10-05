@@ -9,17 +9,17 @@ export function Venue({ onClimate }: { onClimate: () => void }) {
   const v = t.venue
   return (
     <section className="bg-sand pb-16 pt-10 sm:pt-14" aria-label="The venue">
-      <div className="mx-auto max-w-[560px] px-5 text-center">
+      <div className="mx-auto max-w-[680px] px-4 sm:px-6 text-center">
         <h2 className="sr-only">The Venue — Casa Primavera</h2>
 
         <motion.img
           src="/assets/venue-composite.webp"
-          width={1024}
-          height={799}
+          width={1088}
+          height={1464}
           alt={`${v.title.initial}${v.title.rest} — Casa Primavera`}
           loading="lazy"
           decoding="async"
-          className="mx-auto w-full select-none"
+          className="blend-multiply mx-auto w-full select-none"
           initial={reduce ? { opacity: 0 } : { opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-10% 0px' }}
