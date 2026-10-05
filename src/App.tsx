@@ -1,23 +1,28 @@
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { Countdown } from './sections/Countdown'
-import { ClimateSheet } from './sections/ClimateSheet'
 import { DressCode } from './sections/DressCode'
 import { Hero } from './sections/Hero'
 import { Medellin } from './sections/Medellin'
 import { Programme } from './sections/Programme'
-import { Rsvp } from './sections/Rsvp'
 import { Venue } from './sections/Venue'
 import { Welcome } from './sections/Welcome'
 import { StackCard } from './components/StackCard'
 import { initScroll } from './lib/scroll'
 
+// Lazy load heavy interactive sheets/modals on demand to keep initial heap memory minimal
+const Rsvp = lazy(() => import('./sections/Rsvp').then((m) => ({ default: m.Rsvp })))
+const ClimateSheet = lazy(() => import('./sections/ClimateSheet').then((m) => ({ default: m.ClimateSheet })))
+
 export default function App() {
   const [rsvp, setRsvp] = useState(false)
   const [climate, setClimate] = useState(false)
   useEffect(() => initScroll(), [])
+
   return (
     <main>
-      <StackCard first><Hero onRsvp={() => setRsvp(true)} /></StackCard>
+      <StackCard first>
+        <Hero onRsvp={() => setRsvp(true)} />
+      </StackCard>
       <StackCard>
         <Countdown />
         <Welcome />
@@ -26,8 +31,10 @@ export default function App() {
         <DressCode />
         <Medellin />
       </StackCard>
-      <Rsvp open={rsvp} onClose={() => setRsvp(false)} />
-      <ClimateSheet open={climate} onClose={() => setClimate(false)} />
+      <Suspense fallback={null}>
+        {rsvp && <Rsvp open={rsvp} onClose={() => setRsvp(false)} />}
+        {climate && <ClimateSheet open={climate} onClose={() => setClimate(false)} />}
+      </Suspense>
     </main>
   )
 }

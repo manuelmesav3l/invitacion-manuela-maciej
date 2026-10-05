@@ -38,8 +38,32 @@ export function Countdown() {
   const [counted, setCounted] = useState(false)
 
   useEffect(() => {
-    const id = setInterval(() => setReal(remaining()), 1000)
-    return () => clearInterval(id)
+    let id: ReturnType<typeof setInterval> | null = null
+    const start = () => {
+      if (!id) id = setInterval(() => setReal(remaining()), 1000)
+    }
+    const stop = () => {
+      if (id) {
+        clearInterval(id)
+        id = null
+      }
+    }
+
+    const onVisibility = () => {
+      if (document.hidden) {
+        stop()
+      } else {
+        setReal(remaining())
+        start()
+      }
+    }
+
+    start()
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => {
+      stop()
+      document.removeEventListener('visibilitychange', onVisibility)
+    }
   }, [])
 
   useEffect(() => {
