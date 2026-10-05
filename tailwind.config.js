@@ -4,8 +4,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        cream: '#F8F5EE',
-        sand: '#F2E9DF',
+        cream: '#E8D7C5',
+        sand: '#E8D7C5',
         'olive-deep': '#3F5A2E',
         gold: '#AD915C',
         ink: '#4A4436',
