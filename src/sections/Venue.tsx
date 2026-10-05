@@ -1,5 +1,4 @@
 import { motion, useReducedMotion } from 'motion/react'
-import { PinIcon, SunCloudIcon } from '../components/Icons'
 import { PillButton } from '../components/PillButton'
 import { Reveal } from '../components/Reveal'
 import { t } from '../content/content'
@@ -29,13 +28,31 @@ export function Venue({ onClimate }: { onClimate: () => void }) {
         {/* TODO_COPY: venue paragraph lives in content.ts */}
         <Reveal delay={0.1}><p className="label mx-auto mt-6 max-w-[320px] !text-[11px] !leading-[2] text-ink">{v.body}</p></Reveal>
 
-        <div className="relative mt-9 h-[170px]">
-          <div className="absolute left-[16%] top-0 flex flex-col items-center gap-2">
-            <PinIcon width={30} height={30} className="text-gold" />
+        <div className="relative mt-9 h-[175px]">
+          <div className="absolute left-[16%] top-0 flex flex-col items-center gap-2.5">
+            <img
+              src="/assets/venue-icon-pin.webp"
+              width={162}
+              height={232}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              decoding="async"
+              className="blend-multiply h-11 w-auto object-contain select-none transition-transform duration-300 hover:scale-105"
+            />
             <PillButton href={v.mapsUrl} delay={0.05}>{v.mapsLabel}</PillButton>
           </div>
-          <div className="absolute right-[6%] top-[86px] flex flex-col items-center gap-2">
-            <SunCloudIcon width={34} height={34} className="text-gold" />
+          <div className="absolute right-[6%] top-[84px] flex flex-col items-center gap-2.5">
+            <img
+              src="/assets/venue-icon-climate.webp"
+              width={284}
+              height={250}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              decoding="async"
+              className="blend-multiply h-11 w-auto object-contain select-none transition-transform duration-300 hover:scale-105"
+            />
             <PillButton onClick={onClimate} ariaHaspopup="dialog" delay={0.2}>{v.climateLabel}</PillButton>
           </div>
         </div>
