@@ -93,6 +93,15 @@ img { display: block; max-width: 100%; }
 @keyframes rsvp-pulse { 0%, 100% { transform: scale(1); opacity: 1 } 50% { transform: scale(1.06); opacity: .8 } }
 @keyframes disco-spin { to { transform: rotate(360deg) } }
 @keyframes sparkle { 0%, 100% { opacity: .55; transform: scale(1) } 50% { opacity: 1; transform: scale(1.12) } }
+@keyframes ink-cursor {
+  0%, 45% { opacity: 1; }
+  50%, 95% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.animate-ink-cursor {
+  animation: ink-cursor 0.9s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
