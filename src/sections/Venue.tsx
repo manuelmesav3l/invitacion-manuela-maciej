@@ -1,29 +1,30 @@
 import { motion, useReducedMotion } from 'motion/react'
-import { Divider } from '../components/Ornaments'
 import { PinIcon, SunCloudIcon } from '../components/Icons'
 import { PillButton } from '../components/PillButton'
 import { Reveal } from '../components/Reveal'
-import { SectionTitle } from '../components/SectionTitle'
 import { t } from '../content/content'
 
 export function Venue({ onClimate }: { onClimate: () => void }) {
   const reduce = useReducedMotion()
   const v = t.venue
   return (
-    <section className="bg-sand pb-16 pt-12" aria-label="The venue">
+    <section className="bg-sand pb-16 pt-10 sm:pt-14" aria-label="The venue">
       <div className="mx-auto max-w-[560px] px-5 text-center">
-        <SectionTitle initial={v.title.initial} rest={v.title.rest} size="md" />
+        <h2 className="sr-only">The Venue — Casa Primavera</h2>
 
         <motion.img
-          src="/assets/venue-illustration.webp" width={720} height={505} alt={v.illustrationAlt} loading="lazy" decoding="async"
-          className="blend-multiply mx-auto -mt-2 w-[96%]"
-          initial={reduce ? { opacity: 0 } : { clipPath: 'inset(100% 0 0 0)' }}
-          whileInView={reduce ? { opacity: 1 } : { clipPath: 'inset(0% 0 0 0)' }}
+          src="/assets/venue-composite.webp"
+          width={1024}
+          height={799}
+          alt={`${v.title.initial}${v.title.rest} — Casa Primavera`}
+          loading="lazy"
+          decoding="async"
+          className="mx-auto w-full select-none"
+          initial={reduce ? { opacity: 0 } : { opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-10% 0px' }}
-          transition={{ duration: 2, ease: [0.4, 0, 0.2, 1] }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         />
-        <Reveal><img src="/assets/venue-logo.webp" width={460} height={160} alt={v.logoAlt} loading="lazy" decoding="async" className="blend-multiply mx-auto -mt-1 w-[62%]" /></Reveal>
-        <Reveal delay={0.1}><Divider className="mx-auto mt-6 w-[46%] text-[#8b8577]" /></Reveal>
 
         {/* TODO_COPY: venue paragraph lives in content.ts */}
         <Reveal delay={0.1}><p className="label mx-auto mt-6 max-w-[320px] !text-[11px] !leading-[2] text-ink">{v.body}</p></Reveal>
