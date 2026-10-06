@@ -1,3 +1,4 @@
+import { asset } from '../lib/asset'
 import { motion, useReducedMotion } from 'motion/react'
 import { PillButton } from '../components/PillButton'
 import { Reveal } from '../components/Reveal'
@@ -13,7 +14,7 @@ export function Venue({ onClimate }: { onClimate: () => void }) {
         <h2 className="sr-only">{`${v.title.initial}${v.title.rest} — Casa Primavera`}</h2>
 
         <motion.img
-          src="/assets/venue-composite.webp"
+          src={asset("assets/venue-composite.webp")}
           width={1088}
           height={1464}
           alt={`${v.title.initial}${v.title.rest} — Casa Primavera`}
@@ -32,7 +33,7 @@ export function Venue({ onClimate }: { onClimate: () => void }) {
         <div className="relative mt-10 h-[215px] sm:h-[235px]">
           <div className="absolute left-[12%] sm:left-[16%] top-0 flex flex-col items-center gap-3">
             <img
-              src="/assets/venue-icon-pin.webp"
+              src={asset("assets/venue-icon-pin.webp")}
               width={162}
               height={232}
               alt=""
@@ -45,7 +46,7 @@ export function Venue({ onClimate }: { onClimate: () => void }) {
           </div>
           <div className="absolute right-[4%] sm:right-[6%] top-[98px] sm:top-[108px] flex flex-col items-center gap-3">
             <img
-              src="/assets/venue-icon-climate.webp"
+              src={asset("assets/venue-icon-climate.webp")}
               width={284}
               height={250}
               alt=""
@@ -71,7 +72,7 @@ export function Venue({ onClimate }: { onClimate: () => void }) {
             </div>
           ) : (
             <img
-              src="/assets/hero-date.svg"
+              src={asset("assets/hero-date.svg")}
               alt={`${t.hero.day} ${t.hero.month} ${t.hero.year}`}
               width={328}
               height={71}

@@ -1,3 +1,4 @@
+import { asset } from '../lib/asset'
 import { useEffect, useRef } from 'react'
 import { useReducedMotion } from 'motion/react'
 import { TimelineNode } from '../components/TimelineNode'
@@ -98,7 +99,7 @@ export function Programme() {
         <div className="tl-stage relative mx-auto mt-6 sm:mt-8 h-[310px] sm:h-[340px] w-full">
           {/* Shuttle bus illustration: sits cleanly above Shuttle node without encroaching Ceremony */}
           <img
-            src="/assets/programme-bus.webp"
+            src={asset("assets/programme-bus.webp")}
             width={279}
             height={171}
             alt="Shuttle bus illustration"
@@ -109,7 +110,7 @@ export function Programme() {
 
           {/* Disco ball illustration: crowns Party node with comfortable clearance above the '3:00' text */}
           <img
-            src="/assets/programme-disco.webp"
+            src={asset("assets/programme-disco.webp")}
             width={280}
             height={271}
             alt="Disco ball illustration"
@@ -120,7 +121,7 @@ export function Programme() {
 
           {/* Sparklers illustration: positioned under Send Off node with ample clearance below the '3:00' text */}
           <img
-            src="/assets/programme-sparkler.webp"
+            src={asset("assets/programme-sparkler.webp")}
             width={283}
             height={236}
             alt="Sparklers illustration"

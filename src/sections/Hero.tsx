@@ -1,3 +1,4 @@
+import { asset } from '../lib/asset'
 import { motion, useReducedMotion } from 'motion/react'
 import { useEffect, useRef } from 'react'
 import { gsap } from '../lib/scroll'
@@ -37,7 +38,7 @@ export function Hero({ onRsvp }: { onRsvp: () => void }) {
       {/* Gazebo illustration: Monumental scale, shifted left to bleed onto the screen edge */}
       <div className="hidden lg:flex left-[-10%] xl:left-[-12%] 2xl:left-[-14%] bottom-0 absolute z-0 pointer-events-none w-[clamp(480px,58vw,1020px)] max-h-[100vh] select-none items-end justify-start">
         <img
-          src="/assets/gazebo-full.webp"
+          src={asset("assets/gazebo-full.webp")}
           width={1024}
           height={980}
           alt={t.hero.gazeboAlt}
@@ -57,7 +58,7 @@ export function Hero({ onRsvp }: { onRsvp: () => void }) {
         >
           {/* Couple illustration with transparent background */}
           <img
-            src="/assets/hero-couple-transparent.webp"
+            src={asset("assets/hero-couple-transparent.webp")}
             width={1024}
             height={700}
             alt={`${t.couple.a} & ${t.couple.b} - ${t.hero.kicker}`}
@@ -73,7 +74,7 @@ export function Hero({ onRsvp }: { onRsvp: () => void }) {
 
           {/* Names lockup (SVG): positioned per the reference artboard */}
           <img
-            src="/assets/hero-names.svg"
+            src={asset("assets/hero-names.svg")}
             alt=""
             aria-hidden="true"
             className="absolute left-[5.5%] top-[30%] w-[88%] lg:left-[30.7%] lg:top-[31.9%] lg:w-[39.5%] h-auto pointer-events-none"
@@ -89,7 +90,7 @@ export function Hero({ onRsvp }: { onRsvp: () => void }) {
             </div>
           ) : (
             <img
-              src="/assets/hero-date.svg"
+              src={asset("assets/hero-date.svg")}
               alt={`${t.hero.day} ${t.hero.month} ${t.hero.year}`}
               className="absolute left-[27%] top-[79.6%] w-[46%] lg:left-[40%] lg:top-[79.4%] lg:w-[21.1%] h-auto pointer-events-none"
               decoding="async"
