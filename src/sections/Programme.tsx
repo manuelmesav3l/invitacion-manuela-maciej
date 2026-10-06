@@ -126,7 +126,7 @@ export function Programme() {
             alt="Sparklers illustration"
             loading="lazy"
             decoding="async"
-            className="blend-multiply tl-icon tl-spark absolute right-[0%] bottom-[6px] sm:bottom-[10px] w-[20%] sm:w-[18%] max-w-[105px] h-auto object-contain select-none pointer-events-none"
+            className="blend-multiply tl-icon tl-spark absolute left-[88.4%] -translate-x-1/2 top-[calc(50%+39px)] sm:top-[calc(50%+46px)] w-[18%] sm:w-[16%] max-w-[95px] h-auto object-contain select-none pointer-events-none"
           />
 
           {/* Central Timeline axis and milestones */}
