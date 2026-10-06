@@ -10,21 +10,24 @@ export function Hero({ onRsvp }: { onRsvp: () => void }) {
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    if (reduce || !heroRef.current || !sectionRef.current) return
-    const parallax = gsap.to(heroRef.current, {
-      yPercent: 4,
-      ease: 'none',
-      scrollTrigger: { trigger: heroRef.current, start: 'top top', end: 'bottom top', scrub: true },
-    })
-    // The hero is pinned (sticky) under the next card, so drive the fade by scroll distance, not by its own position.
+    if (reduce || !sectionRef.current) return
+
+    // Hero stays completely stationary (no movement on scroll)
+    // and fades out smoothly into the background as the user scrolls.
     const fade = gsap.to(sectionRef.current, {
       opacity: 0,
       ease: 'none',
-      scrollTrigger: { start: 0, end: () => window.innerHeight * 0.85, scrub: true, invalidateOnRefresh: true },
+      scrollTrigger: {
+        start: 0,
+        end: () => window.innerHeight * 0.75,
+        scrub: true,
+        invalidateOnRefresh: true,
+      },
     })
+
     return () => {
-      parallax.scrollTrigger?.kill(); parallax.kill()
-      fade.scrollTrigger?.kill(); fade.kill()
+      fade.scrollTrigger?.kill()
+      fade.kill()
     }
   }, [reduce])
 

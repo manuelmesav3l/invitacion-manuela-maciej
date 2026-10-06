@@ -14,21 +14,27 @@ export function StackCard({ children, first = false }: { children: ReactNode; fi
   useEffect(() => {
     const el = ref.current
     if (!el || reduce) return
-    const measure = () => setTop(Math.min(0, Math.round(window.innerHeight - el.offsetHeight)))
+    const measure = () => {
+      if (first) {
+        setTop(0)
+        return
+      }
+      setTop(Math.min(0, Math.round(window.innerHeight - el.offsetHeight)))
+    }
     measure()
     const ro = new ResizeObserver(measure)
     ro.observe(el)
     window.addEventListener('resize', measure)
     return () => { ro.disconnect(); window.removeEventListener('resize', measure) }
-  }, [reduce])
+  }, [first, reduce])
 
   if (reduce) return <>{children}</>
 
   return (
     <div
       ref={ref}
-      style={{ top }}
-      className={`sticky ${first ? '' : 'rounded-t-[28px] shadow-[0_-18px_48px_-12px_rgba(63,90,46,0.28)] sm:rounded-t-[40px]'} overflow-hidden`}
+      style={{ top: first ? 0 : top }}
+      className={`sticky ${first ? 'top-0' : 'rounded-t-[28px] shadow-[0_-18px_48px_-12px_rgba(63,90,46,0.28)] sm:rounded-t-[40px]'} overflow-hidden`}
     >
       {children}
     </div>
