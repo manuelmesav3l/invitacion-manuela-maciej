@@ -34,7 +34,7 @@ export function Medellin() {
   }, [reduce])
 
   return (
-    <section className="overflow-hidden bg-sand pb-20 pt-14" aria-label="Welcome to Medellín">
+    <section className="overflow-hidden bg-sand pb-20 pt-14" aria-label={`${m.kicker} ${m.title.initial}${m.title.rest}`}>
       <div className="mx-auto max-w-[560px] px-5 text-center">
         <Reveal><p className="label !text-[13px] !tracking-[0.3em] text-olive-deep">{m.kicker}</p></Reveal>
         <SectionTitle initial={m.title.initial} rest={m.title.rest} size="lg" color="text-olive-deep" className="-mt-1" />

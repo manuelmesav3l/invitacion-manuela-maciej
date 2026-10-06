@@ -3,12 +3,12 @@ import { useEffect, useId, useRef, type ReactNode } from 'react'
 import { lockScroll } from '../lib/scroll'
 import { CloseIcon } from './Icons'
 
-interface Props { open: boolean; onClose: () => void; label: string; children: ReactNode; tall?: boolean }
+interface Props { open: boolean; onClose: () => void; label: string; children: ReactNode; tall?: boolean; closeLabel?: string }
 
 const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
 
 /** Bottom-sheet dialog: focus trap, Esc to close, scroll lock, focus restore. */
-export function Sheet({ open, onClose, label, children, tall }: Props) {
+export function Sheet({ open, onClose, label, children, tall, closeLabel = 'Close' }: Props) {
   const reduce = useReducedMotion()
   const panel = useRef<HTMLDivElement>(null)
   const titleId = useId()
@@ -56,7 +56,7 @@ export function Sheet({ open, onClose, label, children, tall }: Props) {
             data-lenis-prevent
           >
             <span id={titleId} className="sr-only">{label}</span>
-            <button type="button" onClick={onClose} aria-label="Close"
+            <button type="button" onClick={onClose} aria-label={closeLabel}
               className="absolute right-4 top-4 z-10 grid h-10 w-10 place-items-center rounded-full text-olive-deep hover:bg-sand">
               <CloseIcon />
             </button>

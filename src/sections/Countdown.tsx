@@ -1,5 +1,6 @@
 import { AnimatePresence, motion, useInView, useReducedMotion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
+import { SectionTitle } from '../components/SectionTitle'
 import { useLanguage } from '../context/LanguageContext'
 import { remaining, type Remaining } from '../lib/countdown'
 
@@ -30,7 +31,7 @@ function Digits({ value, len, animate }: { value: number; len: number; animate: 
 }
 
 export function Countdown() {
-  const { t } = useLanguage()
+  const { t, locale } = useLanguage()
   const reduce = useReducedMotion()
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-15% 0px' })
@@ -87,15 +88,35 @@ export function Countdown() {
   const cols: [number, number, string][] = [[v.days, 2, t.countdown.days], [v.hours, 2, t.countdown.hours], [v.minutes, 2, t.countdown.minutes], [v.seconds, 2, t.countdown.seconds]]
 
   return (
-    <section className="bg-sand pb-14 pt-16 sm:pb-20 sm:pt-20" aria-label="Countdown">
+    <section className="bg-sand pb-14 pt-16 sm:pb-20 sm:pt-20" aria-label={t.countdown.title}>
       <div ref={ref} className="mx-auto max-w-[920px] px-4 text-center">
-        <motion.h2
-          initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.9 }}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.9 }}
           className="leading-none"
         >
-          <img src="/assets/countdown-title.png" alt={t.countdown.title} width={746} height={204} className="mx-auto h-auto w-[min(86vw,460px)]" decoding="async" />
-        </motion.h2>
-        <p className="sr-only" aria-live="polite">{`${remaining().days} days until the wedding`}</p>
+          {locale === 'pl' ? (
+            <SectionTitle
+              initial={t.countdown.initial}
+              rest={t.countdown.rest}
+              size="lg"
+              color="text-gold"
+              className="mx-auto select-none"
+            />
+          ) : (
+            <img
+              src="/assets/countdown-title.png"
+              alt={t.countdown.title}
+              width={746}
+              height={204}
+              className="mx-auto h-auto w-[min(86vw,460px)]"
+              decoding="async"
+            />
+          )}
+        </motion.div>
+        <p className="sr-only" aria-live="polite">{t.countdown.srDays(remaining().days)}</p>
         <div className="mx-auto mt-8 grid w-full max-w-[880px] grid-cols-2 gap-y-8 text-olive-deep sm:mt-12 sm:grid-cols-4 sm:gap-y-0">
           {cols.map(([n, len, label], i) => (
             <div key={label} className={`px-2 ${i % 2 === 1 ? 'border-l border-olive-deep/40' : ''} ${i > 0 ? 'sm:border-l sm:border-olive-deep/40' : ''}`}>

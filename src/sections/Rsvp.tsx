@@ -8,15 +8,16 @@ import { Sheet } from '../components/Sheet'
 import { useLanguage } from '../context/LanguageContext'
 import { fetchGuest, submitRsvp, type GuestInfo } from '../lib/supabase'
 
-const schema = z.object({
-  full_name: z.string().trim().min(2, 'Please enter your full name').max(120),
-  attending: z.boolean({ message: 'Please choose one' }),
-  companions: z.number().int().min(0),
-  dietary: z.string().max(500).optional().default(''),
-  message: z.string().max(1000).optional().default(''),
-  website: z.string().max(0).optional(), // honeypot
-})
-type Form = z.input<typeof schema>
+const createSchema = (v: { nameMin: string; attendingRequired: string }) =>
+  z.object({
+    full_name: z.string().trim().min(2, v.nameMin).max(120),
+    attending: z.boolean({ message: v.attendingRequired }),
+    companions: z.number().int().min(0),
+    dietary: z.string().max(500).optional().default(''),
+    message: z.string().max(1000).optional().default(''),
+    website: z.string().max(0).optional(), // honeypot
+  })
+type Form = z.input<ReturnType<typeof createSchema>>
 
 const token = () => new URLSearchParams(window.location.search).get('g')
 
@@ -37,6 +38,9 @@ export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) 
   const [guest, setGuest] = useState<GuestInfo | null>(null)
   const [state, setState] = useState<'idle' | 'sending' | 'done'>('idle')
   const [error, setError] = useState('')
+
+  const schema = useMemo(() => createSchema(t.rsvp.validation), [t.rsvp.validation])
+
   const { register, handleSubmit, setValue, control, reset, formState: { errors } } = useForm<Form>({
     resolver: zodResolver(schema),
     defaultValues: { full_name: '', companions: 0, dietary: '', message: '' },
@@ -62,7 +66,7 @@ export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) 
       await submitRsvp({ token: tk, full_name: v.full_name, attending: v.attending, companions: v.attending ? v.companions : 0, dietary: v.dietary ?? '', message: v.message ?? '' })
       setState('done')
     } catch {
-      setState('idle'); setError('We could not send your response. Please check your personal link and try again.')
+      setState('idle'); setError(t.rsvp.errorSubmit)
     }
   })
 
@@ -70,9 +74,9 @@ export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) 
   const lab = 'label !text-[10px] text-gold'
 
   return (
-    <Sheet open={open} onClose={onClose} label="RSVP" tall>
+    <Sheet open={open} onClose={onClose} label={t.rsvp.title} closeLabel={L.close} tall>
       <div className="mx-auto max-w-[460px] px-7 pb-14 pt-12 text-center">
-        <p className="label !text-[11px] text-olive-deep">WE'RE GETTING MARRIED</p>
+        <p className="label !text-[11px] text-olive-deep">{t.hero.kicker}</p>
         <Flourish className="mx-auto mt-2 h-6 text-sand" />
         <h2 className="m-0 font-serif text-[76px] font-normal leading-none tracking-[0.35em] text-olive-deep" style={{ paddingLeft: '0.35em' }}>{t.rsvp.title}</h2>
         <p className="mt-4 font-script text-[58px] italic leading-none text-gold">{t.rsvp.kindly}</p>
@@ -88,7 +92,7 @@ export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) 
           </div>
         ) : (
           <form onSubmit={onSubmit} noValidate className="mt-9 space-y-6 text-left">
-            {!tk && <p className="label !text-[10px] text-center text-ink">Please open your personal invitation link to reply.</p>}
+            {!tk && <p className="label !text-[10px] text-center text-ink">{t.rsvp.needLink}</p>}
             <div className="hidden" aria-hidden="true"><label>Website<input tabIndex={-1} autoComplete="off" {...register('website')} /></label></div>
 
             <div>

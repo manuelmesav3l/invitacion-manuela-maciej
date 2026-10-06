@@ -4,13 +4,13 @@ import { Reveal } from '../components/Reveal'
 import { useLanguage } from '../context/LanguageContext'
 
 export function Venue({ onClimate }: { onClimate: () => void }) {
-  const { t } = useLanguage()
+  const { t, locale } = useLanguage()
   const reduce = useReducedMotion()
   const v = t.venue
   return (
-    <section className="bg-sand pb-16 pt-10 sm:pt-14" aria-label="The venue">
+    <section className="bg-sand pb-16 pt-10 sm:pt-14" aria-label={`${v.title.initial}${v.title.rest}`}>
       <div className="mx-auto max-w-[680px] px-4 sm:px-6 text-center">
-        <h2 className="sr-only">The Venue — Casa Primavera</h2>
+        <h2 className="sr-only">{`${v.title.initial}${v.title.rest} — Casa Primavera`}</h2>
 
         <motion.img
           src="/assets/venue-composite.webp"
@@ -63,15 +63,23 @@ export function Venue({ onClimate }: { onClimate: () => void }) {
             {v.weekday}
           </p>
 
-          <img
-            src="/assets/hero-date.svg"
-            alt={`${t.hero.day} ${t.hero.month} ${t.hero.year}`}
-            width={328}
-            height={71}
-            loading="lazy"
-            decoding="async"
-            className="my-3 w-[clamp(220px,66vw,290px)] max-w-full h-auto select-none pointer-events-none"
-          />
+          {locale === 'pl' ? (
+            <div className="my-3 w-[clamp(220px,66vw,290px)] max-w-full border-y border-olive-deep/75 py-2 text-center select-none">
+              <span className="block font-belfast text-[clamp(22px,6.5vw,34px)] tracking-[0.12em] text-olive-deep leading-none">
+                {v.dateText}
+              </span>
+            </div>
+          ) : (
+            <img
+              src="/assets/hero-date.svg"
+              alt={`${t.hero.day} ${t.hero.month} ${t.hero.year}`}
+              width={328}
+              height={71}
+              loading="lazy"
+              decoding="async"
+              className="my-3 w-[clamp(220px,66vw,290px)] max-w-full h-auto select-none pointer-events-none"
+            />
+          )}
 
           <p className="font-belfast text-[clamp(18px,4.8vw,22px)] tracking-[0.16em] text-olive-deep select-none">
             {v.time}

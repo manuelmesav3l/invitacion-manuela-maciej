@@ -1,6 +1,7 @@
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { useEffect, useRef, useCallback } from 'react'
 import { lockScroll } from '../lib/scroll'
+import { useLanguage } from '../context/LanguageContext'
 import { CloseIcon, ChevronLeftIcon, ChevronRightIcon } from './Icons'
 
 export interface LightboxImage {
@@ -18,6 +19,8 @@ interface Props {
 }
 
 export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClose }: Props) {
+  const { t } = useLanguage()
+  const lb = t.lightbox
   const reduce = useReducedMotion()
   const containerRef = useRef<HTMLDivElement>(null)
   const touchStartX = useRef<number | null>(null)
@@ -92,7 +95,7 @@ export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClo
           ref={containerRef}
           role="dialog"
           aria-modal="true"
-          aria-label="Visor de fotografía ampliada"
+          aria-label={lb.dialogLabel}
           className="fixed inset-0 z-50 flex flex-col items-center justify-between bg-black/92 p-4 text-[#f8f1e2] select-none backdrop-blur-md"
           data-lenis-prevent
           onTouchStart={handleTouchStart}
@@ -108,7 +111,7 @@ export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClo
             <button
               type="button"
               onClick={onClose}
-              aria-label="Cerrar fotografía ampliada"
+              aria-label={lb.close}
               className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-[#f8f1e2] transition-colors hover:bg-gold/80 hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               <CloseIcon className="h-5 w-5" />
@@ -132,7 +135,7 @@ export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClo
                   e.stopPropagation()
                   handlePrev()
                 }}
-                aria-label="Fotografía anterior"
+                aria-label={lb.prev}
                 className="absolute left-2 z-20 hidden sm:flex h-11 w-11 items-center justify-center rounded-full bg-black/60 text-[#f8f1e2] border border-white/15 transition-all hover:border-gold hover:bg-gold hover:text-black hover:scale-105 active:scale-95"
               >
                 <ChevronLeftIcon className="h-6 w-6" />
@@ -166,7 +169,7 @@ export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClo
                   e.stopPropagation()
                   handleNext()
                 }}
-                aria-label="Siguiente fotografía"
+                aria-label={lb.next}
                 className="absolute right-2 z-20 hidden sm:flex h-11 w-11 items-center justify-center rounded-full bg-black/60 text-[#f8f1e2] border border-white/15 transition-all hover:border-gold hover:bg-gold hover:text-black hover:scale-105 active:scale-95"
               >
                 <ChevronRightIcon className="h-6 w-6" />
@@ -184,14 +187,14 @@ export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClo
 
             {/* Indicator dots */}
             {images.length > 1 && (
-              <div className="flex items-center gap-2" role="tablist" aria-label="Selector de imagen">
+              <div className="flex items-center gap-2" role="tablist" aria-label={lb.selector}>
                 {images.map((_, idx) => (
                   <button
                     key={idx}
                     type="button"
                     role="tab"
                     aria-selected={idx === currentIndex}
-                    aria-label={`Ir a fotografía ${idx + 1}`}
+                    aria-label={`${lb.goTo} ${idx + 1}`}
                     onClick={(e) => {
                       e.stopPropagation()
                       onIndexChange(idx)
