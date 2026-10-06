@@ -120,3 +120,12 @@ img { display: block; max-width: 100%; }
     aspect-ratio: 1024 / 700;
   }
 }
+
+/* Hide scrollbars on modern carousel and overflow elements */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
