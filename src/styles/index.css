@@ -75,10 +75,15 @@
 
 :root {
   --cream: #e8d7c5;
+  --cream-light: #FAF5EE;
   --sand: #e8d7c5;
   --olive: #3f5a2e;
   --gold: #ad915c;
   --ink: #4a4436;
+}
+
+.bg-cream-light {
+  background-color: #FAF5EE;
 }
 
 html.lenis, html.lenis body { height: auto; }

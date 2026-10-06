@@ -5,6 +5,7 @@ export default {
     extend: {
       colors: {
         cream: '#E8D7C5',
+        'cream-light': '#FAF5EE',
         sand: '#E8D7C5',
         'olive-deep': '#3F5A2E',
         gold: '#AD915C',
