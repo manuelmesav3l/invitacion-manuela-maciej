@@ -32,14 +32,34 @@ export function SectionTitle({ initial, rest, size = 'md', color = 'text-gold', 
 }
 
 /** Stacked variant used by "DRESS / CODE" (rest wraps under the initial line). */
-export function StackedTitle({ initial, first, second, color = 'text-gold' }: { initial: string; first: string; second: string; color?: string }) {
+export function StackedTitle({
+  initial,
+  first,
+  second,
+  color = 'text-gold',
+  initialFont = 'belfast',
+}: {
+  initial: string
+  first: string
+  second: string
+  color?: string
+  initialFont?: 'belfast' | 'script'
+}) {
   return (
     <h2 className={`font-belfast text-center leading-[0.86] ${color}`} aria-label={`${initial}${first} ${second}`}>
-      <span aria-hidden="true" className="inline-flex items-baseline justify-center">
-        <span className="font-script italic text-[clamp(50px,16vw,64px)] leading-none mr-[-0.03em] select-none">{initial}</span>
-        <span className="font-belfast text-[clamp(34px,11.5vw,46px)] font-normal tracking-[0.02em] leading-none">{first}</span>
+      {initialFont === 'script' ? (
+        <span aria-hidden="true" className="inline-flex items-baseline justify-center">
+          <span className="font-script italic text-[clamp(50px,16vw,64px)] leading-none mr-[-0.03em] select-none">{initial}</span>
+          <span className="font-belfast text-[clamp(34px,11.5vw,46px)] font-normal tracking-[0.02em] leading-none">{first}</span>
+        </span>
+      ) : (
+        <span aria-hidden="true" className="block font-belfast text-[clamp(34px,11.5vw,46px)] font-normal tracking-[0.02em] leading-none">
+          {initial}{first}
+        </span>
+      )}
+      <span aria-hidden="true" className="block font-belfast text-[clamp(34px,11.5vw,46px)] font-normal tracking-[0.02em] leading-none mt-1 sm:mt-1.5">
+        {second}
       </span>
-      <span aria-hidden="true" className="block font-belfast text-[clamp(34px,11.5vw,46px)] font-normal tracking-[0.02em] leading-none mt-1 sm:mt-1.5">{second}</span>
     </h2>
   )
 }
