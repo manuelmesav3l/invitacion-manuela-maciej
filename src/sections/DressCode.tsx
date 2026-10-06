@@ -21,17 +21,17 @@ function DrawnFrame() {
 export function DressCode() {
   const { t } = useLanguage()
   const d = t.dress
-const o = d.ours
+  const o = d.ours
   const reduce = useReducedMotion()
   return (
-    <section className="bg-cream pb-28 pt-16" aria-label="Dress code">
+    <section className="bg-cream pb-28 pt-16" aria-label={d.title.sectionLabel}>
       <div className="mx-auto max-w-[560px] px-[5%]">
         {/* FOR HER */}
         <div className="relative mt-12 pb-7 pt-[70px]">
           <p className="label absolute right-0 top-[-36px] !text-[13px] !tracking-[0.3em] text-olive-deep">{d.her}</p>
           <DrawnFrame />
           <div className="absolute inset-x-0 top-0 -translate-y-[42px] text-center">
-            <div className="inline-block bg-cream px-3"><StackedTitle initial={d.title.initial} first={d.title.rest.split(' ')[0]} second="CODE" /></div>
+            <div className="inline-block bg-cream px-3"><StackedTitle initial={d.title.initial} first={d.title.first} second={d.title.second} /></div>
           </div>
           <p className="label mt-1 text-center !text-[13px] !tracking-[0.3em] text-olive-deep -translate-y-[6px]">{d.palette}</p>
           <motion.img
@@ -60,7 +60,7 @@ const o = d.ours
           </div>
           <p className="label mt-3 text-center !text-[13px] !tracking-[0.3em] text-olive-deep">{d.formal}</p>
           <div className="absolute inset-x-0 bottom-0 translate-y-[42px] text-center">
-            <div className="inline-block bg-cream px-3"><StackedTitle initial={d.title.initial} first={d.title.rest.split(' ')[0]} second="CODE" /></div>
+            <div className="inline-block bg-cream px-3"><StackedTitle initial={d.title.initial} first={d.title.first} second={d.title.second} /></div>
           </div>
         </div>
 
@@ -68,12 +68,12 @@ const o = d.ours
         <div className="relative mt-24 pb-7 pt-[70px]">
           <DrawnFrame />
           <div className="absolute inset-x-0 top-0 -translate-y-[42px] text-center">
-            <div className="inline-block bg-cream px-3"><StackedTitle initial="O" first={o.first} second={o.second} /></div>
+            <div className="inline-block bg-cream px-3"><StackedTitle initial={o.initial} first={o.first} second={o.second} /></div>
           </div>
           <p className="label mt-1 text-center !text-[13px] !tracking-[0.3em] text-olive-deep -translate-y-[6px]">{d.palette}</p>
           <div className="mt-8 flex justify-center gap-[4%] px-[5%]">
             {o.colors.map((c, i) => (
-              <SwatchDot key={c} color={c} index={i} label={`Our colour ${i + 1}`} className="w-[26%] shadow-[inset_0_0_0_1px_rgba(63,90,46,0.12)]" />
+              <SwatchDot key={c} color={c} index={i} label={`${o.swatchLabel} ${i + 1}`} className="w-[26%] shadow-[inset_0_0_0_1px_rgba(63,90,46,0.12)]" />
             ))}
           </div>
           <p className="label mt-8 px-4 text-center !text-[13px] !leading-[1.9] !tracking-[0.2em] text-olive-deep">{o.note}</p>

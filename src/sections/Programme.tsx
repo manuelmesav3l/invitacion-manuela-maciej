@@ -33,9 +33,9 @@ export function Programme() {
   }, [reduce])
 
   return (
-    <section className="bg-cream pb-16 pt-14" aria-label="Wedding programme" ref={root}>
+    <section className="bg-cream pb-16 pt-14" aria-label={t.programme.ariaLabel} ref={root}>
       <div className="mx-auto max-w-[560px] px-3 text-center">
-        <h2 className="m-0 font-serif font-normal leading-[0.95] text-olive-deep" aria-label="Wedding programme">
+        <h2 className="m-0 font-serif font-normal leading-[0.95] text-olive-deep" aria-label={t.programme.ariaLabel}>
           <span aria-hidden="true" className="block font-script text-[clamp(64px,20vw,96px)] italic">{t.programme.title.script}</span>
           <span aria-hidden="true" className="-mt-3 block text-[clamp(36px,11vw,52px)] font-medium tracking-[0.02em]">{t.programme.title.rest}</span>
         </h2>

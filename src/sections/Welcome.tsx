@@ -11,7 +11,7 @@ const OFFSETS = [-6, 8, -6] // parallax yPercent: centre travels differently tha
 const WORDS = ['Bienvenidos', 'Witamy']
 
 export function Welcome() {
-  const { t } = useLanguage()
+  const { t, locale } = useLanguage()
   const reduce = useReducedMotion()
   const row = useRef<HTMLDivElement>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
@@ -100,7 +100,7 @@ export function Welcome() {
   }
 
   return (
-    <section className="bg-sand pb-12 pt-8 sm:pb-16 sm:pt-10 overflow-hidden" aria-label="Welcome">
+    <section className="bg-sand pb-12 pt-8 sm:pb-16 sm:pt-10 overflow-hidden" aria-label={t.welcome.title}>
       <div className="mx-auto max-w-[620px] px-5 text-center">
         <Reveal>
           {/* Minimum height container to completely prevent Cumulative Layout Shift (CLS) */}
@@ -108,11 +108,11 @@ export function Welcome() {
             <h2
               className="m-0 inline-flex items-center justify-center font-script text-[clamp(72px,22vw,112px)] font-normal leading-none text-olive-deep"
               style={{ transform: 'rotate(-2deg)' }}
-              aria-label="Bienvenidos / Witamy"
+              aria-label={locale === 'pl' ? 'Witamy' : 'Bienvenidos / Witamy'}
             >
-              <span className="sr-only">Bienvenidos — Witamy</span>
+              <span className="sr-only">{locale === 'pl' ? 'Witamy' : 'Bienvenidos — Witamy'}</span>
               <span aria-hidden="true" className="select-none tracking-tight">
-                {reduce ? 'Bienvenidos' : (displayText || '\u00A0')}
+                {reduce ? (locale === 'pl' ? 'Witamy' : 'Bienvenidos') : (displayText || '\u00A0')}
               </span>
               {!reduce && (
                 <span
@@ -136,7 +136,7 @@ export function Welcome() {
           onScroll={handleCarouselScroll}
           className="no-scrollbar flex w-full overflow-x-auto snap-x snap-mandatory gap-4 px-[11vw] py-2"
           role="region"
-          aria-label="Carrusel de fotografías de bienvenida"
+          aria-label={t.welcome.carouselLabel}
         >
           {t.welcome.photos.map((p, i) => (
             <div
@@ -146,7 +146,7 @@ export function Welcome() {
               <button
                 type="button"
                 onClick={() => openPhoto(i)}
-                aria-label={`Ampliar imagen: ${p.alt}`}
+                aria-label={`${t.welcome.expandPhoto}: ${p.alt}`}
                 className="group relative w-full overflow-hidden rounded-[8px] bg-sand shadow-[0_6px_22px_rgba(74,68,54,0.12)] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold active:scale-[0.98] transition-transform"
               >
                 <PhotoSlot src={p.src} alt={p.alt} tone={p.tone} width={3} height={4.2} />
@@ -154,7 +154,7 @@ export function Welcome() {
                 {/* Subtle affordance badge */}
                 <div className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1.5 text-[#f8f1e2] text-[10px] font-caps tracking-wider backdrop-blur-md transition-all duration-300 group-hover:bg-gold group-hover:text-black">
                   <ExpandIcon className="h-3 w-3" />
-                  <span>Ampliar</span>
+                  <span>{t.welcome.expand}</span>
                 </div>
               </button>
             </div>
@@ -162,14 +162,14 @@ export function Welcome() {
         </div>
 
         {/* Carousel indicators */}
-        <div className="mt-4 flex items-center justify-center gap-2" role="tablist" aria-label="Navegación de carrusel">
+        <div className="mt-4 flex items-center justify-center gap-2" role="tablist" aria-label={t.welcome.navLabel}>
           {t.welcome.photos.map((p, i) => (
             <button
               key={p.key}
               type="button"
               role="tab"
               aria-selected={activeSlide === i}
-              aria-label={`Ver foto ${i + 1}`}
+              aria-label={`${t.welcome.viewPhoto} ${i + 1}`}
               onClick={() => scrollToSlide(i)}
               className={`h-2 transition-all duration-300 rounded-full ${
                 activeSlide === i ? 'w-7 bg-olive-deep' : 'w-2 bg-olive-deep/30 hover:bg-olive-deep/60'
@@ -194,7 +194,7 @@ export function Welcome() {
               <button
                 type="button"
                 onClick={() => openPhoto(i)}
-                aria-label={`Ampliar imagen: ${p.alt}`}
+                aria-label={`${t.welcome.expandPhoto}: ${p.alt}`}
                 className="cursor-zoom-in w-full text-left rounded-[4px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
               >
                 <div className="wl-par group relative overflow-hidden rounded-[4px] shadow-[0_4px_18px_rgba(74,68,54,0.08)]">
@@ -204,7 +204,7 @@ export function Welcome() {
                   <div className="absolute inset-0 flex items-center justify-center bg-black/25 opacity-0 backdrop-blur-[1px] transition-opacity duration-300 group-hover:opacity-100">
                     <span className="flex items-center gap-1.5 rounded-full bg-cream/95 px-3.5 py-1.5 font-caps text-[11px] font-medium tracking-widest text-olive-deep shadow-md">
                       <ExpandIcon className="h-3.5 w-3.5" />
-                      Ampliar
+                      {t.welcome.expand}
                     </span>
                   </div>
                 </div>
