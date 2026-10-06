@@ -106,3 +106,17 @@ img { display: block; max-width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
 }
+
+/* Responsive Hero Card Container: maximum presence on mobile, widescreen on desktop */
+.hero-card-container {
+  width: min(96vw, calc((100vh - 32px) * 511 / 744), 540px);
+  width: min(96vw, calc((100svh - 32px) * 511 / 744), 540px);
+  aspect-ratio: 511 / 744;
+}
+
+@media (min-width: 1024px) {
+  .hero-card-container {
+    width: 100%;
+    aspect-ratio: 1024 / 700;
+  }
+}
