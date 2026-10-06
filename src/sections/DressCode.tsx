@@ -1,3 +1,4 @@
+import { asset } from '../lib/asset'
 import { motion, useReducedMotion } from 'motion/react'
 import { StackedTitle } from '../components/SectionTitle'
 import { SwatchDot } from '../components/SwatchDot'
@@ -35,7 +36,7 @@ export function DressCode() {
           </div>
           <p className="label mt-1 text-center !text-[13px] !tracking-[0.3em] text-olive-deep -translate-y-[6px]">{d.palette}</p>
           <motion.img
-            src="/assets/dress-her-palette.webp" width={1400} height={1030} alt={d.herAlt} loading="lazy" decoding="async"
+            src={asset("assets/dress-her-palette.webp")} width={1400} height={1030} alt={d.herAlt} loading="lazy" decoding="async"
             className="blend-multiply mx-auto mt-3 w-full"
             initial={{ opacity: 0, scale: reduce ? 1 : 0.94 }} whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: '-10% 0px' }} transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
@@ -54,7 +55,7 @@ export function DressCode() {
             role="region" aria-label={d.himAlt} tabIndex={0}
           >
             <img
-              src="/assets/dress-him-palette.webp" width={1800} height={829} alt={d.himAlt} loading="lazy" decoding="async"
+              src={asset("assets/dress-him-palette.webp")} width={1800} height={829} alt={d.himAlt} loading="lazy" decoding="async"
               className="blend-multiply mx-auto h-auto w-[780px] max-w-none snap-center sm:w-full sm:max-w-full"
             />
           </div>

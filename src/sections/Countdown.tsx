@@ -1,3 +1,4 @@
+import { asset } from '../lib/asset'
 import { AnimatePresence, motion, useInView, useReducedMotion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import { SectionTitle } from '../components/SectionTitle'
@@ -107,7 +108,7 @@ export function Countdown() {
             />
           ) : (
             <img
-              src="/assets/countdown-title.png"
+              src={asset("assets/countdown-title.png")}
               alt={t.countdown.title}
               width={746}
               height={204}

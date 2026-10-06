@@ -1,3 +1,4 @@
+import { asset } from '../lib/asset'
 // All editable copy, links and data live here. i18n-ready: add `es` next to `en` and pick by locale.
 // TODO_COPY marks placeholder copy pending from the couple. TODO_ASSET marks pending images.
 
@@ -43,9 +44,9 @@ const en = {
     carouselLabel: 'Welcome photos carousel',
     navLabel: 'Carousel navigation',
     photos: [
-      { key: 'metro', alt: 'Medellín Metro passing over the plaza and the Palace of Culture', src: '/assets/welcome-metro.webp', tone: ['#9db3c9', '#6b7a5a'] },
-      { key: 'pueblo', alt: 'Colonial square with church, royal palm and fruit stand', src: '/assets/welcome-pueblo.webp', tone: ['#5a9ad0', '#3b6a3a'] },
-      { key: 'botero', alt: 'Sculptures by Fernando Botero at Botero Plaza', src: '/assets/welcome-botero.webp', tone: ['#c9a06a', '#7a6a58'] },
+      { key: 'metro', alt: 'Medellín Metro passing over the plaza and the Palace of Culture', src: asset('assets/welcome-metro.webp'), tone: ['#9db3c9', '#6b7a5a'] },
+      { key: 'pueblo', alt: 'Colonial square with church, royal palm and fruit stand', src: asset('assets/welcome-pueblo.webp'), tone: ['#5a9ad0', '#3b6a3a'] },
+      { key: 'botero', alt: 'Sculptures by Fernando Botero at Botero Plaza', src: asset('assets/welcome-botero.webp'), tone: ['#c9a06a', '#7a6a58'] },
     ],
   },
   lightbox: {
@@ -187,9 +188,9 @@ const pl: typeof en = {
     carouselLabel: 'Galeria zdjęć powitalnych',
     navLabel: 'Nawigacja galerii',
     photos: [
-      { key: 'metro', alt: 'Metro w Medellín przejeżdżające nad placem i Pałacem Kultury', src: '/assets/welcome-metro.webp', tone: ['#9db3c9', '#6b7a5a'] },
-      { key: 'pueblo', alt: 'Kolonialny plac z kościołem, palmą i stoiskiem z owocami', src: '/assets/welcome-pueblo.webp', tone: ['#5a9ad0', '#3b6a3a'] },
-      { key: 'botero', alt: 'Rzeźby Fernando Botero na Placu Botero', src: '/assets/welcome-botero.webp', tone: ['#c9a06a', '#7a6a58'] },
+      { key: 'metro', alt: 'Metro w Medellín przejeżdżające nad placem i Pałacem Kultury', src: asset('assets/welcome-metro.webp'), tone: ['#9db3c9', '#6b7a5a'] },
+      { key: 'pueblo', alt: 'Kolonialny plac z kościołem, palmą i stoiskiem z owocami', src: asset('assets/welcome-pueblo.webp'), tone: ['#5a9ad0', '#3b6a3a'] },
+      { key: 'botero', alt: 'Rzeźby Fernando Botero na Placu Botero', src: asset('assets/welcome-botero.webp'), tone: ['#c9a06a', '#7a6a58'] },
     ],
   },
   lightbox: {
