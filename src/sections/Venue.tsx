@@ -1,9 +1,10 @@
 import { motion, useReducedMotion } from 'motion/react'
 import { PillButton } from '../components/PillButton'
 import { Reveal } from '../components/Reveal'
-import { t } from '../content/content'
+import { useLanguage } from '../context/LanguageContext'
 
 export function Venue({ onClimate }: { onClimate: () => void }) {
+  const { t } = useLanguage()
   const reduce = useReducedMotion()
   const v = t.venue
   return (

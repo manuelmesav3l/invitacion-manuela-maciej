@@ -1,7 +1,8 @@
 import { motion, useReducedMotion } from 'motion/react'
-import { t } from '../content/content'
+import { useLanguage } from '../context/LanguageContext'
 
 export function PostcardCard({ className = '' }: { className?: string }) {
+  const { t } = useLanguage()
   const reduce = useReducedMotion()
   const { postcard } = t.medellin
   return (

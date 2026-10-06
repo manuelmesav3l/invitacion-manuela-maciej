@@ -2,9 +2,10 @@ import { motion, useReducedMotion } from 'motion/react'
 import { useEffect, useRef } from 'react'
 import { gsap } from '../lib/scroll'
 import { Flourish, RsvpLogo } from '../components/Ornaments'
-import { t } from '../content/content'
+import { useLanguage } from '../context/LanguageContext'
 
 export function Hero({ onRsvp }: { onRsvp: () => void }) {
+  const { t } = useLanguage()
   const reduce = useReducedMotion()
   const heroRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)

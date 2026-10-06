@@ -4,13 +4,14 @@ import { PhotoSlot } from '../components/PhotoSlot'
 import { Reveal } from '../components/Reveal'
 import { ImageLightbox } from '../components/ImageLightbox'
 import { ExpandIcon } from '../components/Icons'
-import { t } from '../content/content'
+import { useLanguage } from '../context/LanguageContext'
 import { gsap } from '../lib/scroll'
 
 const OFFSETS = [-6, 8, -6] // parallax yPercent: centre travels differently than the sides
 const WORDS = ['Bienvenidos', 'Witamy']
 
 export function Welcome() {
+  const { t } = useLanguage()
   const reduce = useReducedMotion()
   const row = useRef<HTMLDivElement>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
@@ -82,7 +83,7 @@ export function Welcome() {
     const slideWidth = clientWidth * 0.78
     const index = Math.round(scrollLeft / slideWidth)
     setActiveSlide(Math.max(0, Math.min(index, t.welcome.photos.length - 1)))
-  }, [])
+  }, [t.welcome.photos.length])
 
   const scrollToSlide = (index: number) => {
     if (!carouselRef.current) return
