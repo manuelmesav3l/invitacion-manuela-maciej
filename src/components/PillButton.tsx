@@ -15,7 +15,7 @@ interface Props {
 export function PillButton({ variant = 'gold', icon, children, href, onClick, className = '', delay = 0, ariaHaspopup }: Props) {
   const reduce = useReducedMotion()
   const bg = variant === 'gold' ? 'bg-gold' : 'bg-olive-deep'
-  const cls = `group inline-flex items-center gap-2.5 rounded-full ${bg} px-7 py-3 text-[#f8f1e2] label text-[12px] shadow-[0_6px_16px_-8px_rgba(60,50,20,.5)] transition-transform active:scale-95 hover:scale-[1.03] ${className}`
+  const cls = `group inline-flex items-center gap-2.5 rounded-full ${bg} px-5 py-3 min-[380px]:px-7 text-[#f8f1e2] label text-[12px] shadow-[0_6px_16px_-8px_rgba(60,50,20,.5)] transition-transform active:scale-95 hover:scale-[1.03] ${className}`
   const inner = (
     <>
       {icon && <span className="transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-110">{icon}</span>}

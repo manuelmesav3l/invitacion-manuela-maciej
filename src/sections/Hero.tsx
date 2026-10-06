@@ -32,16 +32,16 @@ export function Hero({ onRsvp }: { onRsvp: () => void }) {
   }, [reduce])
 
   return (
-    <section ref={sectionRef} className="relative w-full bg-cream min-h-screen flex items-center justify-center py-6 sm:py-10 px-2 sm:px-4 overflow-hidden" aria-label={`${t.couple.a} and ${t.couple.b}`}>
+    <section ref={sectionRef} className="relative w-full bg-cream min-h-screen flex items-center justify-center py-2 sm:py-10 px-1 sm:px-4 overflow-hidden" aria-label={`${t.couple.a} and ${t.couple.b}`}>
       {/* Gazebo illustration: Monumental scale, shifted left to bleed onto the screen edge */}
-      <div className="absolute left-[-10%] sm:left-[-8%] lg:left-[-10%] xl:left-[-12%] 2xl:left-[-14%] bottom-[-2%] sm:bottom-0 z-0 pointer-events-none w-[clamp(480px,58vw,1020px)] max-h-[100vh] select-none flex items-end justify-start">
+      <div className="hidden lg:flex left-[-10%] xl:left-[-12%] 2xl:left-[-14%] bottom-0 absolute z-0 pointer-events-none w-[clamp(480px,58vw,1020px)] max-h-[100vh] select-none items-end justify-start">
         <img
           src="/assets/gazebo-full.webp"
           width={1024}
           height={980}
           alt={t.venue.illustrationAlt || 'Romantic gazebo sketch'}
           className="w-full h-auto max-h-[100vh] object-contain block object-left-bottom"
-          loading="eager"
+          loading="lazy"
           decoding="async"
         />
       </div>
@@ -49,7 +49,7 @@ export function Hero({ onRsvp }: { onRsvp: () => void }) {
       <div className="relative w-full max-w-[1024px] 2xl:max-w-[1140px] mx-auto flex items-center justify-center z-10">
         <motion.div
           ref={heroRef}
-          className="relative w-full aspect-[1024/700] select-none"
+          className="hero-card-container relative mx-auto overflow-hidden select-none lg:overflow-visible"
           initial={reduce ? false : { opacity: 0.9, scale: 0.995 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
@@ -60,13 +60,13 @@ export function Hero({ onRsvp }: { onRsvp: () => void }) {
             width={1024}
             height={700}
             alt={`${t.couple.a} & ${t.couple.b} - ${t.hero.kicker}`}
-            className="w-full h-full object-contain block pointer-events-none"
+            className="absolute left-[-61%] top-[-2.8%] h-auto w-[216.7%] max-w-none pointer-events-none lg:inset-0 lg:h-full lg:w-full lg:max-w-full lg:object-contain"
             fetchPriority="high"
             decoding="async"
           />
 
           {/* Top kicker */}
-          <p className="absolute top-[5.6%] inset-x-0 text-center font-caps text-[clamp(11px,1.45vw,15px)] font-medium tracking-[0.32em] text-olive-deep pointer-events-none">
+          <p className="absolute top-[3.2%] inset-x-0 text-center font-caps text-[clamp(10px,2.6vw,15px)] lg:top-[5.6%] lg:text-[clamp(11px,1.45vw,15px)] font-medium tracking-[0.32em] text-olive-deep pointer-events-none">
             {t.hero.kicker}
           </p>
 
@@ -75,7 +75,7 @@ export function Hero({ onRsvp }: { onRsvp: () => void }) {
             src="/assets/hero-names.svg"
             alt=""
             aria-hidden="true"
-            className="absolute left-[30.7%] top-[31.9%] w-[39.5%] h-auto pointer-events-none"
+            className="absolute left-[5.5%] top-[30%] w-[88%] lg:left-[30.7%] lg:top-[31.9%] lg:w-[39.5%] h-auto pointer-events-none"
             decoding="async"
           />
 
@@ -83,18 +83,18 @@ export function Hero({ onRsvp }: { onRsvp: () => void }) {
           <img
             src="/assets/hero-date.svg"
             alt={`${t.hero.day} ${t.hero.month} ${t.hero.year}`}
-            className="absolute left-[40%] top-[79.4%] w-[21.1%] h-auto pointer-events-none"
+            className="absolute left-[27%] top-[79.6%] w-[46%] lg:left-[40%] lg:top-[79.4%] lg:w-[21.1%] h-auto pointer-events-none"
             decoding="async"
           />
 
-          <Flourish className="absolute left-[50.5%] top-[87.4%] w-[8%] -translate-x-1/2 text-olive-deep pointer-events-none" />
+          <Flourish className="absolute left-1/2 top-[88.4%] w-[17.5%] lg:left-[50.5%] lg:top-[87.4%] lg:w-[8%] -translate-x-1/2 text-olive-deep pointer-events-none" />
 
           {/* RSVP button with luxury hover interaction */}
           <button
             type="button"
             onClick={onRsvp}
             aria-label="Confirmar asistencia (RSVP)"
-            className="group absolute left-[50.5%] top-[92%] w-[10%] -translate-x-1/2 cursor-pointer p-1 -m-1 text-olive-deep transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] hover:scale-105 hover:text-gold active:scale-95 active:text-[#937848] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream rounded select-none"
+            className="group absolute left-1/2 top-[93.2%] w-[22%] lg:left-[50.5%] lg:top-[92%] lg:w-[10%] -translate-x-1/2 cursor-pointer p-1 -m-1 text-olive-deep transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] hover:scale-105 hover:text-gold active:scale-95 active:text-[#937848] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream rounded select-none"
           >
             <RsvpLogo className="w-full h-auto block transition-all duration-300 drop-shadow-none group-hover:drop-shadow-[0_2px_10px_rgba(173,145,92,0.4)]" />
 
