@@ -54,8 +54,14 @@ const en = {
     her: 'FOR HER',
     him: 'FOR HIM',
     herAlt: 'Guests in colourful formal dresses with illustrated flowers',
-    himAlt: 'Formal dress code for him — image coming soon', // TODO_ASSET
+    himAlt: 'Formal suits for him in blues, greens, browns and black, each above its colour swatch',
     swatches: ['#8E1B5C', '#C9DDEE', '#8A9A3B', '#DB8752', '#D080A6', '#B9A0CE'],
+    ours: {
+      first: 'UR',
+      second: 'COLORS',
+      note: 'These colors are especially meaningful to Manu & Michi',
+      colors: ['#FFFFFF', '#F5F0E1', '#DDD1BB'],
+    },
   },
   medellin: {
     kicker: 'WELCOME TO',
@@ -127,8 +133,14 @@ const pl: typeof en = {
     her: 'DLA NIEJ',
     him: 'DLA NIEGO',
     herAlt: 'Goście w eleganckich kolorowych sukniach z motywem kwiatowym',
-    himAlt: 'Strój wieczorowy dla panów — zdjęcie wkrótce',
+    himAlt: 'Eleganckie garnitury dla panów w odcieniach niebieskiego, zieleni, brązu i czerni, każdy nad próbką koloru',
     swatches: ['#8E1B5C', '#C9DDEE', '#8A9A3B', '#DB8752', '#D080A6', '#B9A0CE'],
+    ours: {
+      first: 'UR',
+      second: 'COLORS',
+      note: 'Te kolory są szczególnie ważne dla Manu i Michi',
+      colors: ['#FFFFFF', '#F5F0E1', '#DDD1BB'],
+    },
   },
   medellin: {
     kicker: 'WITAMY W',
