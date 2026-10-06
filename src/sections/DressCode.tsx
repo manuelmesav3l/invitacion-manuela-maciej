@@ -21,6 +21,7 @@ function DrawnFrame() {
 export function DressCode() {
   const { t } = useLanguage()
   const d = t.dress
+const o = d.ours
   const reduce = useReducedMotion()
   return (
     <section className="bg-cream pb-28 pt-16" aria-label="Dress code">
@@ -33,17 +34,12 @@ export function DressCode() {
             <div className="inline-block bg-cream px-3"><StackedTitle initial={d.title.initial} first={d.title.rest.split(' ')[0]} second="CODE" /></div>
           </div>
           <p className="label mt-1 text-center !text-[13px] !tracking-[0.3em] text-olive-deep -translate-y-[6px]">{d.palette}</p>
-          <div className="relative mt-3">
-            <motion.img
-              src="/assets/dress-her-collage.webp" width={910} height={695} alt={d.herAlt} loading="lazy" decoding="async"
-              className="mx-auto w-[94%]"
-              initial={{ opacity: 0, scale: reduce ? 1 : 0.94 }} whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: '-10% 0px' }} transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            />
-            <div className="absolute bottom-[1.5%] right-[3.2%] flex w-[57%] justify-between">
-              {d.swatches.map((c, i) => <SwatchDot key={c} color={c} index={i} label={`Palette colour ${i + 1}`} />)}
-            </div>
-          </div>
+          <motion.img
+            src="/assets/dress-her-palette.webp" width={1400} height={1030} alt={d.herAlt} loading="lazy" decoding="async"
+            className="blend-multiply mx-auto mt-3 w-full"
+            initial={{ opacity: 0, scale: reduce ? 1 : 0.94 }} whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: '-10% 0px' }} transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          />
           <p className="label mt-4 text-center !text-[13px] !tracking-[0.3em] text-olive-deep">{d.formal}</p>
         </div>
 
@@ -52,16 +48,35 @@ export function DressCode() {
           <p className="label absolute bottom-[-36px] left-0 !text-[13px] !tracking-[0.3em] text-olive-deep">{d.him}</p>
           <DrawnFrame />
           <p className="label text-center !text-[13px] !tracking-[0.3em] text-olive-deep">{d.palette}</p>
-          {/* TODO_ASSET: FOR HIM image pending — drop the file in /public/assets and set `src` */}
-          <img
-            data-todo-asset="dress-him" alt={d.himAlt} width={910} height={695}
-            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-            className="mx-auto mt-3 aspect-[910/695] w-[94%] bg-transparent object-cover" loading="lazy"
-          />
+          {/* Eleven suits are too small to read at phone width, so the strip scrolls sideways there and fits from sm up. */}
+          <div
+            className="mt-3 overflow-x-auto overscroll-x-contain snap-x snap-mandatory sm:overflow-visible"
+            role="region" aria-label={d.himAlt} tabIndex={0}
+          >
+            <img
+              src="/assets/dress-him-palette.webp" width={1800} height={829} alt={d.himAlt} loading="lazy" decoding="async"
+              className="blend-multiply mx-auto h-auto w-[780px] max-w-none snap-center sm:w-full sm:max-w-full"
+            />
+          </div>
           <p className="label mt-3 text-center !text-[13px] !tracking-[0.3em] text-olive-deep">{d.formal}</p>
           <div className="absolute inset-x-0 bottom-0 translate-y-[42px] text-center">
             <div className="inline-block bg-cream px-3"><StackedTitle initial={d.title.initial} first={d.title.rest.split(' ')[0]} second="CODE" /></div>
           </div>
+        </div>
+
+        {/* OUR COLORS */}
+        <div className="relative mt-24 pb-7 pt-[70px]">
+          <DrawnFrame />
+          <div className="absolute inset-x-0 top-0 -translate-y-[42px] text-center">
+            <div className="inline-block bg-cream px-3"><StackedTitle initial="O" first={o.first} second={o.second} /></div>
+          </div>
+          <p className="label mt-1 text-center !text-[13px] !tracking-[0.3em] text-olive-deep -translate-y-[6px]">{d.palette}</p>
+          <div className="mt-8 flex justify-center gap-[4%] px-[5%]">
+            {o.colors.map((c, i) => (
+              <SwatchDot key={c} color={c} index={i} label={`Our colour ${i + 1}`} className="w-[26%] shadow-[inset_0_0_0_1px_rgba(63,90,46,0.12)]" />
+            ))}
+          </div>
+          <p className="label mt-8 px-4 text-center !text-[13px] !leading-[1.9] !tracking-[0.2em] text-olive-deep">{o.note}</p>
         </div>
       </div>
     </section>
