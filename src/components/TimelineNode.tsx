@@ -8,11 +8,11 @@ export const TimelineNode = forwardRef<HTMLDivElement, Props>(({ label, time, si
     <span className="tl-node absolute -left-[5px] -top-[5px] block h-[10px] w-[10px] rounded-full bg-olive-deep shadow-[0_0_0_2px_#e8d7c5]" />
     <div
       className={`tl-label absolute left-1/2 flex -translate-x-1/2 flex-col items-center whitespace-nowrap text-olive-deep ${
-        side === 'above' ? 'bottom-[12px] sm:bottom-[14px] flex-col-reverse' : 'top-[12px] sm:top-[14px]'
+        side === 'above' ? 'bottom-[7px] sm:bottom-[8px] flex-col-reverse' : 'top-[7px] sm:top-[8px]'
       }`}
     >
       <span className="label !text-[9px] sm:!text-[10px] !tracking-[0.22em] sm:!tracking-[0.26em]">{label}</span>
-      <span className="font-serif text-[20px] sm:text-[24px] leading-none tracking-wider my-1 sm:my-1.5">{time}</span>
+      <span className="font-serif text-[20px] sm:text-[24px] leading-none tracking-wider mt-0.5 mb-0">{time}</span>
     </div>
   </div>
 ))
