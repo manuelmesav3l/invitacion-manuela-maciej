@@ -6,7 +6,7 @@ import { PolaroidCard } from '../components/PolaroidCard'
 import { PostcardCard } from '../components/PostcardCard'
 import { Reveal } from '../components/Reveal'
 import { SectionTitle } from '../components/SectionTitle'
-import { t } from '../content/content'
+import { useLanguage } from '../context/LanguageContext'
 import { gsap } from '../lib/scroll'
 
 const LAYOUT = [
@@ -17,6 +17,7 @@ const LAYOUT = [
 ]
 
 export function Medellin() {
+  const { t } = useLanguage()
   const reduce = useReducedMotion()
   const m = t.medellin
   const table = useRef<HTMLDivElement>(null)

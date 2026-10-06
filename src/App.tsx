@@ -7,6 +7,8 @@ import { Programme } from './sections/Programme'
 import { Venue } from './sections/Venue'
 import { Welcome } from './sections/Welcome'
 import { StackCard } from './components/StackCard'
+import { LanguageToggle } from './components/LanguageToggle'
+import { LanguageProvider } from './context/LanguageContext'
 import { initScroll } from './lib/scroll'
 
 // Lazy load heavy interactive sheets/modals on demand to keep initial heap memory minimal
@@ -19,22 +21,26 @@ export default function App() {
   useEffect(() => initScroll(), [])
 
   return (
-    <main>
-      <StackCard first>
-        <Hero onRsvp={() => setRsvp(true)} />
-      </StackCard>
-      <StackCard>
-        <Countdown />
-        <Welcome />
-        <Venue onClimate={() => setClimate(true)} />
-        <Programme />
-        <DressCode />
-        <Medellin />
-      </StackCard>
-      <Suspense fallback={null}>
-        {rsvp && <Rsvp open={rsvp} onClose={() => setRsvp(false)} />}
-        {climate && <ClimateSheet open={climate} onClose={() => setClimate(false)} />}
-      </Suspense>
-    </main>
+    <LanguageProvider>
+      <main>
+        <StackCard first>
+          <Hero onRsvp={() => setRsvp(true)} />
+        </StackCard>
+        <StackCard>
+          <Countdown />
+          <Welcome />
+          <Venue onClimate={() => setClimate(true)} />
+          <Programme />
+          <DressCode />
+          <Medellin />
+        </StackCard>
+        <Suspense fallback={null}>
+          {rsvp && <Rsvp open={rsvp} onClose={() => setRsvp(false)} />}
+          {climate && <ClimateSheet open={climate} onClose={() => setClimate(false)} />}
+        </Suspense>
+
+        <LanguageToggle />
+      </main>
+    </LanguageProvider>
   )
 }

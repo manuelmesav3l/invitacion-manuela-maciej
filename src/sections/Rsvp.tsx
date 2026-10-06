@@ -5,7 +5,7 @@ import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
 import { Flourish } from '../components/Ornaments'
 import { Sheet } from '../components/Sheet'
-import { t } from '../content/content'
+import { useLanguage } from '../context/LanguageContext'
 import { fetchGuest, submitRsvp, type GuestInfo } from '../lib/supabase'
 
 const schema = z.object({
@@ -20,8 +20,6 @@ type Form = z.input<typeof schema>
 
 const token = () => new URLSearchParams(window.location.search).get('g')
 
-const L = t.rsvp.labels
-
 function Check() {
   const reduce = useReducedMotion()
   return (
@@ -33,6 +31,8 @@ function Check() {
 }
 
 export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const { t } = useLanguage()
+  const L = t.rsvp.labels
   const tk = useMemo(() => token(), [])
   const [guest, setGuest] = useState<GuestInfo | null>(null)
   const [state, setState] = useState<'idle' | 'sending' | 'done'>('idle')

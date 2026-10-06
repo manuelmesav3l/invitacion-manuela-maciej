@@ -1,6 +1,6 @@
 import { AnimatePresence, motion, useInView, useReducedMotion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
-import { t } from '../content/content'
+import { useLanguage } from '../context/LanguageContext'
 import { remaining, type Remaining } from '../lib/countdown'
 
 const pad = (n: number, len = 2) => String(n).padStart(len, '0')
@@ -30,6 +30,7 @@ function Digits({ value, len, animate }: { value: number; len: number; animate: 
 }
 
 export function Countdown() {
+  const { t } = useLanguage()
   const reduce = useReducedMotion()
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-15% 0px' })

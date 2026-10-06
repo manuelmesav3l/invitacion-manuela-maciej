@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from 'motion/react'
 import { StackedTitle } from '../components/SectionTitle'
 import { SwatchDot } from '../components/SwatchDot'
-import { t } from '../content/content'
+import { useLanguage } from '../context/LanguageContext'
 
 /** Hairline frame that draws itself stroke by stroke. */
 function DrawnFrame() {
@@ -18,9 +18,9 @@ function DrawnFrame() {
   )
 }
 
-const d = t.dress
-
 export function DressCode() {
+  const { t } = useLanguage()
+  const d = t.dress
   const reduce = useReducedMotion()
   return (
     <section className="bg-cream pb-28 pt-16" aria-label="Dress code">

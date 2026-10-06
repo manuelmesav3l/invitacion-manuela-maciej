@@ -2,12 +2,13 @@ import { useEffect, useRef } from 'react'
 import { useReducedMotion } from 'motion/react'
 import { BusSketch, DiscoSketch, SparklerSketch } from '../components/Icons'
 import { TimelineNode } from '../components/TimelineNode'
-import { t } from '../content/content'
+import { useLanguage } from '../context/LanguageContext'
 import { gsap } from '../lib/scroll'
 
 const POS = ['12%', '31%', '50%', '69%', '88%']
 
 export function Programme() {
+  const { t } = useLanguage()
   const reduce = useReducedMotion()
   const root = useRef<HTMLDivElement>(null)
 
