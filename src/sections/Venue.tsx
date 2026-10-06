@@ -57,12 +57,24 @@ export function Venue({ onClimate }: { onClimate: () => void }) {
           </div>
         </div>
 
-        <Reveal className="mt-10 text-olive-deep">
-          <p className="label !text-[13px] !tracking-[0.34em]">{v.weekday}</p>
-          <div className="mx-auto my-2 w-[66%] max-w-[320px] whitespace-nowrap border-y border-olive-deep/60 py-1.5 font-serif text-[clamp(20px,6.2vw,30px)] tracking-[0.18em]">
-            {`${t.hero.day}  ${t.hero.month} ${t.hero.year}`}
-          </div>
-          <p className="font-serif text-[22px] tracking-[0.25em]">{v.time}</p>
+        <Reveal className="mt-12 flex flex-col items-center text-olive-deep">
+          <p className="label !text-[clamp(11px,2.8vw,13px)] !tracking-[0.36em] text-olive-deep select-none">
+            {v.weekday}
+          </p>
+
+          <img
+            src="/assets/hero-date.svg"
+            alt={`${t.hero.day} ${t.hero.month} ${t.hero.year}`}
+            width={328}
+            height={71}
+            loading="lazy"
+            decoding="async"
+            className="my-3 w-[clamp(220px,66vw,290px)] max-w-full h-auto select-none pointer-events-none"
+          />
+
+          <p className="font-belfast text-[clamp(18px,4.8vw,22px)] tracking-[0.16em] text-olive-deep select-none">
+            {v.time}
+          </p>
         </Reveal>
       </div>
     </section>
