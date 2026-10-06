@@ -34,7 +34,7 @@ export function StackCard({ children, first = false }: { children: ReactNode; fi
     <div
       ref={ref}
       style={{ top: first ? 0 : top }}
-      className={`sticky ${first ? 'top-0' : 'rounded-t-[28px] shadow-[0_-18px_48px_-12px_rgba(63,90,46,0.28)] sm:rounded-t-[40px]'} overflow-hidden`}
+      className={`sticky ${first ? 'top-0 bg-cream-light' : 'rounded-t-[28px] shadow-[0_-18px_48px_-12px_rgba(63,90,46,0.28)] sm:rounded-t-[40px]'} overflow-hidden`}
     >
       {children}
     </div>
