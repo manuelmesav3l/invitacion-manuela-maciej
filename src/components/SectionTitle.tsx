@@ -15,7 +15,7 @@ export function SectionTitle({ initial, rest, size = 'md', color = 'text-gold', 
   const reduce = useReducedMotion()
   const big = size === 'lg'
   return (
-    <Tag className={`relative inline-block font-serif leading-[0.9] ${color} ${className}`} aria-label={initial + rest}>
+    <Tag className={`relative inline-block font-belfast leading-[0.9] ${color} ${className}`} aria-label={initial + rest}>
       <motion.span
         aria-hidden="true"
         initial={reduce ? { opacity: 0 } : { opacity: 0, y: 18 }}
@@ -25,7 +25,7 @@ export function SectionTitle({ initial, rest, size = 'md', color = 'text-gold', 
         className="block"
       >
         <span className={`font-script align-baseline ${scriptColor ?? ''} ${big ? 'text-[clamp(62px,22.5vw,88px)]' : 'text-[clamp(56px,19vw,74px)]'} mr-[-0.05em] italic`}>{initial}</span>
-        <span className="text-[clamp(38px,13.8vw,54px)] font-medium tracking-[0.02em]">{rest}</span>
+        <span className="font-belfast text-[clamp(38px,13.8vw,54px)] font-normal tracking-[0.02em]">{rest}</span>
       </motion.span>
     </Tag>
   )
@@ -34,12 +34,12 @@ export function SectionTitle({ initial, rest, size = 'md', color = 'text-gold', 
 /** Stacked variant used by "DRESS / CODE" (rest wraps under the initial line). */
 export function StackedTitle({ initial, first, second, color = 'text-gold' }: { initial: string; first: string; second: string; color?: string }) {
   return (
-    <h2 className={`font-serif leading-[0.86] ${color}`} aria-label={`${initial}${first} ${second}`}>
-      <span aria-hidden="true" className="block">
-        <span className="font-script italic text-[clamp(48px,15.9vw,62px)] mr-[-0.04em]">{initial}</span>
-        <span className="text-[clamp(34px,11.8vw,46px)] font-medium tracking-[0.01em]">{first}</span>
+    <h2 className={`font-belfast text-center leading-[0.86] ${color}`} aria-label={`${initial}${first} ${second}`}>
+      <span aria-hidden="true" className="inline-flex items-baseline justify-center">
+        <span className="font-script italic text-[clamp(50px,16vw,64px)] leading-none mr-[-0.03em] select-none">{initial}</span>
+        <span className="font-belfast text-[clamp(34px,11.5vw,46px)] font-normal tracking-[0.02em] leading-none">{first}</span>
       </span>
-      <span aria-hidden="true" className="block text-[clamp(34px,11.8vw,46px)] font-medium tracking-[0.01em]">{second}</span>
+      <span aria-hidden="true" className="block font-belfast text-[clamp(34px,11.5vw,46px)] font-normal tracking-[0.02em] leading-none mt-1 sm:mt-1.5">{second}</span>
     </h2>
   )
 }
