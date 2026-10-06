@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
 import { useReducedMotion } from 'motion/react'
-import { BusSketch, DiscoSketch, SparklerSketch } from '../components/Icons'
 import { TimelineNode } from '../components/TimelineNode'
 import { useLanguage } from '../context/LanguageContext'
 import { gsap } from '../lib/scroll'
@@ -42,9 +41,33 @@ export function Programme() {
         </h2>
 
         <div className="tl-stage relative mx-auto mt-4 h-[280px] w-full">
-          <BusSketch className="tl-icon tl-bus absolute left-[2%] top-[34px] w-[24%]" />
-          <DiscoSketch className="tl-icon tl-disco absolute right-[8%] top-[4px] w-[22%]" style={{ animation: reduce ? undefined : 'disco-spin 24s linear infinite' }} />
-          <SparklerSketch className="tl-icon tl-spark absolute bottom-[8px] right-[3%] w-[24%]" />
+          <img
+            src="/assets/programme-bus.webp"
+            width={279}
+            height={171}
+            alt="Shuttle bus illustration"
+            loading="lazy"
+            decoding="async"
+            className="blend-multiply tl-icon tl-bus absolute left-[0%] top-[20px] w-[26%] h-auto object-contain select-none pointer-events-none"
+          />
+          <img
+            src="/assets/programme-disco.webp"
+            width={280}
+            height={271}
+            alt="Disco ball illustration"
+            loading="lazy"
+            decoding="async"
+            className="blend-multiply tl-icon tl-disco absolute left-[59%] top-[2px] w-[22%] h-auto object-contain select-none pointer-events-none"
+          />
+          <img
+            src="/assets/programme-sparkler.webp"
+            width={283}
+            height={236}
+            alt="Sparklers illustration"
+            loading="lazy"
+            decoding="async"
+            className="blend-multiply tl-icon tl-spark absolute right-[0%] bottom-[4px] w-[25%] h-auto object-contain select-none pointer-events-none"
+          />
 
           <div className="absolute inset-x-[3%] top-1/2 h-0">
             <div className="tl-line absolute inset-x-[2%] top-0 h-px bg-olive-deep" />
