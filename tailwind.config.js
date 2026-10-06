@@ -13,7 +13,7 @@ export default {
       fontFamily: {
         script: ['"Pinyon Script"', 'cursive'],
         serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-        belfast: ['"Belfast Serial"', '"Cormorant Garamond"', 'serif'],
+        belfast: ['"Belfast Serial"', 'BelfastSerial', '"Cormorant Garamond"', 'serif'],
         caps: ['"Cormorant SC"', '"Cormorant Garamond"', 'serif'],
       },
       letterSpacing: { label: '0.25em', wide2: '0.3em' },
