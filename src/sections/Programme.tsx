@@ -95,7 +95,7 @@ export function Programme() {
         </h2>
 
         {/* Timeline Stage: generous height ensures icons and text labels never collide or overlap */}
-        <div className="tl-stage relative mx-auto mt-6 sm:mt-8 h-[330px] sm:h-[370px] w-full">
+        <div className="tl-stage relative mx-auto mt-6 sm:mt-8 h-[230px] sm:h-[250px] w-full">
           {/* Shuttle bus illustration: sits cleanly above Shuttle node without encroaching Ceremony */}
           <img
             src="/assets/programme-bus.webp"
@@ -104,7 +104,7 @@ export function Programme() {
             alt="Shuttle bus illustration"
             loading="lazy"
             decoding="async"
-            className="blend-multiply tl-icon tl-bus absolute left-[0%] top-[20px] sm:top-[24px] w-[21%] sm:w-[19%] max-w-[120px] h-auto object-contain select-none pointer-events-none"
+            className="blend-multiply tl-icon tl-bus absolute left-[0%] top-[6px] sm:top-[8px] w-[21%] sm:w-[19%] max-w-[95px] h-auto object-contain select-none pointer-events-none"
           />
 
           {/* Disco ball illustration: crowns Party node with comfortable clearance above the '3:00' text */}
@@ -115,7 +115,7 @@ export function Programme() {
             alt="Disco ball illustration"
             loading="lazy"
             decoding="async"
-            className="blend-multiply tl-icon tl-disco absolute left-[60.5%] sm:left-[61.5%] top-[2px] sm:top-[6px] w-[18%] sm:w-[16%] max-w-[96px] h-auto object-contain select-none pointer-events-none"
+            className="blend-multiply tl-icon tl-disco absolute left-[60.5%] sm:left-[61.5%] top-[12px] sm:top-[14px] w-[18%] sm:w-[16%] max-w-[85px] h-auto object-contain select-none pointer-events-none"
           />
 
           {/* Sparklers illustration: positioned under Send Off node with ample clearance below the '3:00' text */}
@@ -126,7 +126,7 @@ export function Programme() {
             alt="Sparklers illustration"
             loading="lazy"
             decoding="async"
-            className="blend-multiply tl-icon tl-spark absolute right-[0%] bottom-[4px] sm:bottom-[8px] w-[20%] sm:w-[18%] max-w-[105px] h-auto object-contain select-none pointer-events-none"
+            className="blend-multiply tl-icon tl-spark absolute right-[0%] bottom-[6px] sm:bottom-[10px] w-[20%] sm:w-[18%] max-w-[105px] h-auto object-contain select-none pointer-events-none"
           />
 
           {/* Central Timeline axis and milestones */}
