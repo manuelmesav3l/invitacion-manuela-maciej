@@ -49,15 +49,15 @@ export function StackedTitle({
     <h2 className={`font-belfast text-center leading-[0.86] ${color}`} aria-label={`${initial}${first} ${second}`}>
       {initialFont === 'script' ? (
         <span aria-hidden="true" className="inline-flex items-baseline justify-center">
-          <span className="font-script italic text-[clamp(50px,16vw,64px)] leading-none mr-[-0.03em] select-none">{initial}</span>
-          <span className="font-belfast text-[clamp(34px,11.5vw,46px)] font-normal tracking-[0.02em] leading-none">{first}</span>
+          <span className="font-script italic text-[clamp(44px,14vw,64px)] leading-none mr-[-0.03em] select-none">{initial}</span>
+          <span className="font-belfast text-[clamp(30px,9.5vw,46px)] font-normal tracking-[0.02em] leading-none">{first}</span>
         </span>
       ) : (
-        <span aria-hidden="true" className="block font-belfast text-[clamp(34px,11.5vw,46px)] font-normal tracking-[0.02em] leading-none">
+        <span aria-hidden="true" className="block font-belfast text-[clamp(30px,9.5vw,46px)] font-normal tracking-[0.02em] leading-none">
           {initial}{first}
         </span>
       )}
-      <span aria-hidden="true" className="block font-belfast text-[clamp(34px,11.5vw,46px)] font-normal tracking-[0.02em] leading-none mt-1 sm:mt-1.5">
+      <span aria-hidden="true" className="block font-belfast text-[clamp(30px,9.5vw,46px)] font-normal tracking-[0.02em] leading-none mt-1 sm:mt-1.5">
         {second}
       </span>
     </h2>
