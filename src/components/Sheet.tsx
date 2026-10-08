@@ -56,9 +56,13 @@ export function Sheet({ open, onClose, label, children, tall, closeLabel = 'Clos
             data-lenis-prevent
           >
             <span id={titleId} className="sr-only">{label}</span>
-            <button type="button" onClick={onClose} aria-label={closeLabel}
-              className="absolute right-4 top-4 z-10 grid h-10 w-10 place-items-center rounded-full text-olive-deep hover:bg-sand">
-              <CloseIcon />
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label={closeLabel}
+              className="absolute right-3 top-3 sm:right-4 sm:top-4 z-10 grid h-12 w-12 min-h-[48px] min-w-[48px] place-items-center rounded-full text-olive-deep hover:bg-sand/60 active:scale-90 transition-transform touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            >
+              <CloseIcon className="h-5 w-5" />
             </button>
             {children}
           </motion.div>
