@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { useReducedMotion } from 'motion/react'
-import { PinIcon } from '../components/Icons'
-import { PillButton } from '../components/PillButton'
 import { PolaroidCard } from '../components/PolaroidCard'
 import { PostcardCard } from '../components/PostcardCard'
 import { Reveal } from '../components/Reveal'
@@ -35,7 +33,7 @@ export function Medellin() {
   }, [reduce])
 
   return (
-    <section className="overflow-hidden bg-sand pb-20 pt-14" aria-label={`${m.kicker} ${m.title.initial}${m.title.rest}`}>
+    <section className="overflow-hidden bg-sand pb-24 pt-14" aria-label={`${m.kicker} ${m.title.initial}${m.title.rest}`}>
       <div className="mx-auto max-w-[560px] px-5 text-center">
         <Reveal><p className="label !text-[13px] !tracking-[0.3em] text-olive-deep">{m.kicker}</p></Reveal>
         <SectionTitle initial={m.title.initial} rest={m.title.rest} size="lg" color="text-olive-deep" className="-mt-1" />
@@ -47,11 +45,6 @@ export function Medellin() {
               z={order[i]} onFront={() => bringFront(i)} constraintsRef={table} />
           ))}
           <PostcardCard className="-left-[2%] top-[61%] z-[2] w-[54%]" />
-        </div>
-
-        <div className="mt-6 flex flex-col items-center gap-2">
-          <PinIcon width={30} height={30} className="text-olive-deep" />
-          <PillButton variant="green" href={m.mapsUrl}>{m.mapsLabel}</PillButton>
         </div>
       </div>
     </section>
