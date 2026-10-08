@@ -34,7 +34,7 @@ export function Hero({ onRsvp }: { onRsvp: () => void }) {
   }, [reduce])
 
   return (
-    <section ref={sectionRef} className="relative w-full bg-cream-light min-h-screen flex items-center justify-center py-2 sm:py-10 px-1 sm:px-4 overflow-hidden" aria-label={t.hero.ariaCouple}>
+    <section ref={sectionRef} className="relative w-full bg-cream-light min-h-[100svh] flex items-center justify-center py-2 sm:py-10 px-1 sm:px-4 overflow-hidden" aria-label={t.hero.ariaCouple}>
       {/* Gazebo illustration: Monumental scale, shifted left to bleed onto the screen edge */}
       <div className="hidden lg:flex left-[-10%] xl:left-[-12%] 2xl:left-[-14%] bottom-0 absolute z-0 pointer-events-none w-[clamp(480px,58vw,1020px)] max-h-[100vh] select-none items-end justify-start">
         <img
