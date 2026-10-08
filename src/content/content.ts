@@ -106,11 +106,12 @@ const en = {
     mapsLabel: 'MAPS LOCATION',
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Medell%C3%ADn+points+of+interest', // TODO
     polaroids: [
-      { key: 'street', alt: 'Colourful street with flowers in Medellín', src: '', tone: ['#d9648f', '#e8b48c'] },
-      { key: 'city', alt: 'Medellín skyline at sunset', src: '', tone: ['#e9b58c', '#7a8a5a'] },
-      { key: 'cable', alt: 'Metrocable above the mountains', src: '', tone: ['#5c86b4', '#e0b487'] },
-      { key: 'botero', alt: 'Plaza Botero and historic building', src: '', tone: ['#4f8a5a', '#c9a06a'] },
-    ], // TODO_ASSET
+      { key: 'cable', alt: 'Metrocable cabins soaring above the red brick slopes and mountains of Medellín', src: asset('assets/medellin-cable.webp'), tone: ['#5c86b4', '#e0b487'] },
+      { key: 'sunset', alt: 'Dramatic golden sunset and clouds over the Aburrá Valley', src: asset('assets/medellin-sunset.webp'), tone: ['#e9b58c', '#7a8a5a'] },
+      { key: 'comuna13', alt: 'Vibrant painted stairs in Comuna 13: ¡Que chimba! Estoy en Medellín', src: asset('assets/medellin-comuna13.webp'), tone: ['#e05030', '#f4a040'] },
+      { key: 'river', alt: 'Medellín river framed by green parks, bridges, and mountain skyline', src: asset('assets/medellin-river.webp'), tone: ['#4f7a5a', '#c09870'] },
+      { key: 'barrio', alt: 'Terraced red brick houses and neighborhoods cascading down the valley', src: asset('assets/medellin-barrio.webp'), tone: ['#c05840', '#7a8a9a'] },
+    ],
     postcard: { place: 'MEDELLÍN ANTIOQUIA', text: 'A vibrant city where mountains, culture, and creativity come together.' },
   },
   rsvp: {
@@ -250,10 +251,11 @@ const pl: typeof en = {
     mapsLabel: 'LOKALIZACJA NA MAPIE',
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Medell%C3%ADn+points+of+interest',
     polaroids: [
-      { key: 'street', alt: 'Kolorowa uliczka z kwiatami w Medellín', src: '', tone: ['#d9648f', '#e8b48c'] },
-      { key: 'city', alt: 'Panorama Medellín o zachodzie słońca', src: '', tone: ['#e9b58c', '#7a8a5a'] },
-      { key: 'cable', alt: 'Kolejka linowa Metrocable nad górami', src: '', tone: ['#5c86b4', '#e0b487'] },
-      { key: 'botero', alt: 'Plac Botero i zabytkowy budynek', src: '', tone: ['#4f8a5a', '#c9a06a'] },
+      { key: 'cable', alt: 'Kolejka linowa Metrocable unosząca się nad zboczami i górami Medellín', src: asset('assets/medellin-cable.webp'), tone: ['#5c86b4', '#e0b487'] },
+      { key: 'sunset', alt: 'Spektakularny zachód słońca i złote chmury nad doliną Aburrá', src: asset('assets/medellin-sunset.webp'), tone: ['#e9b58c', '#7a8a5a'] },
+      { key: 'comuna13', alt: 'Kolorowe schody w Comuna 13: ¡Que chimba! Estoy en Medellín', src: asset('assets/medellin-comuna13.webp'), tone: ['#e05030', '#f4a040'] },
+      { key: 'river', alt: 'Rzeka Medellín w otoczeniu zielonych parków, mostów i panoramy gór', src: asset('assets/medellin-river.webp'), tone: ['#4f7a5a', '#c09870'] },
+      { key: 'barrio', alt: 'Kaskadowo ułożone domy z czerwonej cegły i dzielnice na zboczach doliny', src: asset('assets/medellin-barrio.webp'), tone: ['#c05840', '#7a8a9a'] },
     ],
     postcard: { place: 'MEDELLÍN ANTIOQUIA', text: 'Tętniące życiem miasto, w którym góry, kultura i radość życia tworzą niezwykły klimat.' },
   },

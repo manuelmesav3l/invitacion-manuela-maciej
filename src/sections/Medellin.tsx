@@ -10,10 +10,11 @@ import { useLanguage } from '../context/LanguageContext'
 import { gsap } from '../lib/scroll'
 
 const LAYOUT = [
-  { cls: 'left-[2%] top-[3%] w-[41%]', rotate: -8 },
-  { cls: 'left-[25%] top-[25%] w-[39%]', rotate: -3 },
-  { cls: 'left-[53%] top-[9%] w-[43%]', rotate: 9 },
-  { cls: 'left-[50%] top-[46%] w-[42%]', rotate: -9 },
+  { cls: 'left-[2%] top-[2%] w-[42%]', rotate: -7 },
+  { cls: 'left-[53%] top-[4%] w-[43%]', rotate: 8 },
+  { cls: 'left-[18%] top-[23%] w-[43%]', rotate: -4 },
+  { cls: 'left-[52%] top-[41%] w-[42%]', rotate: -8 },
+  { cls: 'left-[46%] top-[63%] w-[42%]', rotate: 6 },
 ]
 
 export function Medellin() {
@@ -21,7 +22,7 @@ export function Medellin() {
   const reduce = useReducedMotion()
   const m = t.medellin
   const table = useRef<HTMLDivElement>(null)
-  const [order, setOrder] = useState([1, 2, 3, 4])
+  const [order, setOrder] = useState([1, 2, 3, 4, 5])
   const bringFront = (i: number) => setOrder((o) => o.map((z, k) => (k === i ? Math.max(...o) + 1 : z)))
 
   useEffect(() => {
@@ -40,12 +41,12 @@ export function Medellin() {
         <SectionTitle initial={m.title.initial} rest={m.title.rest} size="lg" color="text-olive-deep" className="-mt-1" />
         <Reveal><p className="label -mt-1 !text-[10px] text-gold">{m.sub}</p></Reveal>
 
-        <div ref={table} className="relative mx-auto mt-6 w-full" style={{ aspectRatio: '1 / 1.42' }}>
+        <div ref={table} className="relative mx-auto mt-6 w-full" style={{ aspectRatio: '1 / 1.56' }}>
           {m.polaroids.map((p, i) => (
-            <PolaroidCard key={p.key} photo={p} rotate={LAYOUT[i].rotate} className={LAYOUT[i].cls} delay={i * 0.18}
+            <PolaroidCard key={p.key} photo={p} rotate={LAYOUT[i].rotate} className={LAYOUT[i].cls} delay={i * 0.16}
               z={order[i]} onFront={() => bringFront(i)} constraintsRef={table} />
           ))}
-          <PostcardCard className="-left-[2%] top-[62%] z-[3] w-[58%]" />
+          <PostcardCard className="-left-[2%] top-[61%] z-[2] w-[54%]" />
         </div>
 
         <div className="mt-6 flex flex-col items-center gap-2">
