@@ -11,14 +11,37 @@ export function Divider({ className = '', color = 'currentColor', ...p }: SVGPro
   )
 }
 
-/** Small floral flourish above "RSVP". */
+/** Refined symmetrical botanical flourish used above "RSVP". */
 export function Flourish({ className = '', color = 'currentColor' }: { className?: string; color?: string }) {
   return (
-    <svg viewBox="0 0 160 40" className={className} aria-hidden="true" fill="none" stroke={color} strokeWidth="1.3" strokeLinecap="round">
-      <path d="M80 34c0-8-2-14-8-18M80 34c0-8 2-14 8-18M80 34V8" />
-      <path d="M80 6c-4 3-4 8 0 11 4-3 4-8 0-11Z" fill={color} /><path d="M66 14c-6 0-8 5-5 8 4-1 6-4 5-8Z" fill={color} />
-      <path d="M72 30C58 34 46 30 38 22c-6-6-14-4-16 2 4-2 9 0 12 4M88 30c14 4 26 0 34-8 6-6 14-4 16 2-4-2-9 0-12 4" />
-      <path d="M22 24c-8 0-14 4-18 10M138 24c8 0 14 4 18 10" />
+    <svg
+      viewBox="0 0 160 40"
+      className={className}
+      aria-hidden="true"
+      fill="none"
+      stroke={color}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      {/* Central vertical stem */}
+      <path d="M80 34V8" strokeWidth="1.2" />
+      {/* Central apical olive bud */}
+      <path d="M80 5.5c-2.4 2.8-2.4 7 0 9.5 2.4-2.5 2.4-6.7 0-9.5Z" fill={color} />
+      {/* Symmetrical branch bifurcations */}
+      <path d="M80 28c0-7-2-12-8-16" strokeWidth="1.15" />
+      <path d="M80 28c0-7 2-12 8-16" strokeWidth="1.15" />
+      {/* Symmetrical paired olive leaves */}
+      <path d="M72 13c-4.5-1-6.5 3-4 6 3.5-.8 5-3.2 4-6Z" fill={color} />
+      <path d="M88 13c4.5-1 6.5 3 4 6-3.5-.8-5-3.2-4-6Z" fill={color} />
+      {/* Fluid, continuous calligraphic crest wings */}
+      <path d="M74 30C60 31.5 48 24 38 18c-10-6-20-4-28 12" strokeWidth="1.15" />
+      <path d="M86 30C100 31.5 112 24 122 18c10-6 20-4 28 12" strokeWidth="1.15" />
+      {/* Symmetrical accent leaves at each wing apex */}
+      <path d="M42 19c-3.5-3-7-3-8.5-1 .8 3 4.2 3.8 8.5 1Z" fill={color} />
+      <path d="M118 19c3.5-3 7-3 8.5-1-.8 3-4.2 3.8-8.5 1Z" fill={color} />
+      {/* Delicate terminal droplets */}
+      <circle cx="10" cy="30" r="1.1" fill={color} />
+      <circle cx="150" cy="30" r="1.1" fill={color} />
     </svg>
   )
 }

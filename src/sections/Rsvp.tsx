@@ -77,7 +77,7 @@ export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) 
     <Sheet open={open} onClose={onClose} label={t.rsvp.title} closeLabel={L.close} tall>
       <div className="mx-auto max-w-[460px] px-7 pb-14 pt-12 text-center">
         <p className="label !text-[11px] text-olive-deep">{t.hero.kicker}</p>
-        <Flourish className="mx-auto mt-2 h-6 text-sand" />
+        <Flourish className="mx-auto mt-2 h-6 text-olive-deep" />
         <h2 className="m-0 font-serif text-[76px] font-normal leading-none tracking-[0.35em] text-olive-deep" style={{ paddingLeft: '0.35em' }}>{t.rsvp.title}</h2>
         <p className="mt-4 font-script text-[58px] italic leading-none text-gold">{t.rsvp.kindly}</p>
         <p className="font-serif text-[30px] font-medium leading-none text-gold">{t.rsvp.reply}</p>
