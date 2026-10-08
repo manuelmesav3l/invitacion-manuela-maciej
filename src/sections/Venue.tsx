@@ -65,11 +65,26 @@ export function Venue({ onClimate }: { onClimate: () => void }) {
           </p>
 
           {locale === 'pl' ? (
-            <div className="my-3 w-[clamp(220px,66vw,290px)] max-w-full border-y border-olive-deep/75 py-2 text-center select-none">
-              <span className="block font-belfast text-[clamp(22px,6.5vw,34px)] tracking-[0.12em] text-olive-deep leading-none">
+            <svg
+              viewBox="0 0 328.83 71.25"
+              aria-label={v.dateText}
+              className="my-3 w-[clamp(220px,66vw,290px)] max-w-full h-auto select-none pointer-events-none overflow-visible"
+            >
+              <line x1="0" y1="0.5" x2="328.83" y2="0.5" stroke="#3F5A2E" strokeWidth="1" />
+              <text
+                x="50%"
+                y="51%"
+                textAnchor="middle"
+                dominantBaseline="central"
+                fill="#3F5A2E"
+                fontFamily="BelfastSerial, 'Belfast Serial', serif"
+                fontSize="47"
+                letterSpacing="0.035em"
+              >
                 {v.dateText}
-              </span>
-            </div>
+              </text>
+              <line x1="0" y1="70.75" x2="328.83" y2="70.75" stroke="#3F5A2E" strokeWidth="1" />
+            </svg>
           ) : (
             <img
               src={asset("assets/hero-date.svg")}
