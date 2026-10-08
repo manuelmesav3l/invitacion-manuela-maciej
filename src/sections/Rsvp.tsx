@@ -88,7 +88,13 @@ export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) 
             <Check />
             <p className="mt-4 font-script text-[48px] text-olive-deep">{t.rsvp.thanks}</p>
             <p className="label !text-[11px] text-ink">{t.rsvp.thanksBody}</p>
-            <button type="button" onClick={() => setState('idle')} className="label mt-8 rounded-full border border-gold px-6 py-3 text-gold">{L.edit}</button>
+            <button
+              type="button"
+              onClick={() => setState('idle')}
+              className="label mt-8 inline-flex min-h-[44px] items-center justify-center rounded-full border border-gold px-8 py-3 text-[12px] text-gold transition-transform active:scale-[0.98] touch-manipulation hover:bg-gold/10"
+            >
+              {L.edit}
+            </button>
           </div>
         ) : (
           <form onSubmit={onSubmit} noValidate className="mt-9 space-y-6 text-left">
@@ -106,10 +112,19 @@ export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) 
               <div className="mt-2 grid grid-cols-2 gap-3" role="radiogroup">
                 {[[true, L.yes], [false, L.no]].map(([val, text]) => (
                   <button
-                    key={String(val)} type="button" role="radio" aria-checked={attending === val}
+                    key={String(val)}
+                    type="button"
+                    role="radio"
+                    aria-checked={attending === val}
                     onClick={() => setValue('attending', val as boolean, { shouldValidate: true })}
-                    className={`label rounded-full border px-3 py-3 !text-[10px] transition-colors ${attending === val ? 'border-olive-deep bg-olive-deep text-[#f8f5ee]' : 'border-gold text-gold'}`}
-                  >{text as string}</button>
+                    className={`label flex min-h-[48px] items-center justify-center rounded-full border px-4 py-3 text-center !text-[11px] sm:!text-[12px] font-medium transition-all active:scale-[0.98] touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
+                      attending === val
+                        ? 'border-olive-deep bg-olive-deep text-[#f8f5ee] shadow-sm'
+                        : 'border-gold/60 text-gold hover:border-gold hover:bg-gold/5'
+                    }`}
+                  >
+                    {text as string}
+                  </button>
                 ))}
               </div>
               {errors.attending && <p role="alert" className="mt-1 font-serif text-[15px] text-[#8a3a2a]">{errors.attending.message}</p>}
@@ -134,8 +149,12 @@ export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) 
             </div>
 
             {error && <p role="alert" className="text-center font-serif text-[16px] text-[#8a3a2a]">{error}</p>}
-            <div className="text-center">
-              <button type="submit" disabled={state === 'sending'} className="label rounded-full bg-gold px-10 py-3.5 !text-[12px] text-[#f8f1e2] shadow-md disabled:opacity-60">
+            <div className="pt-2 text-center">
+              <button
+                type="submit"
+                disabled={state === 'sending'}
+                className="label flex w-full sm:w-auto sm:inline-flex min-h-[48px] items-center justify-center rounded-full bg-gold px-10 py-3.5 !text-[12px] sm:!text-[13px] text-[#f8f1e2] shadow-md transition-all active:scale-[0.98] hover:bg-[#9d8350] touch-manipulation disabled:opacity-60"
+              >
                 {state === 'sending' ? '…' : L.send}
               </button>
             </div>

@@ -152,8 +152,8 @@ export function Welcome() {
                 <PhotoSlot src={p.src} alt={p.alt} tone={p.tone} width={3} height={4.2} />
 
                 {/* Subtle affordance badge */}
-                <div className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1.5 text-[#f8f1e2] text-[10px] font-caps tracking-wider backdrop-blur-md transition-all duration-300 group-hover:bg-gold group-hover:text-black">
-                  <ExpandIcon className="h-3 w-3" />
+                <div className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-black/60 px-3.5 py-2 text-[#f8f1e2] text-[11px] font-caps tracking-wider backdrop-blur-md transition-all duration-300 group-hover:bg-gold group-hover:text-black">
+                  <ExpandIcon className="h-3.5 w-3.5" />
                   <span>{t.welcome.expand}</span>
                 </div>
               </button>
@@ -161,8 +161,8 @@ export function Welcome() {
           ))}
         </div>
 
-        {/* Carousel indicators */}
-        <div className="mt-4 flex items-center justify-center gap-2" role="tablist" aria-label={t.welcome.navLabel}>
+        {/* Carousel indicators with accessible touch targets */}
+        <div className="mt-2 flex items-center justify-center gap-1 sm:gap-2" role="tablist" aria-label={t.welcome.navLabel}>
           {t.welcome.photos.map((p, i) => (
             <button
               key={p.key}
@@ -171,10 +171,14 @@ export function Welcome() {
               aria-selected={activeSlide === i}
               aria-label={`${t.welcome.viewPhoto} ${i + 1}`}
               onClick={() => scrollToSlide(i)}
-              className={`h-2 transition-all duration-300 rounded-full ${
-                activeSlide === i ? 'w-7 bg-olive-deep' : 'w-2 bg-olive-deep/30 hover:bg-olive-deep/60'
-              }`}
-            />
+              className="group flex min-h-[44px] min-w-[36px] items-center justify-center p-2 touch-manipulation focus-visible:outline-none"
+            >
+              <span
+                className={`h-2.5 transition-all duration-300 rounded-full ${
+                  activeSlide === i ? 'w-8 bg-olive-deep' : 'w-2.5 bg-olive-deep/30 group-hover:bg-olive-deep/60'
+                }`}
+              />
+            </button>
           ))}
         </div>
       </div>

@@ -112,7 +112,7 @@ export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClo
               type="button"
               onClick={onClose}
               aria-label={lb.close}
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-[#f8f1e2] transition-colors hover:bg-gold/80 hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              className="flex h-12 w-12 min-h-[48px] min-w-[48px] items-center justify-center rounded-full bg-white/10 text-[#f8f1e2] transition-colors hover:bg-gold/80 hover:text-black active:scale-90 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               <CloseIcon className="h-5 w-5" />
             </button>
@@ -127,7 +127,7 @@ export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClo
               aria-hidden="true"
             />
 
-            {/* Desktop / tablet previous button */}
+            {/* Previous button (visible on mobile and desktop) */}
             {images.length > 1 && (
               <button
                 type="button"
@@ -136,7 +136,7 @@ export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClo
                   handlePrev()
                 }}
                 aria-label={lb.prev}
-                className="absolute left-2 z-20 hidden sm:flex h-11 w-11 items-center justify-center rounded-full bg-black/60 text-[#f8f1e2] border border-white/15 transition-all hover:border-gold hover:bg-gold hover:text-black hover:scale-105 active:scale-95"
+                className="absolute left-2 z-20 flex h-11 w-11 sm:h-12 sm:w-12 min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-black/60 text-[#f8f1e2] border border-white/15 transition-all hover:border-gold hover:bg-gold hover:text-black active:scale-90 touch-manipulation"
               >
                 <ChevronLeftIcon className="h-6 w-6" />
               </button>
@@ -161,7 +161,7 @@ export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClo
               </motion.div>
             </AnimatePresence>
 
-            {/* Desktop / tablet next button */}
+            {/* Next button (visible on mobile and desktop) */}
             {images.length > 1 && (
               <button
                 type="button"
@@ -170,7 +170,7 @@ export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClo
                   handleNext()
                 }}
                 aria-label={lb.next}
-                className="absolute right-2 z-20 hidden sm:flex h-11 w-11 items-center justify-center rounded-full bg-black/60 text-[#f8f1e2] border border-white/15 transition-all hover:border-gold hover:bg-gold hover:text-black hover:scale-105 active:scale-95"
+                className="absolute right-2 z-20 flex h-11 w-11 sm:h-12 sm:w-12 min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-black/60 text-[#f8f1e2] border border-white/15 transition-all hover:border-gold hover:bg-gold hover:text-black active:scale-90 touch-manipulation"
               >
                 <ChevronRightIcon className="h-6 w-6" />
               </button>
@@ -185,9 +185,9 @@ export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClo
               </p>
             )}
 
-            {/* Indicator dots */}
+            {/* Indicator dots with accessible touch targets */}
             {images.length > 1 && (
-              <div className="flex items-center gap-2" role="tablist" aria-label={lb.selector}>
+              <div className="flex items-center gap-1 sm:gap-2" role="tablist" aria-label={lb.selector}>
                 {images.map((_, idx) => (
                   <button
                     key={idx}
@@ -199,12 +199,16 @@ export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClo
                       e.stopPropagation()
                       onIndexChange(idx)
                     }}
-                    className={`h-2 transition-all duration-300 rounded-full ${
-                      idx === currentIndex
-                        ? 'w-6 bg-gold'
-                        : 'w-2 bg-white/30 hover:bg-white/60'
-                    }`}
-                  />
+                    className="group flex min-h-[44px] min-w-[36px] items-center justify-center p-2 touch-manipulation focus-visible:outline-none"
+                  >
+                    <span
+                      className={`h-2.5 transition-all duration-300 rounded-full ${
+                        idx === currentIndex
+                          ? 'w-7 bg-gold'
+                          : 'w-2.5 bg-white/30 group-hover:bg-white/60'
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
             )}
