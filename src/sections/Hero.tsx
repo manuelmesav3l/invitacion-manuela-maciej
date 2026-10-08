@@ -86,7 +86,7 @@ export function Hero({ onRsvp }: { onRsvp: () => void }) {
             <svg
               viewBox="0 0 328.83 71.25"
               aria-label={t.hero.dateText}
-              className="absolute left-[27%] top-[79.6%] w-[46%] lg:left-[40%] lg:top-[79.4%] lg:w-[21.1%] h-auto pointer-events-none select-none overflow-visible"
+              className="absolute left-1/2 top-[79.6%] -translate-x-1/2 w-[46%] lg:top-[79.4%] lg:w-[21.1%] h-auto pointer-events-none select-none overflow-visible"
             >
               <line x1="0" y1="0.5" x2="328.83" y2="0.5" stroke="#3F5A2E" strokeWidth="1" />
               <text
@@ -107,19 +107,19 @@ export function Hero({ onRsvp }: { onRsvp: () => void }) {
             <img
               src={asset("assets/hero-date.svg")}
               alt={`${t.hero.day} ${t.hero.month} ${t.hero.year}`}
-              className="absolute left-[27%] top-[79.6%] w-[46%] lg:left-[40%] lg:top-[79.4%] lg:w-[21.1%] h-auto pointer-events-none"
+              className="absolute left-1/2 top-[79.6%] -translate-x-1/2 w-[46%] lg:top-[79.4%] lg:w-[21.1%] h-auto pointer-events-none"
               decoding="async"
             />
           )}
 
-          <Flourish className="absolute left-1/2 top-[88.4%] w-[17.5%] lg:left-[50.5%] lg:top-[87.4%] lg:w-[8%] -translate-x-1/2 text-olive-deep pointer-events-none" />
+          <Flourish className="absolute left-1/2 top-[88.4%] -translate-x-1/2 w-[17.5%] lg:top-[87.4%] lg:w-[8%] text-olive-deep pointer-events-none" />
 
           {/* RSVP button with luxury hover interaction & accessible mobile touch target */}
           <button
             type="button"
             onClick={onRsvp}
             aria-label={t.hero.rsvpAria}
-            className="group absolute left-1/2 top-[93.2%] min-h-[44px] min-w-[96px] sm:min-w-[112px] flex items-center justify-center -translate-x-1/2 cursor-pointer p-2 -m-2 text-olive-deep transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] hover:scale-105 hover:text-gold active:scale-95 active:text-[#937848] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream-light rounded touch-manipulation select-none"
+            className="group absolute left-1/2 top-[93.2%] -translate-x-1/2 min-h-[44px] min-w-[96px] sm:min-w-[112px] flex items-center justify-center cursor-pointer text-olive-deep transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] hover:scale-105 hover:text-gold active:scale-95 active:text-[#937848] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream-light rounded touch-manipulation select-none"
           >
             <div className="w-[78px] min-[380px]:w-[88px] sm:w-[98px] lg:w-[108px] relative flex flex-col items-center">
               <RsvpLogo className="w-full h-auto block transition-all duration-300 drop-shadow-none group-hover:drop-shadow-[0_2px_10px_rgba(173,145,92,0.4)]" />
