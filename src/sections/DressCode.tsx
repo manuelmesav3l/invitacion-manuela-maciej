@@ -4,28 +4,18 @@ import { StackedTitle } from '../components/SectionTitle'
 import { SwatchDot } from '../components/SwatchDot'
 import { useLanguage } from '../context/LanguageContext'
 
-/** Hairline frame that draws itself stroke by stroke with inset coordinates so all 4 edges render crisply. */
+/** Hairline frame that renders all 4 edges crisply across all viewports and zoom levels. */
 function DrawnFrame() {
   const reduce = useReducedMotion()
   return (
-    <svg
-      className="pointer-events-none absolute inset-0 h-full w-full overflow-visible"
+    <motion.div
+      className="pointer-events-none absolute inset-0 border border-[#8b9670]"
       aria-hidden="true"
-    >
-      <motion.rect
-        x="1"
-        y="1"
-        width="calc(100% - 2px)"
-        height="calc(100% - 2px)"
-        fill="none"
-        stroke="#8b9670"
-        strokeWidth="1"
-        initial={{ pathLength: reduce ? 1 : 0, opacity: reduce ? 1 : 0.8 }}
-        whileInView={{ pathLength: 1, opacity: 1 }}
-        viewport={{ once: true, margin: '120px 0px' }}
-        transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-      />
-    </svg>
+      initial={{ opacity: reduce ? 1 : 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: '120px 0px' }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+    />
   )
 }
 
