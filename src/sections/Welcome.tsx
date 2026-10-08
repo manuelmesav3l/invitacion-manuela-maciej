@@ -3,7 +3,6 @@ import { useReducedMotion, motion } from 'motion/react'
 import { PhotoSlot } from '../components/PhotoSlot'
 import { Reveal } from '../components/Reveal'
 import { ImageLightbox } from '../components/ImageLightbox'
-import { ExpandIcon } from '../components/Icons'
 import { useLanguage } from '../context/LanguageContext'
 import { gsap } from '../lib/scroll'
 
@@ -147,15 +146,9 @@ export function Welcome() {
                 type="button"
                 onClick={() => openPhoto(i)}
                 aria-label={`${t.welcome.expandPhoto}: ${p.alt}`}
-                className="group relative w-full overflow-hidden rounded-[8px] bg-sand shadow-[0_6px_22px_rgba(74,68,54,0.12)] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold active:scale-[0.98] transition-transform"
+                className="group relative w-full overflow-hidden rounded-[8px] bg-sand shadow-[0_6px_22px_rgba(74,68,54,0.12)] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold active:scale-[0.98] transition-transform cursor-pointer"
               >
                 <PhotoSlot src={p.src} alt={p.alt} tone={p.tone} width={3} height={4.2} />
-
-                {/* Subtle affordance badge */}
-                <div className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-black/60 px-3.5 py-2 text-[#f8f1e2] text-[11px] font-caps tracking-wider backdrop-blur-md transition-all duration-300 group-hover:bg-gold group-hover:text-black">
-                  <ExpandIcon className="h-3.5 w-3.5" />
-                  <span>{t.welcome.expand}</span>
-                </div>
               </button>
             </div>
           ))}
@@ -199,18 +192,10 @@ export function Welcome() {
                 type="button"
                 onClick={() => openPhoto(i)}
                 aria-label={`${t.welcome.expandPhoto}: ${p.alt}`}
-                className="cursor-zoom-in w-full text-left rounded-[4px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                className="cursor-zoom-in w-full text-left rounded-[4px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold group"
               >
-                <div className="wl-par group relative overflow-hidden rounded-[4px] shadow-[0_4px_18px_rgba(74,68,54,0.08)]">
+                <div className="wl-par relative overflow-hidden rounded-[4px] shadow-[0_4px_18px_rgba(74,68,54,0.08)] transition-transform duration-500 ease-out group-hover:scale-[1.02]">
                   <PhotoSlot src={p.src} alt={p.alt} tone={p.tone} width={3} height={i === 1 ? 4.5 : 4.1} />
-
-                  {/* Elegant desktop hover overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/25 opacity-0 backdrop-blur-[1px] transition-opacity duration-300 group-hover:opacity-100">
-                    <span className="flex items-center gap-1.5 rounded-full bg-cream/95 px-3.5 py-1.5 font-caps text-[11px] font-medium tracking-widest text-olive-deep shadow-md">
-                      <ExpandIcon className="h-3.5 w-3.5" />
-                      {t.welcome.expand}
-                    </span>
-                  </div>
                 </div>
               </button>
             </motion.div>

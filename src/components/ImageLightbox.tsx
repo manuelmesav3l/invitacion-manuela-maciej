@@ -150,13 +150,13 @@ export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClo
                 animate={{ opacity: 1, scale: 1 }}
                 exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.96 }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="relative z-10 flex flex-col items-center justify-center max-h-[76vh] max-w-full"
-                onClick={(e) => e.stopPropagation()}
+                className="relative z-10 flex flex-col items-center justify-center max-h-[76vh] max-w-full cursor-zoom-out"
+                onClick={onClose}
               >
                 <img
                   src={current.src}
                   alt={current.alt}
-                  className="max-h-[72vh] max-w-[94vw] sm:max-w-[80vw] object-contain rounded-md shadow-[0_12px_40px_rgba(0,0,0,0.65)] border border-white/10"
+                  className="max-h-[72vh] max-w-[94vw] sm:max-w-[80vw] object-contain rounded-md shadow-[0_12px_40px_rgba(0,0,0,0.65)] border border-white/10 transition-transform duration-200 active:scale-[0.98]"
                 />
               </motion.div>
             </AnimatePresence>
