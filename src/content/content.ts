@@ -84,7 +84,7 @@ const en = {
   dress: {
     title: { initial: 'D', first: 'RESS', second: 'CODE', sectionLabel: 'Dress code' },
     palette: 'THE COLOUR PALETTE',
-    formal: 'FORMAL DRESS CODE',
+    formal: 'Formal Dress Code',
     her: 'FOR HER',
     him: 'FOR HIM',
     herAlt: 'Guests in colourful formal dresses with illustrated flowers',
@@ -228,7 +228,7 @@ const pl: typeof en = {
   dress: {
     title: { initial: 'S', first: 'TRÓJ', second: 'WIECZOROWY', sectionLabel: 'Strój wieczorowy' },
     palette: 'PALETA KOLORÓW',
-    formal: 'STRÓJ WIECZOROWY',
+    formal: 'Strój Wieczorowy',
     her: 'DLA NIEJ',
     him: 'DLA NIEGO',
     herAlt: 'Goście w eleganckich kolorowych sukniach z motywem kwiatowym',
