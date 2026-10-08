@@ -83,11 +83,26 @@ export function Hero({ onRsvp }: { onRsvp: () => void }) {
 
           {/* Date (SVG with rules) */}
           {locale === 'pl' ? (
-            <div className="absolute left-[24%] top-[79.2%] w-[52%] lg:left-[39%] lg:top-[79.3%] lg:w-[23%] pointer-events-none border-y border-olive-deep py-[2px] sm:py-[3px] text-center">
-              <span className="block font-belfast text-[clamp(13px,3vw,23px)] lg:text-[18px] tracking-[0.14em] text-olive-deep leading-tight whitespace-nowrap">
+            <svg
+              viewBox="0 0 328.83 71.25"
+              aria-label={t.hero.dateText}
+              className="absolute left-[27%] top-[79.6%] w-[46%] lg:left-[40%] lg:top-[79.4%] lg:w-[21.1%] h-auto pointer-events-none select-none overflow-visible"
+            >
+              <line x1="0" y1="0.5" x2="328.83" y2="0.5" stroke="#3F5A2E" strokeWidth="1" />
+              <text
+                x="50%"
+                y="51%"
+                textAnchor="middle"
+                dominantBaseline="central"
+                fill="#3F5A2E"
+                fontFamily="BelfastSerial, 'Belfast Serial', serif"
+                fontSize="47"
+                letterSpacing="0.035em"
+              >
                 {t.hero.dateText}
-              </span>
-            </div>
+              </text>
+              <line x1="0" y1="70.75" x2="328.83" y2="70.75" stroke="#3F5A2E" strokeWidth="1" />
+            </svg>
           ) : (
             <img
               src={asset("assets/hero-date.svg")}
