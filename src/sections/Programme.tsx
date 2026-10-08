@@ -108,7 +108,7 @@ export function Programme() {
             className="blend-multiply tl-icon tl-bus absolute left-[0%] top-[44px] sm:top-[50px] w-[24%] sm:w-[22%] max-w-[130px] h-auto object-contain select-none pointer-events-none"
           />
 
-          {/* Disco ball illustration: crowns Party node with comfortable clearance above the '3:00' text */}
+          {/* Disco ball illustration: crowns Party node with clean clearance directly above the time text */}
           <img
             src={asset("assets/programme-disco.webp")}
             width={280}
@@ -116,7 +116,7 @@ export function Programme() {
             alt="Disco ball illustration"
             loading="lazy"
             decoding="async"
-            className="blend-multiply tl-icon tl-disco absolute left-[59%] sm:left-[59.5%] top-[6px] sm:top-[8px] w-[23%] sm:w-[21%] max-w-[115px] h-auto object-contain select-none pointer-events-none"
+            className="blend-multiply tl-icon tl-disco absolute left-[59%] sm:left-[59.5%] top-[28px] sm:top-[8px] w-[23%] sm:w-[21%] max-w-[115px] h-auto object-contain select-none pointer-events-none"
           />
 
           {/* Sparklers illustration: positioned under Send Off node with ample clearance below the '3:00' text */}
