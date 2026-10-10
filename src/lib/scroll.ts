@@ -50,4 +50,13 @@ export const lockScroll = (lock: boolean) => {
   document.body.style.overflow = lock ? 'hidden' : ''
 }
 
+export function scrollToTarget(target: string | HTMLElement, options?: { offset?: number }) {
+  if (lenis) {
+    lenis.scrollTo(target, options)
+  } else {
+    const el = typeof target === 'string' ? document.querySelector<HTMLElement>(target) : target
+    el?.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
 export { gsap, ScrollTrigger }

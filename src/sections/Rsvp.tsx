@@ -84,7 +84,7 @@ function Radios({ value, onChange, yes, no }: { value: boolean | undefined; onCh
 }
 
 /** RSVP content (heading + deadline + form). Shared by the modal sheet and the inline section. */
-export function RsvpForm({ open }: { open: boolean }) {
+export function RsvpForm({ open = true, className = '' }: { open?: boolean; className?: string }) {
   const uid = useId()
   const { t } = useLanguage()
   const L = t.rsvp.labels
@@ -143,7 +143,7 @@ export function RsvpForm({ open }: { open: boolean }) {
   const err = 'mt-1 font-serif text-[15px] text-[#f3b9a6]'
 
   return (
-    <div className="mx-auto max-w-[460px] px-7 pb-14 pt-14 text-center">
+    <div className={`mx-auto max-w-[480px] px-6 sm:px-7 pb-14 pt-10 text-center ${className}`}>
       <h2 className="m-0 font-serif text-[clamp(56px,18vw,76px)] font-normal leading-none tracking-[0.35em] text-cream-light" style={{ paddingLeft: '0.35em' }}>{t.rsvp.title}</h2>
       <Divider className="mx-auto mt-5 w-40 text-cream-light" />
       <p className="mt-9 font-script text-[clamp(52px,15vw,64px)] italic leading-[0.9] text-[#bf9a58]">{t.rsvp.kindly}</p>
