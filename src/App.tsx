@@ -8,7 +8,6 @@ import { Venue } from './sections/Venue'
 import { Gifts } from './sections/Gifts'
 import { Transportation } from './sections/Transportation'
 import { WhereToStay } from './sections/WhereToStay'
-import { DayTrips, ThingsToDo } from './sections/ThingsToDo'
 import { ThankYou } from './sections/ThankYou'
 import { Welcome } from './sections/Welcome'
 import { StackCard } from './components/StackCard'
@@ -41,8 +40,6 @@ export default function App() {
           <DressCode />
           <Medellin />
           <Gifts />
-          <ThingsToDo />
-          <DayTrips />
           <ThankYou />
         </StackCard>
         <Suspense fallback={null}>
