@@ -3,7 +3,6 @@ import { useEffect, useRef } from 'react'
 import { useReducedMotion } from 'motion/react'
 import { TimelineNode } from '../components/TimelineNode'
 import { useLanguage } from '../context/LanguageContext'
-import { Transportation } from './Transportation'
 import { gsap } from '../lib/scroll'
 
 const POS = ['10%', '30%', '50%', '70%', '90%']
@@ -145,8 +144,6 @@ export function Programme() {
             ))}
           </div>
         </div>
-
-        <Transportation />
       </div>
     </section>
   )
