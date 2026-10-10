@@ -8,7 +8,7 @@ export function Transportation() {
   const { t } = useLanguage()
   const x = t.transport
   return (
-    <section className="bg-cream pb-16 pt-14" aria-label={`${x.title.initial}${x.title.rest}`}>
+    <section className="bg-sand pb-16 pt-6" aria-label={`${x.title.initial}${x.title.rest}`}>
       <div className="mx-auto max-w-[560px] px-5 text-center">
         <SectionTitle initial={x.title.initial} rest={x.title.rest} compact color="text-olive-deep" />
         <Reveal className="mt-8 flex flex-col items-center gap-5 sm:flex-row sm:justify-center sm:gap-10">
