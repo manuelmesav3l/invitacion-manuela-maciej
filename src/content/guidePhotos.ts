@@ -14,7 +14,7 @@ export const guidePhotos: Record<string, GuidePhoto> = {
   botero: p('botero-dome'), // user-supplied photo (Palacio de la Cultura dome at dusk)
   provenza: { ...p('provenza'), credit: { author: "José Luiz", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Carrera_35_-_Provenza_-_Medell%C3%ADn_-_Colombia_2024_(2).jpg" } },
   laureles: { ...p('laureles'), credit: { author: "XalD", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Medell%C3%ADn_desde_Los_Colores,_2017.jpg" } },
-  arvi: { ...p('arvi'), credit: { author: "Alejandro Rojas (SajoR)", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Metrocable_del_Parque_Arv%C3%AD_-_Medell%C3%ADn.jpg" } },
+  arvi: p('arvi-pond'), // user-supplied photo (lake in Parque Arví)
   coffee: { ...p('coffee'), credit: { author: "TitiNicola", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Caf%C3%A9_Colombiano.jpg" } },
   food: { ...p('food'), credit: { author: "Edgar Zuniga Jr.", license: "CC BY 2.0", url: "https://commons.wikimedia.org/wiki/File:Bandeja_Paisa_(Bogot%C3%A1).jpg" } },
   guatape: { ...p('guatape'), credit: { author: "Juan Gómez", license: "CC BY 2.0", url: "https://commons.wikimedia.org/wiki/File:Piedra_y_Embalse_del_Pe%C3%B1ol_desde_dron_04.jpg" } },
