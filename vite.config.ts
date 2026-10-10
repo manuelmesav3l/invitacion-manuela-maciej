@@ -19,6 +19,7 @@ export default defineConfig({
         },
       },
     },
+    target: 'es2022',
     chunkSizeWarningLimit: 600,
   },
 })
