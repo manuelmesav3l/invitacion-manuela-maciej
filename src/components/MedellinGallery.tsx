@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { useReducedMotion } from 'motion/react'
 import { useRevealOnce } from '../hooks/useRevealOnce'
 import { PolaroidCard } from './PolaroidCard'
@@ -14,14 +14,12 @@ const LAYOUT = [
   { cls: 'left-[46%] top-[63%] w-[42%]', rotate: 6 },
 ]
 
-/** Draggable polaroid collage + postcard (third tab of the Medellín guide). */
+/** Fixed polaroid collage + postcard in curated editorial layout (third tab of the Medellín guide). */
 export function MedellinGallery() {
   const { t } = useLanguage()
   const reduce = useReducedMotion()
   const table = useRef<HTMLDivElement>(null)
   const show = useRevealOnce(table)
-  const [order, setOrder] = useState([1, 2, 3, 4, 5])
-  const bringFront = (i: number) => setOrder((o) => o.map((z, k) => (k === i ? Math.max(...o) + 1 : z)))
 
   useEffect(() => {
     if (reduce || !table.current) return
@@ -35,10 +33,18 @@ export function MedellinGallery() {
   return (
     <div ref={table} className="relative mx-auto mt-6 w-full" style={{ aspectRatio: '1 / 1.56' }}>
       {t.medellin.polaroids.map((p, i) => (
-        <PolaroidCard key={p.key} photo={p} rotate={LAYOUT[i].rotate} className={LAYOUT[i].cls} delay={i * 0.16}
-          z={order[i]} onFront={() => bringFront(i)} constraintsRef={table} show={show} />
+        <PolaroidCard
+          key={p.key}
+          photo={p}
+          rotate={LAYOUT[i].rotate}
+          className={LAYOUT[i].cls}
+          delay={i * 0.16}
+          z={i + 1}
+          show={show}
+        />
       ))}
       <PostcardCard className="-left-[2%] top-[61%] z-[2] w-[54%]" show={show} />
     </div>
   )
 }
+
