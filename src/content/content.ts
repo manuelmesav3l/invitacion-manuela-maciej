@@ -137,6 +137,7 @@ const en = {
     ],
   },
   todo: {
+    tab: 'THINGS TO DO',
     kicker: 'THINGS TO DO IN',
     title: { initial: 'M', rest: 'EDELLÍN' },
     intro: 'Our picks for experiencing the city.',
@@ -151,6 +152,7 @@ const en = {
     ],
   },
   trips: {
+    tab: 'DAY TRIP',
     title: { initial: 'D', first: 'AY', second: 'TRIP' },
     intro: 'Our picks for trips around Medellín.',
     topPick: 'Our top recommendation.',
@@ -346,6 +348,7 @@ const pl: typeof en = {
     ],
   },
   todo: {
+    tab: 'CO ROBIĆ',
     kicker: 'CO ROBIĆ W',
     title: { initial: 'M', rest: 'EDELLÍN' },
     intro: 'Nasze propozycje, jak poznać miasto.', // TODO_COPY: client gave no PL for this line
@@ -360,6 +363,7 @@ const pl: typeof en = {
     ],
   },
   trips: {
+    tab: 'WYCIECZKI JEDNODNIOWE',
     title: { initial: 'W', first: 'YCIECZKI', second: 'JEDNODNIOWE' },
     intro: 'Nasze propozycje wycieczek z Medellín.', // TODO_COPY: client gave no PL for this line
     topPick: 'Nasza rekomendacja numer jeden.',

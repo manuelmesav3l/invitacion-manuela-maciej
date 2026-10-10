@@ -1,0 +1,132 @@
+import { useId, useRef, useState, type KeyboardEvent } from 'react'
+import { useReducedMotion } from 'motion/react'
+import { Reveal } from './Reveal'
+import { useLanguage } from '../context/LanguageContext'
+
+interface Pick {
+  key: string
+  icon: string
+  title: string
+  lead: string
+  body: string
+  top?: boolean
+}
+
+function PickCard({ pick, open, onToggle, topLabel, reduce }: { pick: Pick; open: boolean; onToggle: () => void; topLabel: string; reduce: boolean | null }) {
+  const id = useId()
+  return (
+    <li>
+      <div className={`rounded-[4px] border bg-white/40 transition-colors duration-300 ${open ? 'border-gold shadow-[0_10px_26px_-14px_rgba(60,50,20,.45)]' : 'border-olive-deep/20 hover:border-gold/70'}`}>
+        <h3 className="m-0">
+          <button
+            type="button"
+            aria-expanded={open}
+            aria-controls={`${id}-panel`}
+            id={`${id}-btn`}
+            onClick={onToggle}
+            className="group flex min-h-[64px] w-full items-center gap-3.5 px-4 py-3 text-left touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+          >
+            <span aria-hidden="true" className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-sand text-[20px] shadow-[inset_0_0_0_1px_rgba(173,145,92,0.45)] transition-transform duration-300 group-hover:scale-105">
+              {pick.icon}
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block font-serif text-[clamp(19px,5.2vw,23px)] font-medium leading-tight text-olive-deep">{pick.title}</span>
+              <span className="label mt-1 block !text-[10px] !leading-[1.6] !tracking-[0.18em] text-gold">{pick.lead}</span>
+            </span>
+            <svg aria-hidden="true" viewBox="0 0 12 12" width="14" height="14" fill="none" stroke="#3F5A2E" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" className={`shrink-0 ${reduce ? '' : 'transition-transform duration-300'} ${open ? 'rotate-180' : ''}`}>
+              <path d="M2 4.5 6 8.5l4-4" />
+            </svg>
+          </button>
+        </h3>
+        <div
+          id={`${id}-panel`}
+          role="region"
+          aria-labelledby={`${id}-btn`}
+          className={`grid ${reduce ? '' : 'transition-[grid-template-rows] duration-300 ease-out'} ${open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+        >
+          <div className="overflow-hidden">
+            <div className="px-4 pb-5 pl-[74px]">
+              <p className="m-0 font-serif text-[clamp(17px,4.6vw,19px)] leading-[1.5] text-ink">{pick.body}</p>
+              {pick.top && (
+                <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-gold px-3 py-1 font-serif text-[15px] text-[#f8f1e2]">
+                  <span aria-hidden="true">⭐</span>{topLabel}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+  )
+}
+
+/** Medellín guide: tabs (things to do / day trips) over single-open accordion cards. */
+export function MedellinGuide() {
+  const { t } = useLanguage()
+  const reduce = useReducedMotion()
+  const tabs = [
+    { key: 'todo', label: t.todo.tab, intro: t.todo.intro, items: t.todo.items as Pick[], top: '' },
+    { key: 'trips', label: t.trips.tab, intro: t.trips.intro, items: t.trips.items as Pick[], top: t.trips.topPick },
+  ] as const
+  const [active, setActive] = useState(0)
+  const [openKey, setOpenKey] = useState<string | null>(tabs[0].items[0].key)
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const uid = useId()
+
+  const select = (i: number) => {
+    setActive(i)
+    setOpenKey(tabs[i].items[0].key)
+  }
+  const onKey = (e: KeyboardEvent, i: number) => {
+    const next = e.key === 'ArrowRight' ? (i + 1) % tabs.length : e.key === 'ArrowLeft' ? (i + tabs.length - 1) % tabs.length : -1
+    if (next < 0) return
+    e.preventDefault()
+    select(next)
+    tabRefs.current[next]?.focus()
+  }
+  const cur = tabs[active]
+
+  return (
+    <div className="mt-14">
+      <div role="tablist" aria-label={t.medellin.kicker} className="mx-auto grid max-w-[440px] grid-cols-2 rounded-full border border-gold/60 bg-cream/70 p-1">
+        {tabs.map((tab, i) => (
+          <button
+            key={tab.key}
+            ref={(el) => { tabRefs.current[i] = el }}
+            type="button"
+            role="tab"
+            id={`${uid}-tab-${tab.key}`}
+            aria-selected={active === i}
+            aria-controls={`${uid}-panel`}
+            tabIndex={active === i ? 0 : -1}
+            onClick={() => select(i)}
+            onKeyDown={(e) => onKey(e, i)}
+            className={`label flex min-h-[46px] items-center justify-center rounded-full px-3 py-2 text-center !text-[10px] !leading-[1.5] sm:!text-[11px] font-medium transition-colors duration-300 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
+              active === i ? 'bg-olive-deep text-[#f8f5ee] shadow-sm' : 'text-olive-deep hover:bg-gold/10'
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      <div id={`${uid}-panel`} role="tabpanel" aria-labelledby={`${uid}-tab-${cur.key}`}>
+        <Reveal key={cur.key}>
+          <p className="label mt-6 !text-[10px] !tracking-[0.22em] text-gold">{cur.intro}</p>
+          <ul className="mx-auto mt-5 max-w-[460px] space-y-3 text-left">
+            {cur.items.map((p) => (
+              <PickCard
+                key={p.key}
+                pick={p}
+                open={openKey === p.key}
+                onToggle={() => setOpenKey(openKey === p.key ? null : p.key)}
+                topLabel={cur.top}
+                reduce={reduce}
+              />
+            ))}
+          </ul>
+        </Reveal>
+      </div>
+    </div>
+  )
+}

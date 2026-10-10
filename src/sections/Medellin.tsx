@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useReducedMotion } from 'motion/react'
+import { MedellinGuide } from '../components/MedellinGuide'
 import { PolaroidCard } from '../components/PolaroidCard'
 import { PostcardCard } from '../components/PostcardCard'
 import { Reveal } from '../components/Reveal'
@@ -46,6 +47,8 @@ export function Medellin() {
           ))}
           <PostcardCard className="-left-[2%] top-[61%] z-[2] w-[54%]" />
         </div>
+
+        <MedellinGuide />
       </div>
     </section>
   )
