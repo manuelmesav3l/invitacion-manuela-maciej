@@ -36,6 +36,9 @@ export function Medellin() {
   return (
     <section className="overflow-hidden bg-sand pb-24 pt-14" aria-label={`${m.kicker} ${m.title.initial}${m.title.rest}`}>
       <div className="mx-auto max-w-[560px] px-5 text-center">
+        <MedellinGuide />
+
+        <div className="mt-20">
         <Reveal><p className="label !text-[13px] !tracking-[0.3em] text-olive-deep">{m.kicker}</p></Reveal>
         <SectionTitle initial={m.title.initial} rest={m.title.rest} size="lg" color="text-olive-deep" className="-mt-1" />
         <Reveal><p className="label -mt-1 !text-[10px] text-gold">{m.sub}</p></Reveal>
@@ -47,8 +50,7 @@ export function Medellin() {
           ))}
           <PostcardCard className="-left-[2%] top-[61%] z-[2] w-[54%]" />
         </div>
-
-        <MedellinGuide />
+        </div>
       </div>
     </section>
   )

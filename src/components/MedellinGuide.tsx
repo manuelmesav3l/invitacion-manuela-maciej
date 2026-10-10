@@ -118,7 +118,7 @@ export function MedellinGuide() {
   const cur = tabs[active]
 
   return (
-    <div className="mt-14">
+    <div>
       <div role="tablist" aria-label={t.medellin.kicker} className="mx-auto grid max-w-[440px] grid-cols-2 rounded-full border border-gold/60 bg-cream/70 p-1">
         {tabs.map((tab, i) => (
           <button
