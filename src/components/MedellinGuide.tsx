@@ -120,15 +120,11 @@ export function MedellinGuide({ gallery }: { gallery: ReactNode }) {
 
   return (
     <div className="mt-12 sm:mt-14">
-      <div
-        role="tablist"
-        aria-label={t.medellin.kicker}
-        className="relative mx-auto grid max-w-[460px] grid-cols-3 rounded-full border border-gold/70 bg-gradient-to-b from-cream-light/80 to-cream/60 p-[5px] shadow-[0_10px_24px_-16px_rgba(60,50,20,.55),inset_0_0_0_3px_rgba(248,241,226,.55)]"
-      >
+      <div role="tablist" aria-label={t.medellin.kicker} className="relative mx-auto grid max-w-[460px] grid-cols-3 border-b border-gold/25">
         <span
           aria-hidden="true"
           style={{ transform: `translateX(${active * 100}%)` }}
-          className={`pointer-events-none absolute inset-y-[5px] left-[5px] w-[calc((100%-10px)/3)] rounded-full bg-gradient-to-b from-[#4a6b38] to-olive-deep shadow-[0_6px_14px_-6px_rgba(40,60,25,.7),inset_0_0_0_1px_rgba(173,145,92,.55)] ${reduce ? '' : 'transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]'}`}
+          className={`pointer-events-none absolute -bottom-px left-0 h-px w-1/3 bg-gradient-to-r from-transparent via-gold to-transparent ${reduce ? '' : 'transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]'}`}
         />
         {tabs.map((tab, i) => (
           <button
@@ -142,8 +138,8 @@ export function MedellinGuide({ gallery }: { gallery: ReactNode }) {
             tabIndex={active === i ? 0 : -1}
             onClick={() => select(i)}
             onKeyDown={(e) => onKey(e, i)}
-            className={`label flex relative z-10 min-h-[50px] items-center justify-center rounded-full px-1.5 py-2 text-center !text-[9px] !tracking-[0.14em] !leading-[1.5] sm:!text-[10px] font-medium transition-colors duration-300 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
-              active === i ? 'text-[#f8f5ee]' : 'text-olive-deep hover:text-gold'
+            className={`label flex min-h-[52px] items-center justify-center px-1 pb-1 text-center !text-[10px] !leading-[1.5] !tracking-[0.22em] font-medium transition-colors duration-300 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:!text-[12px] sm:!tracking-[0.3em] ${
+              active === i ? 'text-gold' : 'text-gold/75 hover:text-gold'
             }`}
           >
             {tab.label}
