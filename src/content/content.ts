@@ -49,6 +49,7 @@ const en = {
       { key: 'botero', alt: 'Sculptures by Fernando Botero at Botero Plaza', src: asset('assets/welcome-botero.webp'), tone: ['#c9a06a', '#7a6a58'] },
     ],
   },
+  ui: { close: 'Close' },
   lightbox: {
     dialogLabel: 'Enlarged photo viewer',
     close: 'Close photo',
@@ -74,6 +75,7 @@ const en = {
   programme: {
     title: { script: 'Wedding', rest: 'PROGRAMME' },
     ariaLabel: 'Wedding programme',
+    illustrations: { bus: 'Shuttle bus illustration', disco: 'Disco ball illustration', sparkler: 'Sparklers illustration' },
     events: [
       { key: 'shuttle', label: 'SHUTTLE', time: '3:00', side: 'below' },
       { key: 'ceremony', label: 'CEREMONY', time: '3:00', side: 'above' },
@@ -261,6 +263,7 @@ const pl: typeof en = {
       { key: 'botero', alt: 'Rzeźby Fernando Botero na Placu Botero', src: asset('assets/welcome-botero.webp'), tone: ['#c9a06a', '#7a6a58'] },
     ],
   },
+  ui: { close: 'Zamknij' },
   lightbox: {
     dialogLabel: 'Powiększenie zdjęcia',
     close: 'Zamknij zdjęcie',
@@ -286,6 +289,7 @@ const pl: typeof en = {
   programme: {
     title: { script: 'Program', rest: 'UROCZYSTOŚCI' },
     ariaLabel: 'Program Uroczystości',
+    illustrations: { bus: 'Ilustracja autobusu', disco: 'Ilustracja kuli dyskotekowej', sparkler: 'Ilustracja zimnych ogni' },
     events: [
       { key: 'shuttle', label: 'TRANSPORT', time: '15:00', side: 'below' },
       { key: 'ceremony', label: 'CEREMONIA', time: '15:00', side: 'above' },

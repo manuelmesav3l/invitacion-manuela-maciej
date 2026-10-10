@@ -176,7 +176,7 @@ export function MedellinGuide({ gallery }: { gallery: ReactNode }) {
           )}
         </Reveal>
       </div>
-      <PickModal pick={picked} topLabel={t.trips.topPick} onClose={() => setPicked(null)} closeLabel={t.rsvp.labels.close} />
+      <PickModal pick={picked} topLabel={t.trips.topPick} onClose={() => setPicked(null)} closeLabel={t.ui.close} />
     </div>
   )
 }
