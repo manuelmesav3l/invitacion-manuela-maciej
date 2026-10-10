@@ -11,7 +11,7 @@ const p = (key: string) => ({ src: asset(`assets/guide/${key}.webp`), thumb: ass
 /** Photos for the Medellín guide cards. Credits are required by the Creative Commons licences (Wikimedia Commons). */
 export const guidePhotos: Record<string, GuidePhoto> = {
   comuna13: p('comuna13'),
-  botero: p('botero'),
+  botero: p('botero-dome'), // user-supplied photo (Palacio de la Cultura dome at dusk)
   provenza: { ...p('provenza'), credit: { author: "José Luiz", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Carrera_35_-_Provenza_-_Medell%C3%ADn_-_Colombia_2024_(2).jpg" } },
   laureles: { ...p('laureles'), credit: { author: "XalD", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Medell%C3%ADn_desde_Los_Colores,_2017.jpg" } },
   arvi: { ...p('arvi'), credit: { author: "Alejandro Rojas (SajoR)", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Metrocable_del_Parque_Arv%C3%AD_-_Medell%C3%ADn.jpg" } },
