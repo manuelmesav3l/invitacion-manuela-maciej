@@ -105,6 +105,7 @@ const en = {
     kicker: 'WELCOME TO',
     title: { initial: 'M', rest: 'EDELLÍN' },
     sub: 'SELF FUNDED',
+    photosTab: 'PHOTOS',
     mapsLabel: 'MAPS LOCATION',
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Medell%C3%ADn+points+of+interest', // TODO
     polaroids: [
@@ -316,6 +317,7 @@ const pl: typeof en = {
     kicker: 'WITAMY W',
     title: { initial: 'M', rest: 'EDELLÍN' },
     sub: 'MIASTO WIECZNEJ WIOSNY',
+    photosTab: 'ZDJĘCIA',
     mapsLabel: 'LOKALIZACJA NA MAPIE',
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Medell%C3%ADn+points+of+interest',
     polaroids: [

@@ -1,4 +1,4 @@
-import { useId, useRef, useState, type KeyboardEvent } from 'react'
+import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import { useReducedMotion } from 'motion/react'
 import { Reveal } from './Reveal'
 import { guidePhotos } from '../content/guidePhotos'
@@ -92,12 +92,13 @@ function PickCard({ pick, open, onToggle, topLabel, reduce }: { pick: Pick; open
 }
 
 /** Medellín guide: tabs (things to do / day trips) over single-open accordion cards. */
-export function MedellinGuide() {
+export function MedellinGuide({ gallery }: { gallery: ReactNode }) {
   const { t } = useLanguage()
   const reduce = useReducedMotion()
   const tabs = [
     { key: 'todo', label: t.todo.tab, intro: t.todo.intro, items: t.todo.items as Pick[], top: '' },
     { key: 'trips', label: t.trips.tab, intro: t.trips.intro, items: t.trips.items as Pick[], top: t.trips.topPick },
+    { key: 'photos', label: t.medellin.photosTab, intro: '', items: [] as Pick[], top: '' },
   ] as const
   const [active, setActive] = useState(0)
   const [openKey, setOpenKey] = useState<string | null>(tabs[0].items[0].key)
@@ -106,7 +107,7 @@ export function MedellinGuide() {
 
   const select = (i: number) => {
     setActive(i)
-    setOpenKey(tabs[i].items[0].key)
+    setOpenKey(tabs[i].items[0]?.key ?? null)
   }
   const onKey = (e: KeyboardEvent, i: number) => {
     const next = e.key === 'ArrowRight' ? (i + 1) % tabs.length : e.key === 'ArrowLeft' ? (i + tabs.length - 1) % tabs.length : -1
@@ -118,8 +119,8 @@ export function MedellinGuide() {
   const cur = tabs[active]
 
   return (
-    <div>
-      <div role="tablist" aria-label={t.medellin.kicker} className="mx-auto grid max-w-[440px] grid-cols-2 rounded-full border border-gold/60 bg-cream/70 p-1">
+    <div className="mt-8">
+      <div role="tablist" aria-label={t.medellin.kicker} className="mx-auto grid max-w-[460px] grid-cols-3 rounded-full border border-gold/60 bg-cream/70 p-1">
         {tabs.map((tab, i) => (
           <button
             key={tab.key}
@@ -132,7 +133,7 @@ export function MedellinGuide() {
             tabIndex={active === i ? 0 : -1}
             onClick={() => select(i)}
             onKeyDown={(e) => onKey(e, i)}
-            className={`label flex min-h-[46px] items-center justify-center rounded-full px-3 py-2 text-center !text-[10px] !leading-[1.5] sm:!text-[11px] font-medium transition-colors duration-300 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
+            className={`label flex min-h-[46px] items-center justify-center rounded-full px-1.5 py-2 text-center !text-[9px] !tracking-[0.14em] !leading-[1.5] sm:!text-[10px] font-medium transition-colors duration-300 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
               active === i ? 'bg-olive-deep text-[#f8f5ee] shadow-sm' : 'text-olive-deep hover:bg-gold/10'
             }`}
           >
@@ -143,19 +144,23 @@ export function MedellinGuide() {
 
       <div id={`${uid}-panel`} role="tabpanel" aria-labelledby={`${uid}-tab-${cur.key}`}>
         <Reveal key={cur.key}>
-          <p className="label mt-6 !text-[10px] !tracking-[0.22em] text-gold">{cur.intro}</p>
-          <ul className="mx-auto mt-5 max-w-[460px] space-y-3 text-left">
-            {cur.items.map((p) => (
-              <PickCard
-                key={p.key}
-                pick={p}
-                open={openKey === p.key}
-                onToggle={() => setOpenKey(openKey === p.key ? null : p.key)}
-                topLabel={cur.top}
-                reduce={reduce}
-              />
-            ))}
-          </ul>
+          {cur.key === 'photos' ? gallery : (
+            <>
+              <p className="label mt-6 !text-[10px] !tracking-[0.22em] text-gold">{cur.intro}</p>
+              <ul className="mx-auto mt-5 max-w-[460px] space-y-3 text-left">
+                {cur.items.map((p) => (
+                  <PickCard
+                    key={p.key}
+                    pick={p}
+                    open={openKey === p.key}
+                    onToggle={() => setOpenKey(openKey === p.key ? null : p.key)}
+                    topLabel={cur.top}
+                    reduce={reduce}
+                  />
+                ))}
+              </ul>
+            </>
+          )}
         </Reveal>
       </div>
     </div>
