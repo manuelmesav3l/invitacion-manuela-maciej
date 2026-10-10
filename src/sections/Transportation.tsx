@@ -4,24 +4,25 @@ import { Reveal } from '../components/Reveal'
 import { SectionTitle } from '../components/SectionTitle'
 import { useLanguage } from '../context/LanguageContext'
 
+/** Pick-up information: own section, right after "Where to stay". */
 export function Transportation() {
   const { t } = useLanguage()
   const x = t.transport
   return (
-    <section className="bg-cream pb-16 pt-14" aria-label={`${x.title.initial}${x.title.rest}`}>
+    <section className="bg-cream pb-16 pt-10" aria-label={`${x.title.initial}${x.title.rest}`}>
       <div className="mx-auto max-w-[560px] px-5 text-center">
         <SectionTitle initial={x.title.initial} rest={x.title.rest} compact color="text-olive-deep" />
         <Reveal className="mt-8 flex flex-col items-center gap-5 sm:flex-row sm:justify-center sm:gap-10">
           <div className="flex flex-col items-center gap-3">
             <img
-              src={asset('assets/venue-icon-pin.webp')}
+              src={asset('assets/venue-icon-pin-alpha.webp')}
               width={162}
               height={232}
               alt=""
               aria-hidden="true"
               loading="lazy"
               decoding="async"
-              className="blend-multiply h-16 w-auto select-none object-contain sm:h-[76px]"
+              className="h-16 w-auto select-none object-contain sm:h-[76px]"
             />
             <PillButton href={x.mapsUrl}>{x.mapsLabel}</PillButton>
           </div>

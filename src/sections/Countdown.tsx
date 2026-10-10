@@ -41,6 +41,8 @@ export function Countdown() {
   const [counted, setCounted] = useState(false)
 
   useEffect(() => {
+    if (!inView) return
+
     let id: ReturnType<typeof setInterval> | null = null
     const start = () => {
       if (!id) id = setInterval(() => setReal(remaining()), 1000)
@@ -67,7 +69,7 @@ export function Countdown() {
       stop()
       document.removeEventListener('visibilitychange', onVisibility)
     }
-  }, [])
+  }, [inView])
 
   useEffect(() => {
     if (!inView) return

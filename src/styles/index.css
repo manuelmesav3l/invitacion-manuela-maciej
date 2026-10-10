@@ -90,7 +90,18 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
 
-html { -webkit-text-size-adjust: 100%; }
+html {
+  -webkit-text-size-adjust: 100%;
+  color-scheme: light; /* keep the native scrollbar/track light even when the OS is in dark mode */
+  scrollbar-gutter: stable; /* no layout jump when a modal locks the page scroll */
+  scrollbar-width: thin;
+  scrollbar-color: #AD915C #E8D7C5; /* thumb gold on sand track (Firefox + Chromium 121+) */
+}
+/* Chromium/Safari fallback: slim gold thumb that blends into the sand page */
+html::-webkit-scrollbar { width: 10px; }
+html::-webkit-scrollbar-track { background: #E8D7C5; }
+html::-webkit-scrollbar-thumb { background: #AD915C; border-radius: 999px; border: 2px solid #E8D7C5; }
+html::-webkit-scrollbar-thumb:hover { background: #937848; }
 body {
   margin: 0;
   background: var(--sand);
@@ -155,3 +166,12 @@ img { display: block; max-width: 100%; }
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Scrollbars inside modal sheets: transparent track so they blend with the panel colour */
+.sheet-scroll { scrollbar-width: thin; scrollbar-color: #AD915C transparent; }
+.sheet-scroll::-webkit-scrollbar { width: 8px; }
+.sheet-scroll::-webkit-scrollbar-track { background: transparent; margin-block: 18px; }
+.sheet-scroll::-webkit-scrollbar-thumb { background: #AD915C; border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
+.sheet-scroll-olive { scrollbar-color: rgba(250, 245, 238, 0.5) transparent; }
+.sheet-scroll-olive::-webkit-scrollbar-thumb { background: rgba(250, 245, 238, 0.5); background-clip: padding-box; }
+.sheet-scroll-olive::-webkit-scrollbar-thumb:hover { background: rgba(250, 245, 238, 0.75); background-clip: padding-box; }

@@ -49,6 +49,7 @@ const en = {
       { key: 'botero', alt: 'Sculptures by Fernando Botero at Botero Plaza', src: asset('assets/welcome-botero.webp'), tone: ['#c9a06a', '#7a6a58'] },
     ],
   },
+  ui: { close: 'Close' },
   lightbox: {
     dialogLabel: 'Enlarged photo viewer',
     close: 'Close photo',
@@ -74,6 +75,7 @@ const en = {
   programme: {
     title: { script: 'Wedding', rest: 'PROGRAMME' },
     ariaLabel: 'Wedding programme',
+    illustrations: { bus: 'Shuttle bus illustration', disco: 'Disco ball illustration', sparkler: 'Sparklers illustration' },
     events: [
       { key: 'shuttle', label: 'SHUTTLE', time: '3:00', side: 'below' },
       { key: 'ceremony', label: 'CEREMONY', time: '3:00', side: 'above' },
@@ -105,6 +107,7 @@ const en = {
     kicker: 'WELCOME TO',
     title: { initial: 'M', rest: 'EDELLÍN' },
     sub: 'SELF FUNDED',
+    photosTab: 'PHOTOS',
     mapsLabel: 'MAPS LOCATION',
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Medell%C3%ADn+points+of+interest', // TODO
     polaroids: [
@@ -121,7 +124,7 @@ const en = {
     placeName: 'LETTERA HOTEL',
     pickup: 'PICK-UP POINT',
     mapsLabel: 'MAPS LOCATION',
-    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Lettera+Hotel+Medell%C3%ADn',
+    mapsUrl: 'https://maps.app.goo.gl/ppPuUyN557i58dhy8',
   },
   gifts: {
     title: { initial: 'G', rest: 'IFTS' },
@@ -131,34 +134,37 @@ const en = {
     title: 'Where to stay',
     body: "We've carefully selected a collection of our preferred hotels to help you plan your stay in Medellín. Of course, you're welcome to choose any hotel, Airbnb, or holiday apartment that best suits your plans.",
     websiteLabel: 'WEBSITE',
+    mapsLabel: 'LOCATION',
     hotels: [
-      { key: 'lettera', name: 'LETTERA HOTEL', area: 'POBLADO', url: '' }, // TODO: website + discount code (pending from Isabel)
-      { key: 'lagoon', name: 'LAGOON HOTEL', area: 'POBLADO', url: '' }, // TODO: website + discount code (pending from Isabel)
+      { key: 'lettera', name: 'LETTERA HOTEL', area: 'POBLADO', url: '', photo: asset('assets/stay-lettera.webp'), mapsUrl: 'https://maps.app.goo.gl/ppPuUyN557i58dhy8' }, // TODO: website + discount code (pending from Isabel)
+      { key: 'lagoon', name: 'LAGOON HOTEL', area: 'POBLADO', url: '', photo: asset('assets/stay-lagoon.webp'), mapsUrl: 'https://maps.app.goo.gl/jTmoUAspiK2pSoya9' }, // TODO: website + discount code (pending from Isabel)
     ],
   },
   todo: {
+    tab: 'THINGS TO DO',
     kicker: 'THINGS TO DO IN',
     title: { initial: 'M', rest: 'EDELLÍN' },
     intro: 'Our picks for experiencing the city.',
     items: [
-      { key: 'comuna13', icon: '🎨🚡', title: 'Comuna 13 & Metrocable', lead: 'Art, music & Medellín’s story.', body: 'Explore colorful streets, incredible street art, music and the story of one of Medellín’s most transformed neighborhoods. One of the best ways to do that is by Metrocable. See Medellín from above.' },
-      { key: 'provenza', icon: '🍸', title: 'Provenza & El Poblado', lead: 'Restaurants, cafés & nightlife.', body: 'A great area to wander around, grab a coffee, have dinner, enjoy cocktails and experience Medellín after dark.' },
-      { key: 'laureles', icon: '🌴', title: 'Laureles', lead: 'Eat, drink & live like a local.', body: 'A more relaxed side of Medellín, known for its restaurants, cafés, bars and local atmosphere.' },
-      { key: 'arvi', icon: '🌿', title: 'Parque Arví', lead: 'Escape into the mountains.', body: 'Head up into the hills for fresh air, greenery and beautiful views — a completely different side of Medellín.' },
-      { key: 'botero', icon: '🎨', title: 'Plaza Botero & Museo de Antioquia', lead: 'Art in the heart of the city.', body: 'See the iconic sculptures of Fernando Botero and explore one of Medellín’s most important cultural spots.' },
-      { key: 'coffee', icon: '☕', title: 'Colombian Coffee', lead: 'You’re in Colombia, after all.', body: 'Visit one of Medellín’s specialty coffee shops or, if you have more time, experience a coffee farm surrounded by mountains and greenery.' },
-      { key: 'food', icon: '🍴', title: 'Try the local food', lead: 'Come hungry.', body: 'Arepas, bandeja paisa, empanadas, chicharrón, buñuelos… There’s plenty to try, so don’t leave Colombia without tasting some of the local favorites.' },
+      { key: 'comuna13', title: 'Comuna 13 & Metrocable', lead: 'Art, music & Medellín’s story.', body: 'Explore colorful streets, incredible street art, music and the story of one of Medellín’s most transformed neighborhoods. One of the best ways to do that is by Metrocable. See Medellín from above.' },
+      { key: 'provenza', title: 'Provenza & El Poblado', lead: 'Restaurants, cafés & nightlife.', body: 'A great area to wander around, grab a coffee, have dinner, enjoy cocktails and experience Medellín after dark.' },
+      { key: 'laureles', title: 'Laureles', lead: 'Eat, drink & live like a local.', body: 'A more relaxed side of Medellín, known for its restaurants, cafés, bars and local atmosphere.' },
+      { key: 'arvi', title: 'Parque Arví', lead: 'Escape into the mountains.', body: 'Head up into the hills for fresh air, greenery and beautiful views — a completely different side of Medellín.' },
+      { key: 'botero', title: 'Plaza Botero & Museo de Antioquia', lead: 'Art in the heart of the city.', body: 'See the iconic sculptures of Fernando Botero and explore one of Medellín’s most important cultural spots.' },
+      { key: 'coffee', title: 'Colombian Coffee', lead: 'You’re in Colombia, after all.', body: 'Visit one of Medellín’s specialty coffee shops or, if you have more time, experience a coffee farm surrounded by mountains and greenery.' },
+      { key: 'food', title: 'Try the local food', lead: 'Come hungry.', body: 'Arepas, bandeja paisa, empanadas, chicharrón, buñuelos… There’s plenty to try, so don’t leave Colombia without tasting some of the local favorites.' },
     ],
   },
   trips: {
+    tab: 'DAY TRIP',
     title: { initial: 'D', first: 'AY', second: 'TRIP' },
     intro: 'Our picks for trips around Medellín.',
     topPick: 'Our top recommendation.',
     items: [
-      { key: 'guatape', icon: '💛', top: true, title: 'Guatapé', lead: 'The one you shouldn’t miss.', body: 'Explore the colorful town, admire its famous zócalos and climb — or simply admire — La Piedra del Peñol for incredible views over the surrounding landscape.' },
-      { key: 'santafe', icon: '🤍', top: false, title: 'Santa Fe de Antioquia', lead: 'A taste of colonial Colombia.', body: 'Wander through cobblestone streets, whitewashed colonial buildings and historic plazas, and discover a different side of Antioquia.' },
-      { key: 'coffeecountry', icon: '☕🌿', top: false, title: 'Coffee Country', lead: 'A day among the coffee fields.', body: 'Head into the Antioquian countryside to discover how Colombian coffee is grown, harvested and prepared, surrounded by mountains and endless green.' },
-      { key: 'jardin', icon: '🌿', top: false, title: 'Jardín', lead: 'For those with more time.', body: 'A beautiful mountain town surrounded by coffee country, nature and traditional Antioquian architecture. A little farther from Medellín, but worth considering if you’re staying a little longer.' }, // TODO_COPY: end of sentence completed by us, confirm with client
+      { key: 'guatape', top: true, title: 'Guatapé', lead: 'The one you shouldn’t miss.', body: 'Explore the colorful town, admire its famous zócalos and climb — or simply admire — La Piedra del Peñol for incredible views over the surrounding landscape.' },
+      { key: 'santafe', top: false, title: 'Santa Fe de Antioquia', lead: 'A taste of colonial Colombia.', body: 'Wander through cobblestone streets, whitewashed colonial buildings and historic plazas, and discover a different side of Antioquia.' },
+      { key: 'coffeecountry', top: false, title: 'Coffee Country', lead: 'A day among the coffee fields.', body: 'Head into the Antioquian countryside to discover how Colombian coffee is grown, harvested and prepared, surrounded by mountains and endless green.' },
+      { key: 'jardin', top: false, title: 'Jardín', lead: 'For those with more time.', body: 'A beautiful mountain town surrounded by coffee country, nature and traditional Antioquian architecture. A little farther from Medellín, but worth considering if you’re staying a little longer.' }, // TODO_COPY: end of sentence completed by us, confirm with client
     ],
   },
   thanks: {
@@ -172,6 +178,7 @@ const en = {
     by: 'by',
     deadline: '15 DEC 2026', // TODO: confirm — max date, ~2 months after the invitation is received
     deadlineNote: 'An exception is made for QR Employees.', // TODO: confirm wording with client
+    note: 'A LITTLE NOTE',
     plusOnes: 'Please note that plus ones are only included, if specifically indicated on your invitation.',
     needLink: 'Please open your personal invitation link to reply.',
     errorSubmit: 'We could not send your response. Please check your personal link and try again.',
@@ -257,6 +264,7 @@ const pl: typeof en = {
       { key: 'botero', alt: 'Rzeźby Fernando Botero na Placu Botero', src: asset('assets/welcome-botero.webp'), tone: ['#c9a06a', '#7a6a58'] },
     ],
   },
+  ui: { close: 'Zamknij' },
   lightbox: {
     dialogLabel: 'Powiększenie zdjęcia',
     close: 'Zamknij zdjęcie',
@@ -282,6 +290,7 @@ const pl: typeof en = {
   programme: {
     title: { script: 'Program', rest: 'UROCZYSTOŚCI' },
     ariaLabel: 'Program Uroczystości',
+    illustrations: { bus: 'Ilustracja autobusu', disco: 'Ilustracja kuli dyskotekowej', sparkler: 'Ilustracja zimnych ogni' },
     events: [
       { key: 'shuttle', label: 'TRANSPORT', time: '15:00', side: 'below' },
       { key: 'ceremony', label: 'CEREMONIA', time: '15:00', side: 'above' },
@@ -314,6 +323,7 @@ const pl: typeof en = {
     kicker: 'WITAMY W',
     title: { initial: 'M', rest: 'EDELLÍN' },
     sub: 'MIASTO WIECZNEJ WIOSNY',
+    photosTab: 'ZDJĘCIA',
     mapsLabel: 'LOKALIZACJA NA MAPIE',
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Medell%C3%ADn+points+of+interest',
     polaroids: [
@@ -330,7 +340,7 @@ const pl: typeof en = {
     placeName: 'LETTERA HOTEL',
     pickup: 'PUNKT ODBIORU',
     mapsLabel: 'LOKALIZACJA',
-    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Lettera+Hotel+Medell%C3%ADn',
+    mapsUrl: 'https://maps.app.goo.gl/ppPuUyN557i58dhy8',
   },
   gifts: {
     title: { initial: 'P', rest: 'ODARUNKI' },
@@ -340,34 +350,37 @@ const pl: typeof en = {
     title: 'Gdzie się zatrzymać',
     body: 'Wybraliśmy dokładnie listę miejsc, aby ułatwić pobyt w Medellín. Oczywiście to są tylko nasze sugestie. Na liście są zarówno hotele, jak i apartamenty, ale finalny wybór zależy od prywatnych preferencji, planów oraz długości pobytu.',
     websiteLabel: 'STRONA',
+    mapsLabel: 'LOKALIZACJA',
     hotels: [
-      { key: 'lettera', name: 'LETTERA HOTEL', area: 'POBLADO', url: '' },
-      { key: 'lagoon', name: 'LAGOON HOTEL', area: 'POBLADO', url: '' },
+      { key: 'lettera', name: 'LETTERA HOTEL', area: 'POBLADO', url: '', photo: asset('assets/stay-lettera.webp'), mapsUrl: 'https://maps.app.goo.gl/ppPuUyN557i58dhy8' },
+      { key: 'lagoon', name: 'LAGOON HOTEL', area: 'POBLADO', url: '', photo: asset('assets/stay-lagoon.webp'), mapsUrl: 'https://maps.app.goo.gl/jTmoUAspiK2pSoya9' },
     ],
   },
   todo: {
+    tab: 'CO ROBIĆ',
     kicker: 'CO ROBIĆ W',
     title: { initial: 'M', rest: 'EDELLÍN' },
     intro: 'Nasze propozycje, jak poznać miasto.', // TODO_COPY: client gave no PL for this line
     items: [
-      { key: 'comuna13', icon: '🎨🚡', title: 'Comuna 13 & Metrocable', lead: 'Sztuka, muzyka i historia Medellín.', body: 'Kolorowe uliczki, niesamowita sztuka uliczna, muzyka i historia jednej z najbardziej niezwykłych dzielnic Medellín. Jednym z najlepszych sposobów na zobaczenie 13 Dzielnicy jest przejażdżka kolejką linową nad Medellín - Metrocable.' },
-      { key: 'provenza', icon: '🍸', title: 'Provenza & El Poblado', lead: 'Restauracje, kawiarnie i życie nocne.', body: 'Idealne miejsce na spacer, dobrą kawę, kolację, drinka i poznanie Medellín po zmroku.' },
-      { key: 'laureles', icon: '🌴', title: 'Laureles', lead: 'Jedzenie, drinki i lokalna atmosfera.', body: 'Spokojniejsza część Medellín, pełna restauracji, kawiarni, barów i miejsc, w których można poczuć bardziej lokalny klimat miasta.' },
-      { key: 'arvi', icon: '🌿', title: 'Parque Arví', lead: 'Ucieczka w góry.', body: 'Świeże powietrze, dużo zieleni i piękne widoki — zupełnie inna, bardziej naturalna strona Medellín.' },
-      { key: 'botero', icon: '🎨', title: 'Plaza Botero & Museo de Antioquia', lead: 'Sztuka w sercu miasta.', body: 'Zobaczcie charakterystyczne rzeźby Fernando Botero i odwiedźcie jedno z najważniejszych miejsc związanych ze sztuką i kulturą Medellín.' },
-      { key: 'coffee', icon: '☕', title: 'Kolumbijska kawa', lead: 'W końcu jesteście w Kolumbii!', body: 'Odwiedźcie jedną z lokalnych kawiarni speciality albo, jeśli macie więcej czasu, wybierzcie się na plantację kawy wśród gór i bujnej zieleni.' },
-      { key: 'food', icon: '🍴', title: 'Spróbujcie lokalnej kuchni', lead: 'Przyjedźcie głodni.', body: 'Arepas, bandeja paisa, empanadas, chicharrón, buñuelos… Jest czego próbować, więc nie wyjeżdżajcie z Kolumbii bez skosztowania lokalnych specjałów.' },
+      { key: 'comuna13', title: 'Comuna 13 & Metrocable', lead: 'Sztuka, muzyka i historia Medellín.', body: 'Kolorowe uliczki, niesamowita sztuka uliczna, muzyka i historia jednej z najbardziej niezwykłych dzielnic Medellín. Jednym z najlepszych sposobów na zobaczenie 13 Dzielnicy jest przejażdżka kolejką linową nad Medellín - Metrocable.' },
+      { key: 'provenza', title: 'Provenza & El Poblado', lead: 'Restauracje, kawiarnie i życie nocne.', body: 'Idealne miejsce na spacer, dobrą kawę, kolację, drinka i poznanie Medellín po zmroku.' },
+      { key: 'laureles', title: 'Laureles', lead: 'Jedzenie, drinki i lokalna atmosfera.', body: 'Spokojniejsza część Medellín, pełna restauracji, kawiarni, barów i miejsc, w których można poczuć bardziej lokalny klimat miasta.' },
+      { key: 'arvi', title: 'Parque Arví', lead: 'Ucieczka w góry.', body: 'Świeże powietrze, dużo zieleni i piękne widoki — zupełnie inna, bardziej naturalna strona Medellín.' },
+      { key: 'botero', title: 'Plaza Botero & Museo de Antioquia', lead: 'Sztuka w sercu miasta.', body: 'Zobaczcie charakterystyczne rzeźby Fernando Botero i odwiedźcie jedno z najważniejszych miejsc związanych ze sztuką i kulturą Medellín.' },
+      { key: 'coffee', title: 'Kolumbijska kawa', lead: 'W końcu jesteście w Kolumbii!', body: 'Odwiedźcie jedną z lokalnych kawiarni speciality albo, jeśli macie więcej czasu, wybierzcie się na plantację kawy wśród gór i bujnej zieleni.' },
+      { key: 'food', title: 'Spróbujcie lokalnej kuchni', lead: 'Przyjedźcie głodni.', body: 'Arepas, bandeja paisa, empanadas, chicharrón, buñuelos… Jest czego próbować, więc nie wyjeżdżajcie z Kolumbii bez skosztowania lokalnych specjałów.' },
     ],
   },
   trips: {
+    tab: 'WYCIECZKI JEDNODNIOWE',
     title: { initial: 'W', first: 'YCIECZKI', second: 'JEDNODNIOWE' },
     intro: 'Nasze propozycje wycieczek z Medellín.', // TODO_COPY: client gave no PL for this line
     topPick: 'Nasza rekomendacja numer jeden.',
     items: [
-      { key: 'guatape', icon: '💛', top: true, title: 'Guatapé', lead: 'Tego miejsca naprawdę nie można pominąć.', body: 'Kolorowe miasteczko, słynne zócalos i niesamowite widoki z La Piedra del Peñol. Możecie wejść na szczyt lub po prostu podziwiać krajobraz — widoki zdecydowanie są tego warte.' },
-      { key: 'santafe', icon: '🤍', top: false, title: 'Santa Fe de Antioquia', lead: 'Kolonialna strona Kolumbii.', body: 'Spacerujcie po brukowanych uliczkach, zobaczcie białe kolonialne budynki i historyczne place oraz odkryjcie inną stronę Antioquii.' }, // TODO_COPY: end of sentence completed by us, confirm with client
-      { key: 'coffeecountry', icon: '☕🌿', top: false, title: 'Region kawowy', lead: 'Dzień wśród plantacji kawy.', body: 'Wybierzcie się na kolumbijską wieś, aby zobaczyć, jak uprawia się, zbiera i przygotowuje kawę — wszystko w otoczeniu gór i niesamowitej zieleni.' },
-      { key: 'jardin', icon: '🌿', top: false, title: 'Jardín', lead: 'Dla tych, którzy zostają na dłużej.', body: 'Piękne górskie miasteczko otoczone plantacjami kawy, naturą i tradycyjną architekturą Antioquii. Jest trochę dalej od Medellín, ale zdecydowanie warto je rozważyć przy dłuższym pobycie.' }, // TODO_COPY: end of sentence completed by us, confirm with client
+      { key: 'guatape', top: true, title: 'Guatapé', lead: 'Tego miejsca naprawdę nie można pominąć.', body: 'Kolorowe miasteczko, słynne zócalos i niesamowite widoki z La Piedra del Peñol. Możecie wejść na szczyt lub po prostu podziwiać krajobraz — widoki zdecydowanie są tego warte.' },
+      { key: 'santafe', top: false, title: 'Santa Fe de Antioquia', lead: 'Kolonialna strona Kolumbii.', body: 'Spacerujcie po brukowanych uliczkach, zobaczcie białe kolonialne budynki i historyczne place oraz odkryjcie inną stronę Antioquii.' }, // TODO_COPY: end of sentence completed by us, confirm with client
+      { key: 'coffeecountry', top: false, title: 'Region kawowy', lead: 'Dzień wśród plantacji kawy.', body: 'Wybierzcie się na kolumbijską wieś, aby zobaczyć, jak uprawia się, zbiera i przygotowuje kawę — wszystko w otoczeniu gór i niesamowitej zieleni.' },
+      { key: 'jardin', top: false, title: 'Jardín', lead: 'Dla tych, którzy zostają na dłużej.', body: 'Piękne górskie miasteczko otoczone plantacjami kawy, naturą i tradycyjną architekturą Antioquii. Jest trochę dalej od Medellín, ale zdecydowanie warto je rozważyć przy dłuższym pobycie.' }, // TODO_COPY: end of sentence completed by us, confirm with client
     ],
   },
   thanks: {
@@ -381,6 +394,7 @@ const pl: typeof en = {
     by: 'do',
     deadline: '15/12/2026',
     deadlineNote: 'Wyjątek dotyczy pracowników QR.',
+    note: 'KRÓTKA UWAGA',
     plusOnes: 'Uwaga: Informacja o osobie towarzyszącej, uwzględniona w indywidualnym zaproszeniu.',
     needLink: 'Aby odpowiedzieć, otwórz swój osobisty link do zaproszenia.',
     errorSubmit: 'Nie udało się wysłać odpowiedzi. Sprawdź swój osobisty link i spróbuj ponownie.',

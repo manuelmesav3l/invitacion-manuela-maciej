@@ -102,7 +102,7 @@ export function Programme() {
             src={asset("assets/programme-bus.webp")}
             width={279}
             height={171}
-            alt="Shuttle bus illustration"
+            alt={t.programme.illustrations.bus}
             loading="lazy"
             decoding="async"
             className="blend-multiply tl-icon tl-bus absolute left-[0%] top-[44px] sm:top-[50px] w-[24%] sm:w-[22%] max-w-[130px] h-auto object-contain select-none pointer-events-none"
@@ -113,7 +113,7 @@ export function Programme() {
             src={asset("assets/programme-disco.webp")}
             width={280}
             height={271}
-            alt="Disco ball illustration"
+            alt={t.programme.illustrations.disco}
             loading="lazy"
             decoding="async"
             className="blend-multiply tl-icon tl-disco absolute left-[59%] sm:left-[59.5%] top-[28px] sm:top-[8px] w-[23%] sm:w-[21%] max-w-[115px] h-auto object-contain select-none pointer-events-none"
@@ -124,7 +124,7 @@ export function Programme() {
             src={asset("assets/programme-sparkler.webp")}
             width={283}
             height={236}
-            alt="Sparklers illustration"
+            alt={t.programme.illustrations.sparkler}
             loading="lazy"
             decoding="async"
             className="blend-multiply tl-icon tl-spark absolute left-[88.4%] -translate-x-1/2 top-[calc(50%+45px)] sm:top-[calc(50%+51px)] w-[24%] sm:w-[22%] max-w-[125px] h-auto object-contain select-none pointer-events-none"

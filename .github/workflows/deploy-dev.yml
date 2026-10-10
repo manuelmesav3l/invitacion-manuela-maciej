@@ -26,6 +26,11 @@ jobs:
       - run: npm ci
       - run: npx tsc --noEmit
       - run: npx vite build --base=/${{ github.event.repository.name }}/
+        env:
+          # Public by design (anon/publishable key; access is enforced by RLS + RPC in the database).
+          # Defined as repository *variables* (Settings > Secrets and variables > Actions > Variables).
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
       - run: cp dist/index.html dist/404.html
       - uses: actions/upload-pages-artifact@v3
         with:

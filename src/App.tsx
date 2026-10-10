@@ -5,10 +5,10 @@ import { Hero } from './sections/Hero'
 import { Medellin } from './sections/Medellin'
 import { Programme } from './sections/Programme'
 import { Venue } from './sections/Venue'
-import { Transportation } from './sections/Transportation'
 import { Gifts } from './sections/Gifts'
+import { RsvpSection } from './sections/RsvpSection'
+import { Transportation } from './sections/Transportation'
 import { WhereToStay } from './sections/WhereToStay'
-import { DayTrips, ThingsToDo } from './sections/ThingsToDo'
 import { ThankYou } from './sections/ThankYou'
 import { Welcome } from './sections/Welcome'
 import { StackCard } from './components/StackCard'
@@ -36,13 +36,12 @@ export default function App() {
           <Welcome />
           <Venue onClimate={() => setClimate(true)} />
           <Programme />
+          <WhereToStay />
+          <Transportation />
           <DressCode />
           <Medellin />
-          <Transportation />
           <Gifts />
-          <WhereToStay />
-          <ThingsToDo />
-          <DayTrips />
+          <RsvpSection onRsvp={() => setRsvp(true)} />
           <ThankYou />
         </StackCard>
         <Suspense fallback={null}>

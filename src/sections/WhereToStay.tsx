@@ -18,19 +18,34 @@ export function WhereToStay() {
           {s.hotels.map((h) => (
             <li key={h.key}>
               <Reveal className="flex h-full flex-col items-center gap-3 rounded-[4px] border border-olive-deep/20 bg-white/40 px-5 py-6">
-                <img
-                  src={asset('assets/venue-icon-pin.webp')}
-                  width={162}
-                  height={232}
-                  alt=""
-                  aria-hidden="true"
-                  loading="lazy"
-                  decoding="async"
-                  className="blend-multiply h-12 w-auto select-none object-contain"
-                />
+                {h.photo ? (
+                  <img
+                    src={h.photo}
+                    width={720}
+                    height={540}
+                    alt={h.name}
+                    loading="lazy"
+                    decoding="async"
+                    className="mb-1 aspect-[4/3] w-full rounded-[3px] object-cover shadow-[0_8px_20px_-10px_rgba(60,45,20,.5)]"
+                  />
+                ) : (
+                  <img
+                    src={asset('assets/venue-icon-pin-alpha.webp')}
+                    width={162}
+                    height={232}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    decoding="async"
+                    className="h-12 w-auto select-none object-contain"
+                  />
+                )}
                 <p className="label !text-[10px] !tracking-[0.3em] text-olive-deep">{h.area}</p>
                 <p className="m-0 font-serif text-[clamp(20px,5.4vw,23px)] tracking-[0.06em] text-olive-deep">{h.name}</p>
-                {h.url && <PillButton href={h.url}>{s.websiteLabel}</PillButton>}
+                <div className="flex flex-wrap items-center justify-center gap-3">
+                  {h.mapsUrl && <PillButton href={h.mapsUrl}>{s.mapsLabel}</PillButton>}
+                  {h.url && <PillButton href={h.url}>{s.websiteLabel}</PillButton>}
+                </div>
               </Reveal>
             </li>
           ))}

@@ -22,7 +22,7 @@ export function ClimateSheet({ open, onClose }: { open: boolean; onClose: () => 
       : c.descLive
 
   return (
-    <Sheet open={open} onClose={onClose} label={c.dialogLabel} closeLabel={t.rsvp.labels.close}>
+    <Sheet open={open} onClose={onClose} label={c.dialogLabel} closeLabel={t.ui.close}>
       <div className="px-8 pb-10 pt-14 text-center text-olive-deep">
         <p className="label text-gold">{c.subtitle}</p>
         <h2 className="mt-2 font-script text-[54px] font-normal leading-none">{c.title}</h2>

@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback, lazy, Suspense } from 'react'
 import { useReducedMotion, motion } from 'motion/react'
 import { PhotoSlot } from '../components/PhotoSlot'
 import { Reveal } from '../components/Reveal'
-import { ImageLightbox } from '../components/ImageLightbox'
 import { useLanguage } from '../context/LanguageContext'
 import { gsap } from '../lib/scroll'
+
+const ImageLightbox = lazy(() => import('../components/ImageLightbox').then((m) => ({ default: m.ImageLightbox })))
 
 const OFFSETS = [-6, 8, -6] // parallax yPercent: centre travels differently than the sides
 // The client asked for BIENVENIDOS in both language versions.
@@ -174,14 +175,18 @@ export function Welcome() {
         </div>
       </div>
 
-      {/* Fullscreen Lightbox Modal */}
-      <ImageLightbox
-        images={t.welcome.photos}
-        currentIndex={lightboxIndex}
-        onIndexChange={setLightboxIndex}
-        open={lightboxOpen}
-        onClose={() => setLightboxOpen(false)}
-      />
+      {/* Fullscreen Lightbox Modal (code-split on demand) */}
+      {lightboxOpen && (
+        <Suspense fallback={null}>
+          <ImageLightbox
+            images={t.welcome.photos}
+            currentIndex={lightboxIndex}
+            onIndexChange={setLightboxIndex}
+            open={lightboxOpen}
+            onClose={() => setLightboxOpen(false)}
+          />
+        </Suspense>
+      )}
     </section>
   )
 }

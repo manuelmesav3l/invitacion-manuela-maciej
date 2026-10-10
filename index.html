@@ -14,9 +14,14 @@
     <meta property="og:description" content="Thursday, 06 May 2027 · Casa Primavera, Medellín. Kindly RSVP." />
     <meta property="og:image" content="/assets/og-image.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Cormorant+SC:wght@400;500&family=Pinyon+Script&display=swap" rel="stylesheet" />
+    <!-- Preload critical fonts for instant, layout-shift-free typography rendering -->
+    <link rel="preload" href="/fonts/BelfastSerial-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/CormorantGaramond-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/PinyonScript-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+    <!-- Preload LCP hero image and SVG lockup for instant visual delivery -->
+    <link rel="preload" href="/assets/hero-couple-transparent.webp" as="image" type="image/webp" fetchpriority="high" />
+    <link rel="preload" href="/assets/hero-names.svg" as="image" type="image/svg+xml" />
   </head>
   <body>
     <div id="root"></div>
