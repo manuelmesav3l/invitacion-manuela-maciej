@@ -12,7 +12,7 @@ const p = (key: string) => ({ src: asset(`assets/guide/${key}.webp`), thumb: ass
 export const guidePhotos: Record<string, GuidePhoto> = {
   comuna13: p('comuna13'),
   botero: p('botero-dome'), // user-supplied photo (Palacio de la Cultura dome at dusk)
-  provenza: { ...p('provenza'), credit: { author: "José Luiz", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Carrera_35_-_Provenza_-_Medell%C3%ADn_-_Colombia_2024_(2).jpg" } },
+  provenza: p('provenza-arch'), // user-supplied photo (Provenza arch at night)
   laureles: p('laureles-pond'), // user-supplied photo (pond in Laureles)
   arvi: p('arvi-pond'), // user-supplied photo (lake in Parque Arví)
   coffee: { ...p('coffee'), credit: { author: "TitiNicola", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Caf%C3%A9_Colombiano.jpg" } },
