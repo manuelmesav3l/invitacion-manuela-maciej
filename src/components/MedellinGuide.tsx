@@ -138,11 +138,16 @@ export function MedellinGuide({ gallery }: { gallery: ReactNode }) {
             tabIndex={active === i ? 0 : -1}
             onClick={() => select(i)}
             onKeyDown={(e) => onKey(e, i)}
-            className={`label flex min-h-[46px] items-center justify-center px-1 pb-1 text-center !text-[11px] !leading-[1.5] !tracking-[0.2em] font-semibold transition-colors duration-300 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:!text-[12px] sm:!tracking-[0.3em] ${
-              active === i ? 'text-olive-deep' : 'text-[#82683a] hover:text-olive-deep'
+            className={`flex min-h-[60px] items-center justify-center px-0.5 pt-3 pb-1.5 text-center font-belfast leading-[1.05] tracking-[0.02em] text-[clamp(12px,3.5vw,17px)] transition-colors duration-300 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
+              active === i ? 'text-[#8f7240]' : 'text-[#8f7240]/75 hover:text-[#8f7240]'
             }`}
           >
-            {tab.label}
+            <span aria-label={tab.label}>
+              <span aria-hidden="true">
+                <span className="font-script italic text-[1.7em] leading-none align-baseline mr-[-0.04em]">{tab.label.charAt(0)}</span>
+                {tab.label.slice(1)}
+              </span>
+            </span>
           </button>
         ))}
       </div>
