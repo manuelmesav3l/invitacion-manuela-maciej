@@ -1,4 +1,3 @@
-import { Flourish } from '../components/Ornaments'
 import { Reveal } from '../components/Reveal'
 import { RsvpButton } from '../components/RsvpButton'
 import { useLanguage } from '../context/LanguageContext'
@@ -10,8 +9,7 @@ export function RsvpSection({ onRsvp }: { onRsvp: () => void }) {
   return (
     <section id="rsvp" className="bg-sand pb-14 pt-6" aria-label={r.title}>
       <Reveal className="mx-auto max-w-[420px] px-6 text-center">
-        <Flourish className="mx-auto h-6 text-olive-deep" />
-        <p className="mt-3 font-script text-[clamp(44px,14vw,58px)] italic leading-none text-gold">{r.kindly}</p>
+        <p className="font-script text-[clamp(44px,14vw,58px)] italic leading-none text-gold">{r.kindly}</p>
         <p className="font-serif text-[clamp(24px,7vw,30px)] font-medium leading-none text-gold">{r.reply}</p>
         <p className="mt-2 font-serif text-[clamp(20px,6vw,24px)] tracking-[0.2em] text-gold">
           <span className="font-script text-[1.5em] normal-case italic tracking-normal">{r.by}</span> {r.deadline}
