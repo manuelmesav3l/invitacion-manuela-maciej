@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useCallback, lazy, Suspense, memo } from '
 import { useReducedMotion, useInView } from 'motion/react'
 import { PhotoSlot } from '../components/PhotoSlot'
 import { Reveal } from '../components/Reveal'
-import { ChevronLeftIcon, ChevronRightIcon, ExpandIcon } from '../components/Icons'
+import { ChevronLeftIcon, ChevronRightIcon } from '../components/Icons'
 import { useLanguage } from '../context/LanguageContext'
 
 const ImageLightbox = lazy(() => import('../components/ImageLightbox').then((m) => ({ default: m.ImageLightbox })))
@@ -237,13 +237,13 @@ export function Welcome() {
               role="group"
               aria-roledescription="slide"
               aria-label={`${i + 1} of ${t.welcome.photos.length}`}
-              className="snap-center shrink-0 w-[76vw] max-w-[310px] sm:w-[280px] md:w-[300px] lg:w-[320px] transition-transform duration-300"
+              className="snap-center shrink-0 w-[76vw] max-w-[310px] sm:w-[280px] md:w-[300px] lg:w-[320px]"
             >
               <button
                 type="button"
                 onClick={() => openPhoto(i)}
                 aria-label={`${t.welcome.expandPhoto}: ${p.alt}`}
-                className="group relative block w-full overflow-hidden rounded-[8px] border border-[#dcd4c5]/90 bg-sand text-left shadow-[0_6px_22px_rgba(74,68,54,0.10)] transition-all duration-300 hover:border-gold/60 hover:shadow-[0_12px_32px_rgba(74,68,54,0.16)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold active:scale-[0.99] cursor-pointer"
+                className="relative block w-full overflow-hidden rounded-[8px] border border-[#dcd4c5]/90 bg-sand text-left shadow-[0_6px_22px_rgba(74,68,54,0.10)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer"
               >
                 <PhotoSlot
                   src={p.src}
@@ -253,13 +253,6 @@ export function Welcome() {
                   height={4.2}
                   eager={i < 4}
                 />
-
-                {/* Subtle hover gradient and expand badge */}
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
-                <div className="pointer-events-none absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-black/60 px-2.5 py-1 text-[10px] font-caps tracking-[0.18em] text-[#f8f1e2] backdrop-blur-sm opacity-0 transition-all duration-300 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 group-focus-visible:translate-y-0 border border-white/20">
-                  <ExpandIcon className="h-3 w-3 text-gold" />
-                  <span>{t.welcome.expand}</span>
-                </div>
               </button>
             </div>
           ))}

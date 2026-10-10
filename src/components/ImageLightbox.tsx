@@ -1,4 +1,3 @@
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { useEffect, useRef, useCallback } from 'react'
 import { lockScroll } from '../lib/scroll'
 import { useLanguage } from '../context/LanguageContext'
@@ -21,7 +20,6 @@ interface Props {
 export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClose }: Props) {
   const { t } = useLanguage()
   const lb = t.lightbox
-  const reduce = useReducedMotion()
   const containerRef = useRef<HTMLDivElement>(null)
   const touchStartX = useRef<number | null>(null)
   const touchEndX = useRef<number | null>(null)
@@ -89,7 +87,7 @@ export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClo
   const current = images[currentIndex] || images[0]
 
   return (
-    <AnimatePresence>
+    <>
       {open && current && (
         <div
           ref={containerRef}
@@ -112,7 +110,7 @@ export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClo
               type="button"
               onClick={onClose}
               aria-label={lb.close}
-              className="flex h-12 w-12 min-h-[48px] min-w-[48px] items-center justify-center rounded-full bg-white/10 text-[#f8f1e2] transition-colors hover:bg-gold/80 hover:text-black active:scale-90 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              className="flex h-12 w-12 min-h-[48px] min-w-[48px] items-center justify-center rounded-full bg-white/10 text-[#f8f1e2] hover:bg-gold/80 hover:text-black touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               <CloseIcon className="h-5 w-5" />
             </button>
@@ -136,30 +134,23 @@ export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClo
                   handlePrev()
                 }}
                 aria-label={lb.prev}
-                className="absolute left-2 z-20 flex h-11 w-11 sm:h-12 sm:w-12 min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-black/60 text-[#f8f1e2] border border-white/15 transition-all hover:border-gold hover:bg-gold hover:text-black active:scale-90 touch-manipulation"
+                className="absolute left-2 z-20 flex h-11 w-11 sm:h-12 sm:w-12 min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-black/60 text-[#f8f1e2] border border-white/15 hover:border-gold hover:bg-gold hover:text-black touch-manipulation"
               >
                 <ChevronLeftIcon className="h-6 w-6" />
               </button>
             )}
 
-            {/* Active image with motion transition */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentIndex}
-                initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.94 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="relative z-10 flex flex-col items-center justify-center max-h-[76vh] max-w-full cursor-zoom-out"
-                onClick={onClose}
-              >
-                <img
-                  src={current.src}
-                  alt={current.alt}
-                  className="max-h-[72vh] max-w-[94vw] sm:max-w-[80vw] object-contain rounded-md shadow-[0_12px_40px_rgba(0,0,0,0.65)] border border-white/10 transition-transform duration-200 active:scale-[0.98]"
-                />
-              </motion.div>
-            </AnimatePresence>
+            {/* Active image, no animation */}
+            <div
+              className="relative z-10 flex flex-col items-center justify-center max-h-[76vh] max-w-full cursor-zoom-out"
+              onClick={onClose}
+            >
+              <img
+                src={current.src}
+                alt={current.alt}
+                className="max-h-[72vh] max-w-[94vw] sm:max-w-[80vw] object-contain rounded-md border border-white/10"
+              />
+            </div>
 
             {/* Next button (visible on mobile and desktop) */}
             {images.length > 1 && (
@@ -170,7 +161,7 @@ export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClo
                   handleNext()
                 }}
                 aria-label={lb.next}
-                className="absolute right-2 z-20 flex h-11 w-11 sm:h-12 sm:w-12 min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-black/60 text-[#f8f1e2] border border-white/15 transition-all hover:border-gold hover:bg-gold hover:text-black active:scale-90 touch-manipulation"
+                className="absolute right-2 z-20 flex h-11 w-11 sm:h-12 sm:w-12 min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-black/60 text-[#f8f1e2] border border-white/15 hover:border-gold hover:bg-gold hover:text-black touch-manipulation"
               >
                 <ChevronRightIcon className="h-6 w-6" />
               </button>
@@ -202,7 +193,7 @@ export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClo
                     className="group flex min-h-[44px] min-w-[36px] items-center justify-center p-2 touch-manipulation focus-visible:outline-none"
                   >
                     <span
-                      className={`h-2.5 transition-all duration-300 rounded-full ${
+                      className={`h-2.5 duration-300 rounded-full ${
                         idx === currentIndex
                           ? 'w-7 bg-gold'
                           : 'w-2.5 bg-white/30 group-hover:bg-white/60'
@@ -215,6 +206,6 @@ export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClo
           </div>
         </div>
       )}
-    </AnimatePresence>
+    </>
   )
 }
