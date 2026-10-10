@@ -40,6 +40,7 @@ export interface RsvpPayload {
   phone: string
   needs_transport: boolean | null
   welcome_meeting: boolean | null
+  transport_notes?: string | null
 }
 
 export async function submitRsvp(p: RsvpPayload) {
@@ -49,6 +50,7 @@ export async function submitRsvp(p: RsvpPayload) {
     p_companions: p.companions, p_dietary: p.dietary || null, p_message: p.message || null,
     p_email: p.email || null, p_phone: p.phone || null,
     p_needs_transport: p.needs_transport, p_welcome_meeting: p.welcome_meeting,
+    p_transport_notes: p.transport_notes || null,
   })
   if (error) throw error
 }

@@ -189,6 +189,7 @@ export function RsvpForm({ open = true, className = '' }: { open?: boolean; clas
         phone: v.phone ?? '',
         needs_transport: v.attending ? computedTransport : null,
         welcome_meeting: v.attending ? (v.welcome_meeting ?? null) : null,
+        transport_notes: v.attending ? (transportText || null) : null,
       })
       setState('done')
     } catch (e) {
