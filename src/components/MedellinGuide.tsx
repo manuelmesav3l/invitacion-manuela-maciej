@@ -1,5 +1,5 @@
 import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
-import { motion, useReducedMotion } from 'motion/react'
+import { motion, useInView, useReducedMotion } from 'motion/react'
 import { Reveal } from './Reveal'
 import { guidePhotos } from '../content/guidePhotos'
 import { Sheet } from './Sheet'
@@ -22,6 +22,8 @@ const CARD_W = 44, STEP = 36, CARD_H = 80
 function PickBoard({ items, onOpen }: { items: Pick[]; onOpen: (p: Pick) => void }) {
   const reduce = useReducedMotion()
   const board = useRef<HTMLDivElement>(null)
+  // Cards start displaced from their slot, so the *board* (not each card) must drive the reveal.
+  const show = useInView(board, { once: true, margin: '-10% 0px' })
   const [order, setOrder] = useState<Record<string, number>>({})
   const next = useRef(items.length + 1)
   const dragged = useRef(false)
@@ -49,8 +51,7 @@ function PickBoard({ items, onOpen }: { items: Pick[]; onOpen: (p: Pick) => void
             whileDrag={{ scale: 1.05 }}
             whileHover={reduce ? undefined : { scale: 1.02 }}
             initial={reduce ? { opacity: 0 } : { opacity: 0, y: -240, rotate: rotate - 25 }}
-            whileInView={{ opacity: 1, y: 0, rotate }}
-            viewport={{ once: true, margin: '-10% 0px' }}
+            animate={show ? { opacity: 1, y: 0, rotate } : undefined}
             transition={reduce ? { duration: 0.5 } : { type: 'spring', stiffness: 70, damping: 11, delay: (i % 2) * 0.16 }}
             style={{ left: `${LEFT[i % LEFT.length]}%`, top: `${((2 + i * STEP) / heightW) * 100}%`, width: `${CARD_W}%`, zIndex: order[p.key] ?? items.length - i, touchAction: 'pan-y' }}
             className="absolute cursor-grab bg-white p-[3.5%] pb-[4%] text-center shadow-[0_14px_28px_-10px_rgba(60,45,20,.45)] active:cursor-grabbing focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
