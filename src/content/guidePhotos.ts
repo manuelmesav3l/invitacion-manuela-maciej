@@ -2,11 +2,10 @@ import { asset } from '../lib/asset'
 
 export interface GuidePhoto {
   src: string
-  thumb: string
   credit?: { author: string; license: string; url: string }
 }
 
-const p = (key: string) => ({ src: asset(`assets/guide/${key}.webp`), thumb: asset(`assets/guide/${key}-thumb.webp`) })
+const p = (key: string) => ({ src: asset(`assets/guide/${key}.webp`) })
 
 /** Photos for the Medellín guide cards. Credits are required by the Creative Commons licences (Wikimedia Commons). */
 export const guidePhotos: Record<string, GuidePhoto> = {

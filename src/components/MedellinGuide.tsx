@@ -2,6 +2,7 @@ import { useId, useRef, useState, type KeyboardEvent } from 'react'
 import { useReducedMotion } from 'motion/react'
 import { Reveal } from './Reveal'
 import { guidePhotos } from '../content/guidePhotos'
+import { guideIcons } from './GuideIcons'
 import { useLanguage } from '../context/LanguageContext'
 
 interface Pick {
@@ -15,6 +16,7 @@ interface Pick {
 function PickCard({ pick, open, onToggle, topLabel, reduce }: { pick: Pick; open: boolean; onToggle: () => void; topLabel: string; reduce: boolean | null }) {
   const id = useId()
   const photo = guidePhotos[pick.key]
+  const Icon = guideIcons[pick.key]
   // Load the big photo the first time the card opens, then keep it for instant re-opens.
   const [seen, setSeen] = useState(open)
   const [loaded, setLoaded] = useState(false)
@@ -31,18 +33,8 @@ function PickCard({ pick, open, onToggle, topLabel, reduce }: { pick: Pick; open
             onClick={onToggle}
             className="group flex min-h-[64px] w-full items-center gap-3.5 px-4 py-3 text-left touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
           >
-            <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full bg-sand shadow-[inset_0_0_0_1px_rgba(173,145,92,0.45)]">
-              {photo && (
-                <img
-                  src={photo.thumb}
-                  alt=""
-                  width={112}
-                  height={112}
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-              )}
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-sand/70 text-olive-deep shadow-[inset_0_0_0_1px_rgba(173,145,92,0.45)] transition-colors duration-300 group-hover:bg-gold/20">
+              {Icon && <Icon width={24} height={24} />}
             </span>
             <span className="min-w-0 flex-1">
               <span className="block font-serif text-[clamp(19px,5.2vw,23px)] font-medium leading-tight text-olive-deep">{pick.title}</span>
