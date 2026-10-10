@@ -159,14 +159,7 @@ export function MedellinGuide({ gallery }: { gallery: ReactNode }) {
               active === i ? 'text-[#8f7240]' : 'text-[#8f7240]/75 hover:text-[#8f7240]'
             }`}
           >
-            <span aria-label={tab.label}>
-              <span aria-hidden="true">
-                {/* The script "T" collides with the following "H"; keep it in the serif face. */}
-                {tab.label.charAt(0) === 'T'
-                  ? tab.label
-                  : <><span className="font-script italic text-[1.7em] leading-none align-baseline mr-[-0.04em]">{tab.label.charAt(0)}</span>{tab.label.slice(1)}</>}
-              </span>
-            </span>
+            {tab.label}
           </button>
         ))}
       </div>
