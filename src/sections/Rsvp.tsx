@@ -18,11 +18,11 @@ const createSchema = (v: { nameMin: string; attendingRequired: string; emailInva
     phone: z.string().trim().max(40).refine((x) => !x || PHONE_RE.test(x), v.emailInvalid).optional().default(''),
     attending: z.boolean({ message: v.attendingRequired }),
     needs_transport: z.boolean().nullable().optional(),
-    transport_notes: z.string().max(300).optional().default(''),
+    transport_notes: z.string().max(200).optional().default(''),
     welcome_meeting: z.boolean().nullable().optional(),
     companions: z.number().int().min(0),
     dietary: z.string().max(500).optional().default(''),
-    message: z.string().max(1000).optional().default(''),
+    message: z.string().max(750).optional().default(''),
     website: z.string().max(0).optional(), // honeypot
   })
 type Form = z.input<ReturnType<typeof createSchema>>
@@ -118,14 +118,25 @@ export function RsvpForm({ open = true, className = '' }: { open?: boolean; clas
     fetchGuest(tk).then((g) => {
       if (!g) return
       setGuest(g)
+      const rawMsg = g.response?.message ?? ''
+      const transportMatch = rawMsg.match(/(?:\r?\n|^)\[Transport:\s*([^\]]+)\]\s*$/i)
+      const cleanMessage = transportMatch ? rawMsg.replace(/(?:\r?\n|^)\[Transport:\s*[^\]]+\]\s*$/i, '').trim() : rawMsg
+      const savedTransportNotes = g.response?.transport_notes
+        ? g.response.transport_notes
+        : (transportMatch
+            ? transportMatch[1].trim()
+            : (g.response?.needs_transport !== null && g.response?.needs_transport !== undefined
+                ? (g.response.needs_transport ? 'Yes' : 'No')
+                : ''))
+
       reset(g.response
         ? {
             full_name: g.response.full_name,
             attending: g.response.attending,
             companions: g.response.companions,
             dietary: g.response.dietary ?? '',
-            transport_notes: g.response.needs_transport !== null ? (g.response.needs_transport ? 'Yes' : 'No') : '',
-            message: g.response.message ?? '',
+            transport_notes: savedTransportNotes,
+            message: cleanMessage,
             email: g.response.email ?? '',
             phone: g.response.phone ?? '',
             needs_transport: g.response.needs_transport ?? null,
@@ -151,15 +162,20 @@ export function RsvpForm({ open = true, className = '' }: { open?: boolean; clas
     setError(''); setState('sending')
     try {
       const transportText = (v.transport_notes || '').trim()
+      const isNegative = /^(no\b|ningun|ningún|sin\s|none\b|nie\b|false\b)/i.test(transportText)
       const computedTransport = transportText
-        ? !/^(no|ninguno|none|nie|false)$/i.test(transportText)
+        ? !isNegative
         : (v.needs_transport ?? null)
 
-      let composedMessage = (v.message || '').trim()
+      const cleanMsg = (v.message || '').replace(/(?:\r?\n|^)\[Transport:\s*[^\]]+\]\s*$/i, '').trim()
+      let composedMessage = cleanMsg
       if (transportText && !/^(yes|si|tak|no|nie)$/i.test(transportText)) {
-        composedMessage = composedMessage
-          ? `${composedMessage}\n[Transport: ${transportText}]`
+        composedMessage = cleanMsg
+          ? `${cleanMsg}\n[Transport: ${transportText}]`
           : `[Transport: ${transportText}]`
+      }
+      if (composedMessage.length > 1000) {
+        composedMessage = composedMessage.slice(0, 1000)
       }
 
       await submitRsvp({
@@ -265,7 +281,7 @@ export function RsvpForm({ open = true, className = '' }: { open?: boolean; clas
             <legend className={lab}>{L.welcome}</legend>
             <Radios
               value={welcomeMeeting ?? undefined}
-              onChange={(v) => setValue('welcome_meeting', v)}
+              onChange={(v) => setValue('welcome_meeting', v, { shouldValidate: true, shouldDirty: true })}
               yes={L.welcomeYes}
               no={L.welcomeNo}
             />

@@ -18,6 +18,7 @@ export interface GuestInfo {
     phone?: string | null
     needs_transport?: boolean | null
     welcome_meeting?: boolean | null
+    transport_notes?: string | null
   }
 }
 
