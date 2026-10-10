@@ -122,7 +122,7 @@ const en = {
     placeName: 'LETTERA HOTEL',
     pickup: 'PICK-UP POINT',
     mapsLabel: 'MAPS LOCATION',
-    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Lettera+Hotel+Medell%C3%ADn',
+    mapsUrl: 'https://maps.app.goo.gl/ppPuUyN557i58dhy8',
   },
   gifts: {
     title: { initial: 'G', rest: 'IFTS' },
@@ -132,9 +132,10 @@ const en = {
     title: 'Where to stay',
     body: "We've carefully selected a collection of our preferred hotels to help you plan your stay in Medellín. Of course, you're welcome to choose any hotel, Airbnb, or holiday apartment that best suits your plans.",
     websiteLabel: 'WEBSITE',
+    mapsLabel: 'MAPS LOCATION',
     hotels: [
-      { key: 'lettera', name: 'LETTERA HOTEL', area: 'POBLADO', url: '' }, // TODO: website + discount code (pending from Isabel)
-      { key: 'lagoon', name: 'LAGOON HOTEL', area: 'POBLADO', url: '' }, // TODO: website + discount code (pending from Isabel)
+      { key: 'lettera', name: 'LETTERA HOTEL', area: 'POBLADO', url: '', photo: asset('assets/stay-lettera.webp'), mapsUrl: 'https://maps.app.goo.gl/ppPuUyN557i58dhy8' }, // TODO: website + discount code (pending from Isabel)
+      { key: 'lagoon', name: 'LAGOON HOTEL', area: 'POBLADO', url: '', photo: '', mapsUrl: '' }, // TODO: website + discount code (pending from Isabel)
     ],
   },
   todo: {
@@ -334,7 +335,7 @@ const pl: typeof en = {
     placeName: 'LETTERA HOTEL',
     pickup: 'PUNKT ODBIORU',
     mapsLabel: 'LOKALIZACJA',
-    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Lettera+Hotel+Medell%C3%ADn',
+    mapsUrl: 'https://maps.app.goo.gl/ppPuUyN557i58dhy8',
   },
   gifts: {
     title: { initial: 'P', rest: 'ODARUNKI' },
@@ -344,9 +345,10 @@ const pl: typeof en = {
     title: 'Gdzie się zatrzymać',
     body: 'Wybraliśmy dokładnie listę miejsc, aby ułatwić pobyt w Medellín. Oczywiście to są tylko nasze sugestie. Na liście są zarówno hotele, jak i apartamenty, ale finalny wybór zależy od prywatnych preferencji, planów oraz długości pobytu.',
     websiteLabel: 'STRONA',
+    mapsLabel: 'LOKALIZACJA',
     hotels: [
-      { key: 'lettera', name: 'LETTERA HOTEL', area: 'POBLADO', url: '' },
-      { key: 'lagoon', name: 'LAGOON HOTEL', area: 'POBLADO', url: '' },
+      { key: 'lettera', name: 'LETTERA HOTEL', area: 'POBLADO', url: '', photo: asset('assets/stay-lettera.webp'), mapsUrl: 'https://maps.app.goo.gl/ppPuUyN557i58dhy8' },
+      { key: 'lagoon', name: 'LAGOON HOTEL', area: 'POBLADO', url: '', photo: '', mapsUrl: '' },
     ],
   },
   todo: {
