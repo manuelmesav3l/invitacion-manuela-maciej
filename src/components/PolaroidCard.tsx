@@ -26,7 +26,7 @@ export function PolaroidCard({ photo, rotate, className = '', delay = 0, z, onFr
       dragMomentum={false}
       onPointerDown={onFront}
       whileDrag={{ scale: 1.05 }}
-      initial={reduce ? { opacity: 0 } : { opacity: 0, y: -280, rotate: rotate - 25 }}
+      initial={reduce ? { opacity: 0 } : { opacity: 0, y: -110, rotate: rotate - 14 }}
       animate={show ? { opacity: 1, y: 0, rotate } : undefined}
       transition={reduce ? { duration: 0.5 } : { type: 'spring', stiffness: 70, damping: 11, delay }}
       style={{ zIndex: z, touchAction: 'pan-y' }}

@@ -1,5 +1,6 @@
 import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
-import { motion, useInView, useReducedMotion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
+import { useRevealOnce } from '../hooks/useRevealOnce'
 import { Reveal } from './Reveal'
 import { guidePhotos } from '../content/guidePhotos'
 import { Sheet } from './Sheet'
@@ -23,7 +24,7 @@ function PickBoard({ items, onOpen }: { items: Pick[]; onOpen: (p: Pick) => void
   const reduce = useReducedMotion()
   const board = useRef<HTMLDivElement>(null)
   // Cards start displaced from their slot, so the *board* (not each card) must drive the reveal.
-  const show = useInView(board, { once: true, margin: '-10% 0px' })
+  const show = useRevealOnce(board)
   const [order, setOrder] = useState<Record<string, number>>({})
   const next = useRef(items.length + 1)
   const dragged = useRef(false)
@@ -50,7 +51,7 @@ function PickBoard({ items, onOpen }: { items: Pick[]; onOpen: (p: Pick) => void
             onTap={() => { if (!dragged.current) onOpen(p) }}
             whileDrag={{ scale: 1.05 }}
             whileHover={reduce ? undefined : { scale: 1.02 }}
-            initial={reduce ? { opacity: 0 } : { opacity: 0, y: -240, rotate: rotate - 25 }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: -90, rotate: rotate - 12 }}
             animate={show ? { opacity: 1, y: 0, rotate } : undefined}
             transition={reduce ? { duration: 0.5 } : { type: 'spring', stiffness: 70, damping: 11, delay: (i % 2) * 0.16 }}
             style={{ left: `${LEFT[i % LEFT.length]}%`, top: `${((2 + i * STEP) / heightW) * 100}%`, width: `${CARD_W}%`, zIndex: order[p.key] ?? items.length - i, touchAction: 'pan-y' }}
