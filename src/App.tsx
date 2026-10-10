@@ -6,6 +6,7 @@ import { Medellin } from './sections/Medellin'
 import { Programme } from './sections/Programme'
 import { Venue } from './sections/Venue'
 import { Gifts } from './sections/Gifts'
+import { Transportation } from './sections/Transportation'
 import { WhereToStay } from './sections/WhereToStay'
 import { DayTrips, ThingsToDo } from './sections/ThingsToDo'
 import { ThankYou } from './sections/ThankYou'
@@ -35,10 +36,11 @@ export default function App() {
           <Welcome />
           <Venue onClimate={() => setClimate(true)} />
           <Programme />
+          <WhereToStay />
+          <Transportation />
           <DressCode />
           <Medellin />
           <Gifts />
-          <WhereToStay />
           <ThingsToDo />
           <DayTrips />
           <ThankYou />
