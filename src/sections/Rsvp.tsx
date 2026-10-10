@@ -8,10 +8,17 @@ import { Sheet } from '../components/Sheet'
 import { useLanguage } from '../context/LanguageContext'
 import { fetchGuest, submitRsvp, type GuestInfo } from '../lib/supabase'
 
-const createSchema = (v: { nameMin: string; attendingRequired: string }) =>
+const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/
+const PHONE_RE = /^[0-9+()\-\s.]{3,40}$/
+
+const createSchema = (v: { nameMin: string; attendingRequired: string; emailInvalid: string }) =>
   z.object({
     full_name: z.string().trim().min(2, v.nameMin).max(120),
+    email: z.string().trim().max(254).refine((x) => !x || EMAIL_RE.test(x), v.emailInvalid).optional().default(''),
+    phone: z.string().trim().max(40).refine((x) => !x || PHONE_RE.test(x), v.emailInvalid).optional().default(''),
     attending: z.boolean({ message: v.attendingRequired }),
+    needs_transport: z.boolean().nullable().optional(),
+    welcome_meeting: z.boolean().nullable().optional(),
     companions: z.number().int().min(0),
     dietary: z.string().max(500).optional().default(''),
     message: z.string().max(1000).optional().default(''),
@@ -31,6 +38,29 @@ function Check() {
   )
 }
 
+function YesNo({ value, onChange, yes, no }: { value: boolean | undefined; onChange: (v: boolean) => void; yes: string; no: string }) {
+  return (
+    <div className="mt-2 grid grid-cols-2 gap-3" role="radiogroup">
+      {([[true, yes], [false, no]] as const).map(([val, text]) => (
+        <button
+          key={String(val)}
+          type="button"
+          role="radio"
+          aria-checked={value === val}
+          onClick={() => onChange(val)}
+          className={`label flex min-h-[48px] items-center justify-center rounded-full border px-4 py-3 text-center !text-[11px] sm:!text-[12px] font-medium transition-all active:scale-[0.98] touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
+            value === val
+              ? 'border-olive-deep bg-olive-deep text-[#f8f5ee] shadow-sm'
+              : 'border-gold/60 text-gold hover:border-gold hover:bg-gold/5'
+          }`}
+        >
+          {text}
+        </button>
+      ))}
+    </div>
+  )
+}
+
 export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t } = useLanguage()
   const L = t.rsvp.labels
@@ -43,9 +73,11 @@ export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) 
 
   const { register, handleSubmit, setValue, control, reset, formState: { errors } } = useForm<Form>({
     resolver: zodResolver(schema),
-    defaultValues: { full_name: '', companions: 0, dietary: '', message: '' },
+    defaultValues: { full_name: '', email: '', phone: '', companions: 0, dietary: '', message: '', needs_transport: null, welcome_meeting: null },
   })
   const attending = useWatch({ control, name: 'attending' })
+  const needsTransport = useWatch({ control, name: 'needs_transport' })
+  const welcomeMeeting = useWatch({ control, name: 'welcome_meeting' })
 
   useEffect(() => {
     if (!open || !tk || guest) return
@@ -53,8 +85,13 @@ export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) 
       if (!g) return
       setGuest(g)
       reset(g.response
-        ? { full_name: g.response.full_name, attending: g.response.attending, companions: g.response.companions, dietary: g.response.dietary ?? '', message: g.response.message ?? '' }
-        : { full_name: g.name, companions: 0, dietary: '', message: '' })
+        ? {
+            full_name: g.response.full_name, attending: g.response.attending, companions: g.response.companions,
+            dietary: g.response.dietary ?? '', message: g.response.message ?? '',
+            email: g.response.email ?? '', phone: g.response.phone ?? '',
+            needs_transport: g.response.needs_transport ?? null, welcome_meeting: g.response.welcome_meeting ?? null,
+          }
+        : { full_name: g.name, email: '', phone: '', companions: 0, dietary: '', message: '', needs_transport: null, welcome_meeting: null })
     })
   }, [open, tk, guest, reset])
 
@@ -63,7 +100,12 @@ export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) 
     if (v.website) { setState('done'); return } // bot: pretend success
     setError(''); setState('sending')
     try {
-      await submitRsvp({ token: tk, full_name: v.full_name, attending: v.attending, companions: v.attending ? v.companions : 0, dietary: v.dietary ?? '', message: v.message ?? '' })
+      await submitRsvp({
+        token: tk, full_name: v.full_name, attending: v.attending, companions: v.attending ? v.companions : 0,
+        dietary: v.dietary ?? '', message: v.message ?? '', email: v.email ?? '', phone: v.phone ?? '',
+        needs_transport: v.attending ? (v.needs_transport ?? null) : null,
+        welcome_meeting: v.attending ? (v.welcome_meeting ?? null) : null,
+      })
       setState('done')
     } catch {
       setState('idle'); setError(t.rsvp.errorSubmit)
@@ -81,7 +123,8 @@ export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) 
         <h2 className="m-0 font-serif text-[76px] font-normal leading-none tracking-[0.35em] text-olive-deep" style={{ paddingLeft: '0.35em' }}>{t.rsvp.title}</h2>
         <p className="mt-4 font-script text-[58px] italic leading-none text-gold">{t.rsvp.kindly}</p>
         <p className="font-serif text-[30px] font-medium leading-none text-gold">{t.rsvp.reply}</p>
-        <p className="mt-1 font-serif text-[24px] tracking-[0.2em] text-gold"><span className="font-script text-[36px] normal-case italic tracking-normal">{t.rsvp.by}</span> {t.hero.day} {t.hero.month} {t.hero.year}</p>
+        <p className="mt-1 font-serif text-[24px] tracking-[0.2em] text-gold"><span className="font-script text-[36px] normal-case italic tracking-normal">{t.rsvp.by}</span> {t.rsvp.deadline}</p>
+        <p className="label mx-auto mt-2 max-w-[300px] !text-[10px] !leading-[1.8] text-gold/90">{t.rsvp.deadlineNote}</p>
 
         {state === 'done' ? (
           <div className="mt-10 flex flex-col items-center" role="status">
@@ -101,32 +144,14 @@ export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) 
             {!tk && <p className="label !text-[10px] text-center text-ink">{t.rsvp.needLink}</p>}
             <div className="hidden" aria-hidden="true"><label>Website<input tabIndex={-1} autoComplete="off" {...register('website')} /></label></div>
 
-            <div>
-              <label htmlFor="full_name" className={lab}>{L.name}</label>
-              <input id="full_name" autoComplete="name" className={field} aria-invalid={!!errors.full_name} {...register('full_name')} />
-              {errors.full_name && <p role="alert" className="mt-1 font-serif text-[15px] text-[#8a3a2a]">{errors.full_name.message}</p>}
-            </div>
-
             <fieldset>
               <legend className={lab}>{L.attending}</legend>
-              <div className="mt-2 grid grid-cols-2 gap-3" role="radiogroup">
-                {[[true, L.yes], [false, L.no]].map(([val, text]) => (
-                  <button
-                    key={String(val)}
-                    type="button"
-                    role="radio"
-                    aria-checked={attending === val}
-                    onClick={() => setValue('attending', val as boolean, { shouldValidate: true })}
-                    className={`label flex min-h-[48px] items-center justify-center rounded-full border px-4 py-3 text-center !text-[11px] sm:!text-[12px] font-medium transition-all active:scale-[0.98] touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
-                      attending === val
-                        ? 'border-olive-deep bg-olive-deep text-[#f8f5ee] shadow-sm'
-                        : 'border-gold/60 text-gold hover:border-gold hover:bg-gold/5'
-                    }`}
-                  >
-                    {text as string}
-                  </button>
-                ))}
-              </div>
+              <YesNo
+                value={attending}
+                onChange={(v) => setValue('attending', v, { shouldValidate: true })}
+                yes={L.yes}
+                no={L.no}
+              />
               {errors.attending && <p role="alert" className="mt-1 font-serif text-[15px] text-[#8a3a2a]">{errors.attending.message}</p>}
             </fieldset>
 
@@ -138,11 +163,51 @@ export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) 
                 </select>
               </div>
             )}
+            <p className="font-serif text-[15px] italic leading-snug text-ink/80">{t.rsvp.plusOnes}</p>
 
+            <div>
+              <label htmlFor="full_name" className={lab}>{L.name}</label>
+              <input id="full_name" autoComplete="name" className={field} aria-invalid={!!errors.full_name} {...register('full_name')} />
+              {errors.full_name && <p role="alert" className="mt-1 font-serif text-[15px] text-[#8a3a2a]">{errors.full_name.message}</p>}
+            </div>
+            <div>
+              <label htmlFor="email" className={lab}>{L.email}</label>
+              <input id="email" type="email" inputMode="email" autoComplete="email" className={field} aria-invalid={!!errors.email} {...register('email')} />
+              {errors.email && <p role="alert" className="mt-1 font-serif text-[15px] text-[#8a3a2a]">{errors.email.message}</p>}
+            </div>
+            <div>
+              <label htmlFor="phone" className={lab}>{L.phone}</label>
+              <input id="phone" type="tel" inputMode="tel" autoComplete="tel" className={field} aria-invalid={!!errors.phone} {...register('phone')} />
+              {errors.phone && <p role="alert" className="mt-1 font-serif text-[15px] text-[#8a3a2a]">{errors.phone.message}</p>}
+            </div>
             <div>
               <label htmlFor="dietary" className={lab}>{L.dietary}</label>
               <input id="dietary" className={field} {...register('dietary')} />
             </div>
+
+            {attending && (
+              <>
+                <fieldset>
+                  <legend className={lab}>{L.transport}</legend>
+                  <YesNo
+                    value={needsTransport ?? undefined}
+                    onChange={(v) => setValue('needs_transport', v)}
+                    yes={L.transportYes}
+                    no={L.transportNo}
+                  />
+                </fieldset>
+                <fieldset>
+                  <legend className={lab}>{L.welcome}</legend>
+                  <YesNo
+                    value={welcomeMeeting ?? undefined}
+                    onChange={(v) => setValue('welcome_meeting', v)}
+                    yes={L.welcomeYes}
+                    no={L.welcomeNo}
+                  />
+                </fieldset>
+              </>
+            )}
+
             <div>
               <label htmlFor="message" className={lab}>{L.message}</label>
               <textarea id="message" rows={3} className={`${field} resize-none`} {...register('message')} />
