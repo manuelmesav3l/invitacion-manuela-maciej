@@ -12,7 +12,7 @@ export const guidePhotos: Record<string, GuidePhoto> = {
   comuna13: p('comuna13'),
   botero: p('botero-dome'), // user-supplied photo (Palacio de la Cultura dome at dusk)
   provenza: p('provenza-arch'), // user-supplied photo (Provenza arch at night)
-  laureles: { ...p('laureles-boulevard'), credit: { author: "Zack Knowles", license: "CC BY-SA 3.0", url: "https://commons.wikimedia.org/wiki/File:Laureles_-_Estadio,_Medell%C3%ADn,_Antioquia,_Colombia_-_panoramio_(1).jpg" } },
+  laureles: p('laureles-aerial'), // user-supplied photo (aerial view of Laureles)
   arvi: p('arvi-pond'), // user-supplied photo (lake in Parque Arví)
   coffee: { ...p('coffee'), credit: { author: "TitiNicola", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Caf%C3%A9_Colombiano.jpg" } },
   food: { ...p('food'), credit: { author: "Edgar Zuniga Jr.", license: "CC BY 2.0", url: "https://commons.wikimedia.org/wiki/File:Bandeja_Paisa_(Bogot%C3%A1).jpg" } },
