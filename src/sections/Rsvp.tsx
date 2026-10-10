@@ -50,7 +50,7 @@ function YesNo({ value, onChange, yes, no }: { value: boolean | undefined; onCha
           aria-checked={value === val}
           onClick={() => onChange(val)}
           className={`label flex min-h-[48px] w-full items-center px-4 py-3 text-left !text-[12px] !leading-[1.5] !tracking-[0.16em] transition-colors active:scale-[0.995] touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream-light/80 ${
-            value === val ? 'bg-cream-light !text-[#3b4535]' : 'bg-cream-light/25 !text-cream-light hover:bg-cream-light/35'
+            value === val ? 'bg-[#bf9a58] !text-[#2b3224]' : 'bg-cream-light/25 !text-cream-light hover:bg-cream-light/35'
           }`}
         >
           {text}
