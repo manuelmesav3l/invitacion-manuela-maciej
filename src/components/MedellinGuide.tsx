@@ -137,12 +137,14 @@ export function MedellinGuide({ gallery }: { gallery: ReactNode }) {
 
   return (
     <div className="mt-4 sm:mt-5">
-      <div role="tablist" aria-label={t.medellin.kicker} className="relative mx-auto grid max-w-[460px] grid-cols-3 border-b border-gold/25">
+      <div role="tablist" aria-label={t.medellin.kicker} className="relative mx-auto grid max-w-[460px] grid-cols-3 border-b border-gold/40">
         <span
           aria-hidden="true"
           style={{ transform: `translateX(${active * 100}%)` }}
-          className={`pointer-events-none absolute -bottom-px left-0 h-px w-1/3 bg-gradient-to-r from-transparent via-gold to-transparent ${reduce ? '' : 'transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]'}`}
-        />
+          className={`pointer-events-none absolute -bottom-px left-0 flex h-[3px] w-1/3 justify-center ${reduce ? '' : 'transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]'}`}
+        >
+          <span className="block h-full w-3/4 rounded-full bg-olive-deep" />
+        </span>
         {tabs.map((tab, i) => (
           <button
             key={tab.key}
@@ -156,7 +158,7 @@ export function MedellinGuide({ gallery }: { gallery: ReactNode }) {
             onClick={() => select(i)}
             onKeyDown={(e) => onKey(e, i)}
             className={`flex min-h-[60px] items-center justify-center px-0.5 pt-3 pb-1.5 text-center font-belfast leading-[1.05] tracking-[0.02em] text-[clamp(12px,3.5vw,17px)] transition-colors duration-300 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
-              active === i ? 'text-[#8f7240]' : 'text-[#8f7240]/75 hover:text-[#8f7240]'
+              active === i ? 'text-olive-deep' : 'text-[#8f7240]/65 hover:text-olive-deep'
             }`}
           >
             {tab.label}
