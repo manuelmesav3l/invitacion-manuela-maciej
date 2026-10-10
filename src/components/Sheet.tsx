@@ -48,7 +48,7 @@ export function Sheet({ open, onClose, label, children, tall, closeLabel = 'Clos
           <motion.div
             ref={panel}
             role="dialog" aria-modal="true" aria-labelledby={titleId}
-            className={`relative w-full max-w-[560px] overflow-y-auto overscroll-contain rounded-t-[28px] shadow-2xl ${tone === 'olive' ? 'bg-[#4a5443]' : 'bg-cream'} ${tall ? 'h-[96dvh]' : 'max-h-[85dvh]'}`}
+            className={`relative w-full max-w-[560px] sheet-scroll overflow-y-auto overscroll-contain rounded-t-[28px] shadow-2xl ${tone === 'olive' ? 'sheet-scroll-olive bg-[#4a5443]' : 'bg-cream'} ${tall ? 'h-[96dvh]' : 'max-h-[85dvh]'}`}
             initial={reduce ? { opacity: 0 } : { y: '100%' }}
             animate={reduce ? { opacity: 1 } : { y: 0 }}
             exit={reduce ? { opacity: 0 } : { y: '100%' }}

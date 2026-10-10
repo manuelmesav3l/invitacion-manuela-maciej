@@ -166,3 +166,12 @@ img { display: block; max-width: 100%; }
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Scrollbars inside modal sheets: transparent track so they blend with the panel colour */
+.sheet-scroll { scrollbar-width: thin; scrollbar-color: #AD915C transparent; }
+.sheet-scroll::-webkit-scrollbar { width: 8px; }
+.sheet-scroll::-webkit-scrollbar-track { background: transparent; margin-block: 18px; }
+.sheet-scroll::-webkit-scrollbar-thumb { background: #AD915C; border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
+.sheet-scroll-olive { scrollbar-color: rgba(250, 245, 238, 0.5) transparent; }
+.sheet-scroll-olive::-webkit-scrollbar-thumb { background: rgba(250, 245, 238, 0.5); background-clip: padding-box; }
+.sheet-scroll-olive::-webkit-scrollbar-thumb:hover { background: rgba(250, 245, 238, 0.75); background-clip: padding-box; }
