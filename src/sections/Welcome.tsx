@@ -7,60 +7,30 @@ import { useLanguage } from '../context/LanguageContext'
 import { gsap } from '../lib/scroll'
 
 const OFFSETS = [-6, 8, -6] // parallax yPercent: centre travels differently than the sides
-const WORDS = ['Bienvenidos', 'Witamy']
+// The client asked for BIENVENIDOS in both language versions.
+const GREETING = 'Bienvenidos'
 
 export function Welcome() {
-  const { t, locale } = useLanguage()
+  const { t } = useLanguage()
   const reduce = useReducedMotion()
   const row = useRef<HTMLDivElement>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
 
-  const [currentWordIndex, setCurrentWordIndex] = useState(0)
   const [displayText, setDisplayText] = useState('')
-  const [isDeleting, setIsDeleting] = useState(false)
 
   // Carousel & Lightbox states
   const [activeSlide, setActiveSlide] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState(0)
 
-  // Caligraphic typewriter animation alternating between "Bienvenidos" and "Witamy"
+  // Calligraphic typewriter: writes the greeting once and leaves it on screen.
   useEffect(() => {
-    if (reduce) return
-
-    const currentWord = WORDS[currentWordIndex]
-    let timer: ReturnType<typeof setTimeout>
-
-    if (!isDeleting) {
-      if (displayText.length < currentWord.length) {
-        // Natural handwriting pacing (slight variation for calligraphic feel)
-        const delay = 125 + (displayText.length % 3 === 0 ? 35 : -15)
-        timer = setTimeout(() => {
-          setDisplayText(currentWord.slice(0, displayText.length + 1))
-        }, delay)
-      } else {
-        // Full word written: pause long enough for guests to read and appreciate
-        timer = setTimeout(() => {
-          setIsDeleting(true)
-        }, 2200)
-      }
-    } else {
-      if (displayText.length > 0) {
-        // Smooth and fluid erasing pace
-        timer = setTimeout(() => {
-          setDisplayText(currentWord.slice(0, displayText.length - 1))
-        }, 65)
-      } else {
-        // Brief pause after erasing before starting the next greeting
-        timer = setTimeout(() => {
-          setIsDeleting(false)
-          setCurrentWordIndex((prev) => (prev + 1) % WORDS.length)
-        }, 450)
-      }
-    }
-
+    if (reduce || displayText.length >= GREETING.length) return
+    // Natural handwriting pacing (slight variation for calligraphic feel)
+    const delay = 125 + (displayText.length % 3 === 0 ? 35 : -15)
+    const timer = setTimeout(() => setDisplayText(GREETING.slice(0, displayText.length + 1)), delay)
     return () => clearTimeout(timer)
-  }, [displayText, isDeleting, currentWordIndex, reduce])
+  }, [displayText, reduce])
 
   useEffect(() => {
     if (reduce || !row.current) return
@@ -99,7 +69,7 @@ export function Welcome() {
   }
 
   return (
-    <section className="bg-sand pb-12 pt-8 sm:pb-16 sm:pt-10 overflow-hidden" aria-label={t.welcome.title}>
+    <section className="bg-sand pb-12 pt-8 sm:pb-16 sm:pt-10 overflow-hidden" aria-label={GREETING}>
       <div className="mx-auto max-w-[620px] px-5 text-center">
         <Reveal>
           {/* Minimum height container to completely prevent Cumulative Layout Shift (CLS) */}
@@ -107,13 +77,12 @@ export function Welcome() {
             <h2
               className="m-0 inline-flex items-center justify-center font-script text-[clamp(72px,22vw,112px)] font-normal leading-none text-olive-deep"
               style={{ transform: 'rotate(-2deg)' }}
-              aria-label={locale === 'pl' ? 'Witamy' : 'Bienvenidos / Witamy'}
+              aria-label={GREETING}
             >
-              <span className="sr-only">{locale === 'pl' ? 'Witamy' : 'Bienvenidos — Witamy'}</span>
-              <span aria-hidden="true" className="select-none tracking-tight">
-                {reduce ? (locale === 'pl' ? 'Witamy' : 'Bienvenidos') : (displayText || '\u00A0')}
+                            <span aria-hidden="true" className="select-none tracking-tight">
+                {reduce ? GREETING : (displayText || '\u00A0')}
               </span>
-              {!reduce && (
+              {!reduce && displayText.length < GREETING.length && (
                 <span
                   aria-hidden="true"
                   className="animate-ink-cursor ml-1.5 inline-block h-[0.7em] w-[2px] translate-y-[2px] bg-gold/90 select-none"
@@ -124,7 +93,9 @@ export function Welcome() {
         </Reveal>
         <Reveal delay={0.1}>
           {/* TODO_COPY: welcome paragraph lives in content.ts */}
-          <p className="label mx-auto mt-3 max-w-[320px] !text-[11px] !leading-[2] text-ink">{t.welcome.body}</p>
+          <div className="mx-auto mt-3 max-w-[340px] space-y-2">
+            {t.welcome.body.map((line) => <p key={line} className="label !text-[11px] !leading-[2] text-ink">{line}</p>)}
+          </div>
         </Reveal>
       </div>
 
