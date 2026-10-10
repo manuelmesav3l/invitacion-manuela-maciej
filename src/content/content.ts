@@ -132,7 +132,7 @@ const en = {
     title: 'Where to stay',
     body: "We've carefully selected a collection of our preferred hotels to help you plan your stay in Medellín. Of course, you're welcome to choose any hotel, Airbnb, or holiday apartment that best suits your plans.",
     websiteLabel: 'WEBSITE',
-    mapsLabel: 'MAPS LOCATION',
+    mapsLabel: 'LOCATION',
     hotels: [
       { key: 'lettera', name: 'LETTERA HOTEL', area: 'POBLADO', url: '', photo: asset('assets/stay-lettera.webp'), mapsUrl: 'https://maps.app.goo.gl/ppPuUyN557i58dhy8' }, // TODO: website + discount code (pending from Isabel)
       { key: 'lagoon', name: 'LAGOON HOTEL', area: 'POBLADO', url: '', photo: '', mapsUrl: '' }, // TODO: website + discount code (pending from Isabel)
