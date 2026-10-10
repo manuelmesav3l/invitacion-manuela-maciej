@@ -204,7 +204,7 @@ export function Welcome() {
           type="button"
           onClick={handlePrev}
           aria-label={t.welcome.prevPhoto}
-          className="hidden sm:flex absolute left-2 lg:left-4 top-[44%] -translate-y-1/2 z-20 h-11 w-11 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-sand/95 backdrop-blur-md border border-olive-deep/20 text-olive-deep shadow-[0_4px_16px_rgba(74,68,54,0.16)] transition-all duration-200 hover:bg-olive-deep hover:text-sand hover:border-olive-deep hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer"
+          className="hidden sm:flex absolute left-2 lg:left-4 top-[44%] -translate-y-1/2 z-20 h-11 w-11 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-sand/95 border border-olive-deep/20 text-olive-deep shadow-[0_4px_16px_rgba(74,68,54,0.16)] transition-all duration-200 hover:bg-olive-deep hover:text-sand hover:border-olive-deep hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer"
         >
           <ChevronLeftIcon className="h-6 w-6" />
         </button>
@@ -214,7 +214,7 @@ export function Welcome() {
           type="button"
           onClick={handleNext}
           aria-label={t.welcome.nextPhoto}
-          className="hidden sm:flex absolute right-2 lg:right-4 top-[44%] -translate-y-1/2 z-20 h-11 w-11 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-sand/95 backdrop-blur-md border border-olive-deep/20 text-olive-deep shadow-[0_4px_16px_rgba(74,68,54,0.16)] transition-all duration-200 hover:bg-olive-deep hover:text-sand hover:border-olive-deep hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer"
+          className="hidden sm:flex absolute right-2 lg:right-4 top-[44%] -translate-y-1/2 z-20 h-11 w-11 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-sand/95 border border-olive-deep/20 text-olive-deep shadow-[0_4px_16px_rgba(74,68,54,0.16)] transition-all duration-200 hover:bg-olive-deep hover:text-sand hover:border-olive-deep hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer"
         >
           <ChevronRightIcon className="h-6 w-6" />
         </button>
@@ -251,7 +251,7 @@ export function Welcome() {
                   tone={p.tone}
                   width={3}
                   height={4.2}
-                  eager={i < 4}
+                  eager={false}
                 />
               </button>
             </div>

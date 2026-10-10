@@ -74,7 +74,7 @@ function PickModal({ pick, topLabel, onClose, closeLabel }: { pick: Pick | null;
             <figure className="m-0">
               <div className={`mx-auto -rotate-1 bg-white ${photo.portrait ? 'max-w-[320px]' : 'max-w-[420px]'} p-2.5 pb-3 shadow-[0_14px_28px_-12px_rgba(60,45,20,.5)]`}>
                 <div className={`${photo.portrait ? 'aspect-[3/4]' : 'aspect-[3/2]'} w-full overflow-hidden bg-sand`}>
-                  <img src={photo.src} alt={shown.title} width={900} height={photo.portrait ? 1200 : 600} decoding="async" className="h-full w-full object-cover" />
+                  <img src={photo.src} alt={shown.title} width={900} height={photo.portrait ? 1200 : 600} loading="lazy" decoding="async" className="h-full w-full object-cover" />
                 </div>
               </div>
               {photo.credit && (

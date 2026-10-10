@@ -94,7 +94,7 @@ export function ImageLightbox({ images, currentIndex, onIndexChange, open, onClo
           role="dialog"
           aria-modal="true"
           aria-label={lb.dialogLabel}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-between bg-black/92 p-4 text-[#f8f1e2] select-none backdrop-blur-md"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-between bg-black/95 p-4 text-[#f8f1e2] select-none"
           data-lenis-prevent
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
