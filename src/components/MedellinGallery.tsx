@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { useInView, useReducedMotion } from 'motion/react'
+import { useReducedMotion } from 'motion/react'
+import { useRevealOnce } from '../hooks/useRevealOnce'
 import { PolaroidCard } from './PolaroidCard'
 import { PostcardCard } from './PostcardCard'
 import { useLanguage } from '../context/LanguageContext'
@@ -18,7 +19,7 @@ export function MedellinGallery() {
   const { t } = useLanguage()
   const reduce = useReducedMotion()
   const table = useRef<HTMLDivElement>(null)
-  const show = useInView(table, { once: true, margin: '-10% 0px' })
+  const show = useRevealOnce(table)
   const [order, setOrder] = useState([1, 2, 3, 4, 5])
   const bringFront = (i: number) => setOrder((o) => o.map((z, k) => (k === i ? Math.max(...o) + 1 : z)))
 

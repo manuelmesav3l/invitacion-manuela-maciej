@@ -7,7 +7,7 @@ export function PostcardCard({ className = '', show }: { className?: string; sho
   const { postcard } = t.medellin
   return (
     <motion.figure
-      initial={reduce ? { opacity: 0 } : { opacity: 0, x: -160, rotate: -30 }}
+      initial={reduce ? { opacity: 0 } : { opacity: 0, x: -70, rotate: -28 }}
       animate={show ? { opacity: 1, x: 0, rotate: -20 } : undefined}
       transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
       className={`absolute m-0 aspect-[3/2] bg-[#f7f0e2] shadow-[0_14px_28px_-10px_rgba(60,45,20,.45)] ${className}`}
