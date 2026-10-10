@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useReducedMotion } from 'motion/react'
+import { useInView, useReducedMotion } from 'motion/react'
 import { PolaroidCard } from './PolaroidCard'
 import { PostcardCard } from './PostcardCard'
 import { useLanguage } from '../context/LanguageContext'
@@ -18,6 +18,7 @@ export function MedellinGallery() {
   const { t } = useLanguage()
   const reduce = useReducedMotion()
   const table = useRef<HTMLDivElement>(null)
+  const show = useInView(table, { once: true, margin: '-10% 0px' })
   const [order, setOrder] = useState([1, 2, 3, 4, 5])
   const bringFront = (i: number) => setOrder((o) => o.map((z, k) => (k === i ? Math.max(...o) + 1 : z)))
 
@@ -34,9 +35,9 @@ export function MedellinGallery() {
     <div ref={table} className="relative mx-auto mt-6 w-full" style={{ aspectRatio: '1 / 1.56' }}>
       {t.medellin.polaroids.map((p, i) => (
         <PolaroidCard key={p.key} photo={p} rotate={LAYOUT[i].rotate} className={LAYOUT[i].cls} delay={i * 0.16}
-          z={order[i]} onFront={() => bringFront(i)} constraintsRef={table} />
+          z={order[i]} onFront={() => bringFront(i)} constraintsRef={table} show={show} />
       ))}
-      <PostcardCard className="-left-[2%] top-[61%] z-[2] w-[54%]" />
+      <PostcardCard className="-left-[2%] top-[61%] z-[2] w-[54%]" show={show} />
     </div>
   )
 }

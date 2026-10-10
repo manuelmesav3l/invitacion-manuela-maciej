@@ -10,9 +10,11 @@ interface Props {
   z: number
   onFront: () => void
   constraintsRef: React.RefObject<HTMLElement | null>
+  /** Board-level in-view flag (cards start off-slot, so they can't observe themselves). */
+  show: boolean
 }
 
-export function PolaroidCard({ photo, rotate, className = '', delay = 0, z, onFront, constraintsRef }: Props) {
+export function PolaroidCard({ photo, rotate, className = '', delay = 0, z, onFront, constraintsRef, show }: Props) {
   const reduce = useReducedMotion()
   const ref = useRef<HTMLDivElement>(null)
   return (
@@ -25,8 +27,7 @@ export function PolaroidCard({ photo, rotate, className = '', delay = 0, z, onFr
       onPointerDown={onFront}
       whileDrag={{ scale: 1.05 }}
       initial={reduce ? { opacity: 0 } : { opacity: 0, y: -280, rotate: rotate - 25 }}
-      whileInView={{ opacity: 1, y: 0, rotate }}
-      viewport={{ once: true, margin: '-10% 0px' }}
+      animate={show ? { opacity: 1, y: 0, rotate } : undefined}
       transition={reduce ? { duration: 0.5 } : { type: 'spring', stiffness: 70, damping: 11, delay }}
       style={{ zIndex: z, touchAction: 'pan-y' }}
       className={`group absolute bg-white p-[3.5%] pb-[4%] shadow-[0_14px_28px_-10px_rgba(60,45,20,.45)] ${className}`}
