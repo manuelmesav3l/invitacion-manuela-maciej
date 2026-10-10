@@ -1,5 +1,5 @@
 import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
-import { useReducedMotion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import { Reveal } from './Reveal'
 import { guidePhotos } from '../content/guidePhotos'
 import { Sheet } from './Sheet'
@@ -13,30 +13,59 @@ interface Pick {
   top?: boolean
 }
 
-const TILT = [-2.2, 1.8, -1.2, 2.4, -1.8, 1.4, -2.4, 1.1]
+const TILT = [-7, 8, -4, -8, 6, -5, 7, -3]
+const LEFT = [2, 53, 10, 52, 4, 51, 9, 53]
+/** Board geometry in % of its own width: card width, vertical step, card height. */
+const CARD_W = 44, STEP = 40, CARD_H = 80
 
-function PickPolaroid({ pick, index, lone, onOpen }: { pick: Pick; index: number; lone: boolean; onOpen: () => void }) {
-  const photo = guidePhotos[pick.key]
+/** Scattered, draggable polaroids (same look as the Photos tab); tap opens the detail modal. */
+function PickBoard({ items, onOpen }: { items: Pick[]; onOpen: (p: Pick) => void }) {
+  const reduce = useReducedMotion()
+  const board = useRef<HTMLDivElement>(null)
+  const [order, setOrder] = useState<Record<string, number>>({})
+  const next = useRef(items.length + 1)
+  const dragged = useRef(false)
+  const bringFront = (key: string) => setOrder((o) => ({ ...o, [key]: next.current++ }))
+  const heightW = 2 + (items.length - 1) * STEP + CARD_H
+
   return (
-    <li className={lone ? 'col-span-2 mx-auto w-1/2' : undefined}>
-      <button
-        type="button"
-        onClick={onOpen}
-        aria-haspopup="dialog"
-        style={{ rotate: `${TILT[index % TILT.length]}deg` }}
-        className="group block w-full bg-white p-[5%] pb-[6%] text-left shadow-[0_14px_28px_-12px_rgba(60,45,20,.5)] transition-[transform,box-shadow] duration-300 hover:!rotate-0 hover:-translate-y-1 hover:shadow-[0_20px_34px_-12px_rgba(60,45,20,.55)] active:scale-[0.98] touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
-      >
-        <span className="relative block aspect-square w-full overflow-hidden bg-sand">
-          {photo && (
-            <img src={photo.src} alt="" width={900} height={600} loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-          )}
-        </span>
-        <span className="mt-2.5 block text-center">
-          <span className="block font-serif text-[clamp(15px,4.2vw,18px)] font-medium leading-tight text-olive-deep">{pick.title}</span>
-          <span className="label mt-1 block !text-[8.5px] !leading-[1.5] !tracking-[0.16em] text-gold">{pick.lead}</span>
-        </span>
-      </button>
-    </li>
+    <div ref={board} className="relative mx-auto mt-7 w-full max-w-[460px]" style={{ aspectRatio: `100 / ${heightW}` }}>
+      {items.map((p, i) => {
+        const photo = guidePhotos[p.key]
+        const rotate = TILT[i % TILT.length]
+        return (
+          <motion.button
+            key={p.key}
+            type="button"
+            aria-haspopup="dialog"
+            aria-label={`${p.title}. ${p.lead}`}
+            drag={!reduce}
+            dragConstraints={board}
+            dragElastic={0.2}
+            dragMomentum={false}
+            onPointerDown={() => { dragged.current = false; bringFront(p.key) }}
+            onDragStart={() => { dragged.current = true }}
+            onTap={() => { if (!dragged.current) onOpen(p) }}
+            whileDrag={{ scale: 1.05 }}
+            whileHover={reduce ? undefined : { scale: 1.02 }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: -240, rotate: rotate - 25 }}
+            whileInView={{ opacity: 1, y: 0, rotate }}
+            viewport={{ once: true, margin: '-10% 0px' }}
+            transition={reduce ? { duration: 0.5 } : { type: 'spring', stiffness: 70, damping: 11, delay: (i % 2) * 0.16 }}
+            style={{ left: `${LEFT[i % LEFT.length]}%`, top: `${((2 + i * STEP) / heightW) * 100}%`, width: `${CARD_W}%`, zIndex: order[p.key] ?? i + 1, touchAction: 'pan-y' }}
+            className="absolute cursor-grab bg-white p-[3.5%] pb-[4%] text-center shadow-[0_14px_28px_-10px_rgba(60,45,20,.45)] active:cursor-grabbing focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+          >
+            <span className="pointer-events-none block aspect-[3/4] w-full overflow-hidden bg-sand">
+              {photo && <img src={photo.src} alt="" width={900} height={600} loading="lazy" decoding="async" draggable={false} className="h-full w-full object-cover" />}
+            </span>
+            <span className="pointer-events-none mt-2 block">
+              <span className="block font-serif text-[clamp(13px,3.9vw,17px)] font-medium leading-tight text-olive-deep">{p.title}</span>
+              <span className="label mt-1 block !text-[8px] !leading-[1.45] !tracking-[0.14em] text-gold">{p.lead}</span>
+            </span>
+          </motion.button>
+        )
+      })}
+    </div>
   )
 }
 
@@ -147,11 +176,7 @@ export function MedellinGuide({ gallery }: { gallery: ReactNode }) {
           {cur.key === 'photos' ? gallery : (
             <>
               <p className="label mt-6 !text-[10px] !tracking-[0.22em] text-gold">{cur.intro}</p>
-              <ul className="mx-auto mt-7 grid max-w-[460px] grid-cols-2 gap-x-5 gap-y-7 px-1">
-                {cur.items.map((p, i) => (
-                  <PickPolaroid key={p.key} pick={p} index={i} lone={i === cur.items.length - 1 && cur.items.length % 2 === 1} onOpen={() => setPicked(p)} />
-                ))}
-              </ul>
+              <PickBoard key={cur.key} items={cur.items} onOpen={setPicked} />
             </>
           )}
         </Reveal>
