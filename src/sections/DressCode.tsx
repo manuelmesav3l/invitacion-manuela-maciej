@@ -44,13 +44,13 @@ export function DressCode() {
             <div className="mx-auto mt-2 h-[1px] w-24 bg-olive-deep/25" />
           </div>
           <motion.img
-            src={asset("assets/dress-her-palette.webp")}
+            src={asset("assets/dress-her-palette-a.webp")}
             width={1400}
             height={1030}
             alt={d.herAlt}
             loading="lazy"
             decoding="async"
-            className="blend-multiply mx-auto mt-4 w-full"
+            className="mx-auto mt-4 w-full"
             initial={{ opacity: 0, scale: reduce ? 1 : 0.96 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: '-10% 0px' }}
@@ -78,13 +78,13 @@ export function DressCode() {
             <div className="mx-auto mt-2 h-[1px] w-24 bg-olive-deep/25" />
           </div>
           <motion.img
-            src={asset("assets/dress-him-palette.webp")}
+            src={asset("assets/dress-him-palette-a.webp")}
             width={1800}
             height={829}
             alt={d.himAlt}
             loading="lazy"
             decoding="async"
-            className="blend-multiply mx-auto mt-4 w-full"
+            className="mx-auto mt-4 w-full"
             initial={{ opacity: 0, scale: reduce ? 1 : 0.96 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: '-10% 0px' }}
