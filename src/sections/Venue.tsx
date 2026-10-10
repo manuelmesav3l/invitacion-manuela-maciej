@@ -19,13 +19,13 @@ export function Venue({ onClimate }: { onClimate: () => void }) {
           <SectionTitle initial={v.title.initial} rest={v.title.rest} size="lg" className="mb-2" />
         )}
         <motion.img
-          src={asset(v.hasBakedTitle ? 'assets/venue-composite.webp' : 'assets/venue-composite-notitle.webp')}
+          src={asset(v.hasBakedTitle ? 'assets/venue-composite-a.webp' : 'assets/venue-composite-notitle-a.webp')}
           width={1088}
           height={v.hasBakedTitle ? 1464 : 1134}
           alt={`${v.title.initial}${v.title.rest} — Casa Primavera`}
           loading="lazy"
           decoding="async"
-          className="blend-multiply mx-auto w-full select-none"
+          className="mx-auto w-full select-none"
           initial={reduce ? { opacity: 0 } : { opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-10% 0px' }}

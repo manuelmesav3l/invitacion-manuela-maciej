@@ -125,7 +125,6 @@ img { display: block; max-width: 100%; }
 
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-.blend-multiply { mix-blend-mode: multiply; }
 
 @keyframes rsvp-pulse { 0%, 100% { transform: scale(1); opacity: 1 } 50% { transform: scale(1.06); opacity: .8 } }
 @keyframes disco-spin { to { transform: rotate(360deg) } }

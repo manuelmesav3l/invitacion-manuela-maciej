@@ -99,35 +99,35 @@ export function Programme() {
         <div className="tl-stage relative mx-auto mt-6 sm:mt-8 h-[310px] sm:h-[340px] w-full">
           {/* Shuttle bus illustration: sits cleanly above Shuttle node without encroaching Ceremony */}
           <img
-            src={asset("assets/programme-bus.webp")}
+            src={asset("assets/programme-bus-a.webp")}
             width={279}
             height={171}
             alt={t.programme.illustrations.bus}
             loading="lazy"
             decoding="async"
-            className="blend-multiply tl-icon tl-bus absolute left-[0%] top-[44px] sm:top-[50px] w-[24%] sm:w-[22%] max-w-[130px] h-auto object-contain select-none pointer-events-none"
+            className="tl-icon tl-bus absolute left-[0%] top-[44px] sm:top-[50px] w-[24%] sm:w-[22%] max-w-[130px] h-auto object-contain select-none pointer-events-none"
           />
 
           {/* Disco ball illustration: crowns Party node with clean clearance directly above the time text */}
           <img
-            src={asset("assets/programme-disco.webp")}
+            src={asset("assets/programme-disco-a.webp")}
             width={280}
             height={271}
             alt={t.programme.illustrations.disco}
             loading="lazy"
             decoding="async"
-            className="blend-multiply tl-icon tl-disco absolute left-[59%] sm:left-[59.5%] top-[28px] sm:top-[8px] w-[23%] sm:w-[21%] max-w-[115px] h-auto object-contain select-none pointer-events-none"
+            className="tl-icon tl-disco absolute left-[59%] sm:left-[59.5%] top-[28px] sm:top-[8px] w-[23%] sm:w-[21%] max-w-[115px] h-auto object-contain select-none pointer-events-none"
           />
 
           {/* Sparklers illustration: positioned under Send Off node with ample clearance below the '3:00' text */}
           <img
-            src={asset("assets/programme-sparkler.webp")}
+            src={asset("assets/programme-sparkler-a.webp")}
             width={283}
             height={236}
             alt={t.programme.illustrations.sparkler}
             loading="lazy"
             decoding="async"
-            className="blend-multiply tl-icon tl-spark absolute left-[88.4%] -translate-x-1/2 top-[calc(50%+45px)] sm:top-[calc(50%+51px)] w-[24%] sm:w-[22%] max-w-[125px] h-auto object-contain select-none pointer-events-none"
+            className="tl-icon tl-spark absolute left-[88.4%] -translate-x-1/2 top-[calc(50%+45px)] sm:top-[calc(50%+51px)] w-[24%] sm:w-[22%] max-w-[125px] h-auto object-contain select-none pointer-events-none"
           />
 
           {/* Central Timeline axis and milestones */}
