@@ -4,6 +4,8 @@ interface Props {
   initial: string
   rest: string
   size?: 'md' | 'lg'
+  /** Smaller lettering for long words (e.g. TRANSPORTATION) so they never overflow a phone. */
+  compact?: boolean
   color?: string
   scriptColor?: string
   as?: 'h1' | 'h2'
@@ -11,7 +13,7 @@ interface Props {
 }
 
 /** Script swash initial + high-contrast serif remainder ("𝒯HE VENUE"). */
-export function SectionTitle({ initial, rest, size = 'md', color = 'text-gold', scriptColor, as: Tag = 'h2', className = '' }: Props) {
+export function SectionTitle({ initial, rest, size = 'md', compact = false, color = 'text-gold', scriptColor, as: Tag = 'h2', className = '' }: Props) {
   const reduce = useReducedMotion()
   const big = size === 'lg'
   return (
@@ -24,8 +26,8 @@ export function SectionTitle({ initial, rest, size = 'md', color = 'text-gold', 
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         className="block"
       >
-        <span className={`font-script align-baseline ${scriptColor ?? ''} ${big ? 'text-[clamp(62px,22.5vw,88px)]' : 'text-[clamp(56px,19vw,74px)]'} mr-[-0.05em] italic`}>{initial}</span>
-        <span className="font-belfast text-[clamp(38px,13.8vw,54px)] font-normal tracking-[0.02em]">{rest}</span>
+        <span className={`font-script align-baseline ${scriptColor ?? ''} ${compact ? 'text-[clamp(50px,15vw,70px)]' : big ? 'text-[clamp(62px,22.5vw,88px)]' : 'text-[clamp(56px,19vw,74px)]'} mr-[-0.05em] italic`}>{initial}</span>
+        <span className={`font-belfast font-normal tracking-[0.02em] ${compact ? 'text-[clamp(24px,7.6vw,38px)]' : 'text-[clamp(38px,13.8vw,54px)]'}`}>{rest}</span>
       </motion.span>
     </Tag>
   )

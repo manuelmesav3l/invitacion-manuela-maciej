@@ -30,8 +30,9 @@ export function DressCode() {
         {/* FOR HER */}
         <div className="relative mt-12 pb-9 pt-[68px]">
           <DrawnFrame />
-          <div className="absolute right-0 top-0 -translate-y-[24px] sm:-translate-y-[28px] text-right z-10">
+          <div className="absolute bottom-full right-0 z-10 mb-1.5 text-right">
             <p className="label !text-[11px] sm:!text-[12px] !tracking-[0.25em] text-olive-deep">{d.her}</p>
+            <p className="font-serif text-[11px] italic leading-tight text-olive-deep/80 sm:text-[12px]">{d.reference}</p>
           </div>
           <div className="absolute inset-x-0 top-0 -translate-y-[42px] text-center">
             <div className="inline-block bg-cream px-4">
@@ -63,8 +64,9 @@ export function DressCode() {
         {/* FOR HIM */}
         <div className="relative mt-24 pb-9 pt-[68px]">
           <DrawnFrame />
-          <div className="absolute right-0 top-0 -translate-y-[24px] sm:-translate-y-[28px] text-right z-10">
+          <div className="absolute bottom-full right-0 z-10 mb-1.5 text-right">
             <p className="label !text-[11px] sm:!text-[12px] !tracking-[0.25em] text-olive-deep">{d.him}</p>
+            <p className="font-serif text-[11px] italic leading-tight text-olive-deep/80 sm:text-[12px]">{d.reference}</p>
           </div>
           <div className="absolute inset-x-0 top-0 -translate-y-[42px] text-center">
             <div className="inline-block bg-cream px-4">
@@ -96,6 +98,9 @@ export function DressCode() {
         {/* OUR COLORS */}
         <div className="relative mt-24 pb-9 pt-[68px]">
           <DrawnFrame />
+          <div className="absolute bottom-full right-0 z-10 mb-1.5 text-right">
+            <p className="font-serif text-[11px] italic leading-tight text-olive-deep/80 sm:text-[12px]">{d.reference}</p>
+          </div>
           <div className="absolute inset-x-0 top-0 -translate-y-[42px] text-center">
             <div className="inline-block bg-cream px-4">
               <StackedTitle initial={o.initial} first={o.first} second={o.second} />

@@ -2,6 +2,7 @@ import { asset } from '../lib/asset'
 import { motion, useReducedMotion } from 'motion/react'
 import { PillButton } from '../components/PillButton'
 import { Reveal } from '../components/Reveal'
+import { SectionTitle } from '../components/SectionTitle'
 import { useLanguage } from '../context/LanguageContext'
 
 export function Venue({ onClimate }: { onClimate: () => void }) {
@@ -13,10 +14,14 @@ export function Venue({ onClimate }: { onClimate: () => void }) {
       <div className="mx-auto max-w-[680px] px-4 sm:px-6 text-center">
         <h2 className="sr-only">{`${v.title.initial}${v.title.rest} — Casa Primavera`}</h2>
 
+        {/* EN artwork carries its own 'THE VENUE' lettering; PL uses the same art without it plus a live title. */}
+        {!v.hasBakedTitle && (
+          <SectionTitle initial={v.title.initial} rest={v.title.rest} size="lg" className="mb-2" />
+        )}
         <motion.img
-          src={asset("assets/venue-composite.webp")}
+          src={asset(v.hasBakedTitle ? 'assets/venue-composite.webp' : 'assets/venue-composite-notitle.webp')}
           width={1088}
-          height={1464}
+          height={v.hasBakedTitle ? 1464 : 1134}
           alt={`${v.title.initial}${v.title.rest} — Casa Primavera`}
           loading="lazy"
           decoding="async"
@@ -27,8 +32,11 @@ export function Venue({ onClimate }: { onClimate: () => void }) {
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         />
 
-        {/* TODO_COPY: venue paragraph lives in content.ts */}
-        <Reveal delay={0.1}><p className="label mx-auto mt-6 max-w-[320px] !text-[11px] !leading-[2] text-ink">{v.body}</p></Reveal>
+        <Reveal delay={0.1}>
+          <div className="mx-auto mt-6 max-w-[380px] space-y-3">
+            {v.body.map((line) => <p key={line} className="label !text-[11px] !leading-[2] text-ink">{line}</p>)}
+          </div>
+        </Reveal>
 
         <div className="relative mt-10 h-[215px] sm:h-[235px]">
           <div className="absolute left-[12%] sm:left-[16%] top-0 flex flex-col items-center gap-3">

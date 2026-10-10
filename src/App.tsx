@@ -5,6 +5,11 @@ import { Hero } from './sections/Hero'
 import { Medellin } from './sections/Medellin'
 import { Programme } from './sections/Programme'
 import { Venue } from './sections/Venue'
+import { Transportation } from './sections/Transportation'
+import { Gifts } from './sections/Gifts'
+import { WhereToStay } from './sections/WhereToStay'
+import { DayTrips, ThingsToDo } from './sections/ThingsToDo'
+import { ThankYou } from './sections/ThankYou'
 import { Welcome } from './sections/Welcome'
 import { StackCard } from './components/StackCard'
 import { LanguageToggle } from './components/LanguageToggle'
@@ -33,6 +38,12 @@ export default function App() {
           <Programme />
           <DressCode />
           <Medellin />
+          <Transportation />
+          <Gifts />
+          <WhereToStay />
+          <ThingsToDo />
+          <DayTrips />
+          <ThankYou />
         </StackCard>
         <Suspense fallback={null}>
           {rsvp && <Rsvp open={rsvp} onClose={() => setRsvp(false)} />}
