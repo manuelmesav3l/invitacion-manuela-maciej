@@ -119,8 +119,17 @@ export function MedellinGuide({ gallery }: { gallery: ReactNode }) {
   const cur = tabs[active]
 
   return (
-    <div className="mt-8">
-      <div role="tablist" aria-label={t.medellin.kicker} className="mx-auto grid max-w-[460px] grid-cols-3 rounded-full border border-gold/60 bg-cream/70 p-1">
+    <div className="mt-12 sm:mt-14">
+      <div
+        role="tablist"
+        aria-label={t.medellin.kicker}
+        className="relative mx-auto grid max-w-[460px] grid-cols-3 rounded-full border border-gold/70 bg-gradient-to-b from-cream-light/80 to-cream/60 p-[5px] shadow-[0_10px_24px_-16px_rgba(60,50,20,.55),inset_0_0_0_3px_rgba(248,241,226,.55)]"
+      >
+        <span
+          aria-hidden="true"
+          style={{ transform: `translateX(${active * 100}%)` }}
+          className={`pointer-events-none absolute inset-y-[5px] left-[5px] w-[calc((100%-10px)/3)] rounded-full bg-gradient-to-b from-[#4a6b38] to-olive-deep shadow-[0_6px_14px_-6px_rgba(40,60,25,.7),inset_0_0_0_1px_rgba(173,145,92,.55)] ${reduce ? '' : 'transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]'}`}
+        />
         {tabs.map((tab, i) => (
           <button
             key={tab.key}
@@ -133,8 +142,8 @@ export function MedellinGuide({ gallery }: { gallery: ReactNode }) {
             tabIndex={active === i ? 0 : -1}
             onClick={() => select(i)}
             onKeyDown={(e) => onKey(e, i)}
-            className={`label flex min-h-[46px] items-center justify-center rounded-full px-1.5 py-2 text-center !text-[9px] !tracking-[0.14em] !leading-[1.5] sm:!text-[10px] font-medium transition-colors duration-300 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
-              active === i ? 'bg-olive-deep text-[#f8f5ee] shadow-sm' : 'text-olive-deep hover:bg-gold/10'
+            className={`label flex relative z-10 min-h-[50px] items-center justify-center rounded-full px-1.5 py-2 text-center !text-[9px] !tracking-[0.14em] !leading-[1.5] sm:!text-[10px] font-medium transition-colors duration-300 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
+              active === i ? 'text-[#f8f5ee]' : 'text-olive-deep hover:text-gold'
             }`}
           >
             {tab.label}
