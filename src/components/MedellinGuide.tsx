@@ -119,7 +119,7 @@ export function MedellinGuide({ gallery }: { gallery: ReactNode }) {
   const cur = tabs[active]
 
   return (
-    <div className="mt-12 sm:mt-14">
+    <div className="mt-4 sm:mt-5">
       <div role="tablist" aria-label={t.medellin.kicker} className="relative mx-auto grid max-w-[460px] grid-cols-3 border-b border-gold/25">
         <span
           aria-hidden="true"
@@ -138,7 +138,7 @@ export function MedellinGuide({ gallery }: { gallery: ReactNode }) {
             tabIndex={active === i ? 0 : -1}
             onClick={() => select(i)}
             onKeyDown={(e) => onKey(e, i)}
-            className={`label flex min-h-[52px] items-center justify-center px-1 pb-1 text-center !text-[10px] !leading-[1.5] !tracking-[0.22em] font-medium transition-colors duration-300 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:!text-[12px] sm:!tracking-[0.3em] ${
+            className={`label flex min-h-[46px] items-center justify-center px-1 pb-1 text-center !text-[10px] !leading-[1.5] !tracking-[0.22em] font-medium transition-colors duration-300 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:!text-[12px] sm:!tracking-[0.3em] ${
               active === i ? 'text-gold' : 'text-gold/75 hover:text-gold'
             }`}
           >
