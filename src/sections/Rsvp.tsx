@@ -51,7 +51,7 @@ function YesNo({ value, onChange, yes, no }: { value: boolean | undefined; onCha
           className={`label flex min-h-[48px] items-center justify-center rounded-full border px-4 py-3 text-center !text-[11px] sm:!text-[12px] font-medium transition-all active:scale-[0.98] touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
             value === val
               ? 'border-olive-deep bg-olive-deep text-[#f8f5ee] shadow-sm'
-              : 'border-gold/60 text-gold hover:border-gold hover:bg-gold/5'
+              : 'border-gold/70 bg-white/30 text-[#7a6030] hover:border-gold hover:bg-white/60'
           }`}
         >
           {text}
@@ -114,18 +114,20 @@ export function RsvpForm({ open }: { open: boolean }) {
     }
   })
 
-  const field = 'w-full border-0 border-b border-olive-deep/40 bg-transparent px-1 py-2 font-serif text-[19px] text-ink placeholder:text-ink/40 focus:border-olive-deep focus:outline-none'
-  const lab = 'label !text-[10px] text-gold'
+  const field = 'mt-1.5 w-full rounded-[3px] border border-olive-deep/25 bg-white/50 px-3 py-2.5 font-serif text-[18px] text-ink placeholder:text-ink/40 transition-colors focus:border-gold focus:bg-white/80 focus:outline-none focus:ring-2 focus:ring-gold/40'
+  const lab = 'label !text-[10px] !tracking-[0.2em] text-[#7a6030]'
 
   return (
     <div className="mx-auto max-w-[460px] px-7 pb-14 pt-12 text-center">
         <p className="label !text-[11px] text-olive-deep">{t.hero.kicker}</p>
         <Flourish className="mx-auto mt-2 h-6 text-olive-deep" />
-        <h2 className="m-0 font-serif text-[clamp(56px,18vw,76px)] font-normal leading-none tracking-[0.35em] text-olive-deep" style={{ paddingLeft: '0.35em' }}>{t.rsvp.title}</h2>
-        <p className="mt-4 font-script text-[58px] italic leading-none text-gold">{t.rsvp.kindly}</p>
-        <p className="font-serif text-[30px] font-medium leading-none text-gold">{t.rsvp.reply}</p>
-        <p className="mt-1 font-serif text-[24px] tracking-[0.2em] text-gold"><span className="font-script text-[36px] normal-case italic tracking-normal">{t.rsvp.by}</span> {t.rsvp.deadline}</p>
-        <p className="label mx-auto mt-2 max-w-[300px] !text-[10px] !leading-[1.8] text-gold/90">{t.rsvp.deadlineNote}</p>
+        <h2 className="m-0 mt-1 font-serif text-[clamp(56px,18vw,76px)] font-normal leading-none tracking-[0.35em] text-olive-deep" style={{ paddingLeft: '0.35em' }}>{t.rsvp.title}</h2>
+        <div className="mx-auto mt-6 max-w-[320px] border-y border-gold/50 py-5">
+          <p className="m-0 font-script text-[clamp(44px,13vw,56px)] italic leading-[0.9] text-gold">{t.rsvp.kindly}</p>
+          <p className="m-0 mt-2.5 font-serif text-[clamp(24px,7vw,28px)] font-medium leading-none tracking-[0.08em] text-[#8f7240]">{t.rsvp.reply}</p>
+          <p className="m-0 mt-2.5 font-serif text-[clamp(20px,6vw,24px)] tracking-[0.2em] text-[#8f7240]"><span className="font-script text-[1.5em] normal-case italic tracking-normal">{t.rsvp.by}</span> {t.rsvp.deadline}</p>
+        </div>
+        <p className="label mx-auto mt-3 max-w-[300px] !text-[10px] !leading-[1.8] text-[#7a6030]">{t.rsvp.deadlineNote}</p>
 
         {state === 'done' ? (
           <div className="mt-10 flex flex-col items-center" role="status">
@@ -141,7 +143,7 @@ export function RsvpForm({ open }: { open: boolean }) {
             </button>
           </div>
         ) : (
-          <form onSubmit={onSubmit} noValidate className="mt-9 space-y-6 text-left">
+          <form onSubmit={onSubmit} noValidate className="mt-8 space-y-6 rounded-[4px] border border-olive-deep/20 bg-white/30 px-5 py-7 text-left shadow-[0_14px_30px_-20px_rgba(60,45,20,.5)]">
             {!tk && <p className="label !text-[10px] text-center text-ink">{t.rsvp.needLink}</p>}
             <div className="hidden" aria-hidden="true"><label>Website<input tabIndex={-1} autoComplete="off" {...register('website')} /></label></div>
 
@@ -164,7 +166,7 @@ export function RsvpForm({ open }: { open: boolean }) {
                 </select>
               </div>
             )}
-            <p className="font-serif text-[15px] italic leading-snug text-ink/80">{t.rsvp.plusOnes}</p>
+            <p className="m-0 font-serif text-[15px] italic leading-snug text-ink/80">{t.rsvp.plusOnes}</p>
 
             <div>
               <label htmlFor={`${uid}-full_name`} className={lab}>{L.name}</label>
