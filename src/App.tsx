@@ -5,7 +5,6 @@ import { Hero } from './sections/Hero'
 import { Medellin } from './sections/Medellin'
 import { Programme } from './sections/Programme'
 import { Venue } from './sections/Venue'
-import { Transportation } from './sections/Transportation'
 import { Gifts } from './sections/Gifts'
 import { WhereToStay } from './sections/WhereToStay'
 import { DayTrips, ThingsToDo } from './sections/ThingsToDo'
@@ -35,7 +34,6 @@ export default function App() {
           <Countdown />
           <Welcome />
           <Venue onClimate={() => setClimate(true)} />
-          <Transportation />
           <Programme />
           <DressCode />
           <Medellin />
