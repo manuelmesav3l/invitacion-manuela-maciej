@@ -16,6 +16,7 @@ import { LanguageProvider } from './context/LanguageContext'
 import { initScroll } from './lib/scroll'
 
 // Lazy load heavy interactive sheets/modals on demand to keep initial heap memory minimal
+const RsvpSection = lazy(() => import('./sections/RsvpSection').then((m) => ({ default: m.RsvpSection })))
 const Rsvp = lazy(() => import('./sections/Rsvp').then((m) => ({ default: m.Rsvp })))
 const ClimateSheet = lazy(() => import('./sections/ClimateSheet').then((m) => ({ default: m.ClimateSheet })))
 
@@ -40,6 +41,9 @@ export default function App() {
           <DressCode />
           <Medellin />
           <Gifts />
+          <Suspense fallback={<div className="min-h-[1100px] bg-cream" aria-hidden="true" />}>
+            <RsvpSection />
+          </Suspense>
           <ThankYou />
         </StackCard>
         <Suspense fallback={null}>

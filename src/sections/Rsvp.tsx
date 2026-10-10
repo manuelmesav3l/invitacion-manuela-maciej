@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { motion, useReducedMotion } from 'motion/react'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useId, useMemo, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
 import { Flourish } from '../components/Ornaments'
@@ -61,7 +61,9 @@ function YesNo({ value, onChange, yes, no }: { value: boolean | undefined; onCha
   )
 }
 
-export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) {
+/** RSVP content (heading + deadline + form). Shared by the modal sheet and the inline section. */
+export function RsvpForm({ open }: { open: boolean }) {
+  const uid = useId()
   const { t } = useLanguage()
   const L = t.rsvp.labels
   const tk = useMemo(() => token(), [])
@@ -116,11 +118,10 @@ export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) 
   const lab = 'label !text-[10px] text-gold'
 
   return (
-    <Sheet open={open} onClose={onClose} label={t.rsvp.title} closeLabel={L.close} tall>
-      <div className="mx-auto max-w-[460px] px-7 pb-14 pt-12 text-center">
+    <div className="mx-auto max-w-[460px] px-7 pb-14 pt-12 text-center">
         <p className="label !text-[11px] text-olive-deep">{t.hero.kicker}</p>
         <Flourish className="mx-auto mt-2 h-6 text-olive-deep" />
-        <h2 className="m-0 font-serif text-[76px] font-normal leading-none tracking-[0.35em] text-olive-deep" style={{ paddingLeft: '0.35em' }}>{t.rsvp.title}</h2>
+        <h2 className="m-0 font-serif text-[clamp(56px,18vw,76px)] font-normal leading-none tracking-[0.35em] text-olive-deep" style={{ paddingLeft: '0.35em' }}>{t.rsvp.title}</h2>
         <p className="mt-4 font-script text-[58px] italic leading-none text-gold">{t.rsvp.kindly}</p>
         <p className="font-serif text-[30px] font-medium leading-none text-gold">{t.rsvp.reply}</p>
         <p className="mt-1 font-serif text-[24px] tracking-[0.2em] text-gold"><span className="font-script text-[36px] normal-case italic tracking-normal">{t.rsvp.by}</span> {t.rsvp.deadline}</p>
@@ -157,8 +158,8 @@ export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) 
 
             {attending && max > 0 && (
               <div>
-                <label htmlFor="companions" className={lab}>{L.companions} (0–{max})</label>
-                <select id="companions" className={field} {...register('companions', { valueAsNumber: true })}>
+                <label htmlFor={`${uid}-companions`} className={lab}>{L.companions} (0–{max})</label>
+                <select id={`${uid}-companions`} className={field} {...register('companions', { valueAsNumber: true })}>
                   {Array.from({ length: max + 1 }, (_, i) => <option key={i} value={i}>{i}</option>)}
                 </select>
               </div>
@@ -166,23 +167,23 @@ export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) 
             <p className="font-serif text-[15px] italic leading-snug text-ink/80">{t.rsvp.plusOnes}</p>
 
             <div>
-              <label htmlFor="full_name" className={lab}>{L.name}</label>
-              <input id="full_name" autoComplete="name" className={field} aria-invalid={!!errors.full_name} {...register('full_name')} />
+              <label htmlFor={`${uid}-full_name`} className={lab}>{L.name}</label>
+              <input id={`${uid}-full_name`} autoComplete="name" className={field} aria-invalid={!!errors.full_name} {...register('full_name')} />
               {errors.full_name && <p role="alert" className="mt-1 font-serif text-[15px] text-[#8a3a2a]">{errors.full_name.message}</p>}
             </div>
             <div>
-              <label htmlFor="email" className={lab}>{L.email}</label>
-              <input id="email" type="email" inputMode="email" autoComplete="email" className={field} aria-invalid={!!errors.email} {...register('email')} />
+              <label htmlFor={`${uid}-email`} className={lab}>{L.email}</label>
+              <input id={`${uid}-email`} type="email" inputMode="email" autoComplete="email" className={field} aria-invalid={!!errors.email} {...register('email')} />
               {errors.email && <p role="alert" className="mt-1 font-serif text-[15px] text-[#8a3a2a]">{errors.email.message}</p>}
             </div>
             <div>
-              <label htmlFor="phone" className={lab}>{L.phone}</label>
-              <input id="phone" type="tel" inputMode="tel" autoComplete="tel" className={field} aria-invalid={!!errors.phone} {...register('phone')} />
+              <label htmlFor={`${uid}-phone`} className={lab}>{L.phone}</label>
+              <input id={`${uid}-phone`} type="tel" inputMode="tel" autoComplete="tel" className={field} aria-invalid={!!errors.phone} {...register('phone')} />
               {errors.phone && <p role="alert" className="mt-1 font-serif text-[15px] text-[#8a3a2a]">{errors.phone.message}</p>}
             </div>
             <div>
-              <label htmlFor="dietary" className={lab}>{L.dietary}</label>
-              <input id="dietary" className={field} {...register('dietary')} />
+              <label htmlFor={`${uid}-dietary`} className={lab}>{L.dietary}</label>
+              <input id={`${uid}-dietary`} className={field} {...register('dietary')} />
             </div>
 
             {attending && (
@@ -209,8 +210,8 @@ export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) 
             )}
 
             <div>
-              <label htmlFor="message" className={lab}>{L.message}</label>
-              <textarea id="message" rows={3} className={`${field} resize-none`} {...register('message')} />
+              <label htmlFor={`${uid}-message`} className={lab}>{L.message}</label>
+              <textarea id={`${uid}-message`} rows={3} className={`${field} resize-none`} {...register('message')} />
             </div>
 
             {error && <p role="alert" className="text-center font-serif text-[16px] text-[#8a3a2a]">{error}</p>}
@@ -225,7 +226,15 @@ export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) 
             </div>
           </form>
         )}
-      </div>
+    </div>
+  )
+}
+
+export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const { t } = useLanguage()
+  return (
+    <Sheet open={open} onClose={onClose} label={t.rsvp.title} closeLabel={t.rsvp.labels.close} tall>
+      <RsvpForm open={open} />
     </Sheet>
   )
 }
