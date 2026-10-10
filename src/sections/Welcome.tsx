@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback, lazy, Suspense } from 'react'
+import { useEffect, useRef, useState, useCallback, lazy, Suspense, memo } from 'react'
 import { useReducedMotion, useInView } from 'motion/react'
 import { PhotoSlot } from '../components/PhotoSlot'
 import { Reveal } from '../components/Reveal'
@@ -7,37 +7,25 @@ import { useLanguage } from '../context/LanguageContext'
 
 const ImageLightbox = lazy(() => import('../components/ImageLightbox').then((m) => ({ default: m.ImageLightbox })))
 
-export function Welcome() {
-  const { t, locale } = useLanguage()
-  const reduce = useReducedMotion()
-  const carouselRef = useRef<HTMLDivElement>(null)
-  const headingContainerRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(headingContainerRef, { margin: '0px 0px -5% 0px' })
-
-  // Alternating greetings: prioritises active language while celebrating both cultures
-  const words = locale === 'pl' ? ['Witamy', 'Bienvenidos'] : ['Bienvenidos', 'Witamy']
-
+/**
+ * Isolated calligraphic typewriter heading.
+ * Isolating this component prevents continuous React re-renders from bubbling to the photo carousel.
+ */
+const TypewriterHeading = memo(function TypewriterHeading({
+  words,
+  reduce,
+  isInView,
+}: {
+  words: string[]
+  reduce: boolean | null
+  isInView: boolean
+}) {
   const [wordIndex, setWordIndex] = useState(0)
   const [displayText, setDisplayText] = useState('')
   const [isDeleting, setIsDeleting] = useState(false)
 
-  // Reset to primary word during render whenever user switches site language
-  const [prevLocale, setPrevLocale] = useState(locale)
-  if (prevLocale !== locale) {
-    setPrevLocale(locale)
-    setWordIndex(0)
-    setDisplayText('')
-    setIsDeleting(false)
-  }
-
-  // Carousel & Lightbox states
-  const [activeSlide, setActiveSlide] = useState(0)
-  const [lightboxOpen, setLightboxOpen] = useState(false)
-  const [lightboxIndex, setLightboxIndex] = useState(0)
-
   const currentWord = words[wordIndex % words.length]
 
-  // Stabilized calligraphic typewriter: writes, pauses for reading, and smoothly erases in an alternating loop
   useEffect(() => {
     if (reduce || !isInView) return
 
@@ -45,25 +33,21 @@ export function Welcome() {
 
     if (!isDeleting) {
       if (displayText.length < currentWord.length) {
-        // Natural handwriting pacing (slight variation for calligraphic feel)
         const delay = 120 + (displayText.length % 3 === 0 ? 30 : -15)
         timer = setTimeout(() => {
           setDisplayText(currentWord.slice(0, displayText.length + 1))
         }, delay)
       } else {
-        // Full word written: pause long enough for guests to read and appreciate
         timer = setTimeout(() => {
           setIsDeleting(true)
-        }, 2300)
+        }, 2400)
       }
     } else {
       if (displayText.length > 0) {
-        // Fluid erasing pace
         timer = setTimeout(() => {
           setDisplayText(currentWord.slice(0, displayText.length - 1))
         }, 55)
       } else {
-        // Brief pause after erasing before starting the next greeting
         timer = setTimeout(() => {
           setIsDeleting(false)
           setWordIndex((prev) => (prev + 1) % words.length)
@@ -74,30 +58,88 @@ export function Welcome() {
     return () => clearTimeout(timer)
   }, [displayText, isDeleting, currentWord, words.length, reduce, isInView])
 
-  // Track active slide accurately across any viewport width
+  return (
+    <h2
+      className="m-0 inline-flex items-center justify-center font-script text-[clamp(72px,22vw,112px)] font-normal leading-none text-olive-deep"
+      style={{ transform: 'rotate(-2deg)' }}
+      aria-label={words.join(' / ')}
+    >
+      <span className="sr-only">Bienvenidos — Witamy</span>
+
+      {reduce ? (
+        <span aria-hidden="true" className="select-none tracking-tight">
+          {currentWord}
+        </span>
+      ) : (
+        <span
+          aria-hidden="true"
+          className="relative inline-grid grid-cols-1 grid-rows-1 place-items-start select-none tracking-tight"
+        >
+          {/* Ghost layer to stabilize layout and guarantee 0 CLS */}
+          <span
+            className="col-start-1 row-start-1 invisible opacity-0 pointer-events-none select-none whitespace-nowrap"
+            aria-hidden="true"
+          >
+            {currentWord}
+          </span>
+
+          <span
+            className="col-start-1 row-start-1 whitespace-nowrap inline-flex items-center"
+            aria-hidden="true"
+          >
+            <span>{displayText || '\u00A0'}</span>
+            <span
+              aria-hidden="true"
+              className="animate-ink-cursor ml-1.5 inline-block h-[0.72em] w-[2px] rounded-full bg-gold/90 shadow-[0_0_4px_rgba(173,145,92,0.4)] translate-y-[2px] select-none"
+            />
+          </span>
+        </span>
+      )}
+    </h2>
+  )
+})
+
+export function Welcome() {
+  const { t, locale } = useLanguage()
+  const reduce = useReducedMotion()
+  const carouselRef = useRef<HTMLDivElement>(null)
+  const headingContainerRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(headingContainerRef, { margin: '0px 0px -5% 0px' })
+  const rafId = useRef<number | null>(null)
+
+  // Alternating greetings: prioritises active language while celebrating both cultures
+  const words = locale === 'pl' ? ['Witamy', 'Bienvenidos'] : ['Bienvenidos', 'Witamy']
+
+  // Carousel & Lightbox states
+  const [activeSlide, setActiveSlide] = useState(0)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [lightboxIndex, setLightboxIndex] = useState(0)
+
+  // Efficient RAF-throttled scroll handler: avoids synchronous layout thrashing
   const handleCarouselScroll = useCallback(() => {
     if (!carouselRef.current) return
-    const container = carouselRef.current
-    const cards = Array.from(container.children) as HTMLElement[]
-    if (cards.length === 0) return
+    if (rafId.current) cancelAnimationFrame(rafId.current)
 
-    const containerRect = container.getBoundingClientRect()
-    const containerCenter = containerRect.left + containerRect.width / 2
+    rafId.current = requestAnimationFrame(() => {
+      const container = carouselRef.current
+      if (!container) return
+      const scrollLeft = container.scrollLeft
+      const firstCard = container.firstElementChild as HTMLElement | null
+      if (!firstCard) return
 
-    let closestIdx = 0
-    let minDistance = Infinity
+      // Card width plus gap (20px average for responsive sm/md gap)
+      const cardWidth = firstCard.offsetWidth + 20
+      const calculatedIndex = Math.round(scrollLeft / cardWidth)
+      const clamped = Math.max(0, Math.min(calculatedIndex, t.welcome.photos.length - 1))
 
-    cards.forEach((card, idx) => {
-      const rect = card.getBoundingClientRect()
-      const cardCenter = rect.left + rect.width / 2
-      const distance = Math.abs(containerCenter - cardCenter)
-      if (distance < minDistance) {
-        minDistance = distance
-        closestIdx = idx
-      }
+      setActiveSlide((prev) => (prev === clamped ? prev : clamped))
     })
+  }, [t.welcome.photos.length])
 
-    setActiveSlide(closestIdx)
+  useEffect(() => {
+    return () => {
+      if (rafId.current) cancelAnimationFrame(rafId.current)
+    }
   }, [])
 
   const scrollToSlide = (index: number) => {
@@ -144,77 +186,40 @@ export function Welcome() {
             ref={headingContainerRef}
             className="flex min-h-[clamp(76px,24vw,120px)] items-center justify-center"
           >
-            <h2
-              className="m-0 inline-flex items-center justify-center font-script text-[clamp(72px,22vw,112px)] font-normal leading-none text-olive-deep"
-              style={{ transform: 'rotate(-2deg)' }}
-              aria-label={words.join(' / ')}
-            >
-              <span className="sr-only">Bienvenidos — Witamy</span>
-
-              {reduce ? (
-                <span aria-hidden="true" className="select-none tracking-tight">
-                  {currentWord}
-                </span>
-              ) : (
-                <span
-                  aria-hidden="true"
-                  className="relative inline-grid grid-cols-1 grid-rows-1 place-items-start select-none tracking-tight"
-                >
-                  {/* Ghost layer: establishes the exact bounding box of the current word so letters don't shift */}
-                  <span
-                    className="col-start-1 row-start-1 invisible opacity-0 pointer-events-none select-none whitespace-nowrap"
-                    aria-hidden="true"
-                  >
-                    {currentWord}
-                  </span>
-
-                  {/* Visible typing layer: starts at the exact left coordinate of the word, writing towards the right */}
-                  <span
-                    className="col-start-1 row-start-1 whitespace-nowrap inline-flex items-center"
-                    aria-hidden="true"
-                  >
-                    <span>{displayText || '\u00A0'}</span>
-                    <span
-                      aria-hidden="true"
-                      className="animate-ink-cursor ml-1.5 inline-block h-[0.72em] w-[2px] rounded-full bg-gold/90 shadow-[0_0_4px_rgba(173,145,92,0.4)] translate-y-[2px] select-none"
-                    />
-                  </span>
-                </span>
-              )}
-            </h2>
+            <TypewriterHeading words={words} reduce={reduce} isInView={isInView} />
           </div>
         </Reveal>
         <Reveal delay={0.1}>
-          {/* TODO_COPY: welcome paragraph lives in content.ts */}
+          {/* Welcome paragraph from content.ts */}
           <div className="mx-auto mt-3 max-w-[340px] space-y-2">
             {t.welcome.body.map((line) => <p key={line} className="label !text-[11px] !leading-[2] text-ink">{line}</p>)}
           </div>
         </Reveal>
       </div>
 
-      {/* RESPONSIVE CAROUSEL: Single strictly horizontal row with smooth scroll snap */}
-      <div className="relative mx-auto mt-8 sm:mt-12 max-w-[1240px] px-2 sm:px-6 lg:px-8">
-        {/* Floating previous arrow button (visible on tablet/desktop) */}
+      {/* RESPONSIVE CAROUSEL: Strictly single horizontal line with high-performance scroll track */}
+      <div className="relative mx-auto mt-8 sm:mt-12 max-w-[1320px] px-3 sm:px-12 lg:px-16">
+        {/* Floating previous arrow button positioned cleanly at the left edge */}
         <button
           type="button"
           onClick={handlePrev}
           aria-label={t.welcome.prevPhoto}
-          className="hidden sm:flex absolute -left-2 md:left-1 lg:left-3 top-[44%] -translate-y-1/2 z-20 h-11 w-11 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-sand/95 backdrop-blur-md border border-olive-deep/20 text-olive-deep shadow-[0_4px_16px_rgba(74,68,54,0.16)] transition-all duration-200 hover:bg-olive-deep hover:text-sand hover:border-olive-deep hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer"
+          className="hidden sm:flex absolute left-2 lg:left-4 top-[44%] -translate-y-1/2 z-20 h-11 w-11 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-sand/95 backdrop-blur-md border border-olive-deep/20 text-olive-deep shadow-[0_4px_16px_rgba(74,68,54,0.16)] transition-all duration-200 hover:bg-olive-deep hover:text-sand hover:border-olive-deep hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer"
         >
           <ChevronLeftIcon className="h-6 w-6" />
         </button>
 
-        {/* Floating next arrow button (visible on tablet/desktop) */}
+        {/* Floating next arrow button positioned cleanly at the right edge */}
         <button
           type="button"
           onClick={handleNext}
           aria-label={t.welcome.nextPhoto}
-          className="hidden sm:flex absolute -right-2 md:right-1 lg:right-3 top-[44%] -translate-y-1/2 z-20 h-11 w-11 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-sand/95 backdrop-blur-md border border-olive-deep/20 text-olive-deep shadow-[0_4px_16px_rgba(74,68,54,0.16)] transition-all duration-200 hover:bg-olive-deep hover:text-sand hover:border-olive-deep hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer"
+          className="hidden sm:flex absolute right-2 lg:right-4 top-[44%] -translate-y-1/2 z-20 h-11 w-11 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-sand/95 backdrop-blur-md border border-olive-deep/20 text-olive-deep shadow-[0_4px_16px_rgba(74,68,54,0.16)] transition-all duration-200 hover:bg-olive-deep hover:text-sand hover:border-olive-deep hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer"
         >
           <ChevronRightIcon className="h-6 w-6" />
         </button>
 
-        {/* Horizontal scroll track: strictly single horizontal row (flex-nowrap) */}
+        {/* Horizontal scroll track: strictly single horizontal row without wrapping */}
         <div
           ref={carouselRef}
           onScroll={handleCarouselScroll}
@@ -224,7 +229,7 @@ export function Welcome() {
           aria-roledescription="carousel"
           aria-label={t.welcome.carouselLabel}
           data-lenis-prevent
-          className="no-scrollbar flex flex-nowrap items-center w-full overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-5 lg:gap-6 px-[11vw] sm:px-12 lg:px-14 py-3 scroll-smooth focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold/50 rounded-lg"
+          className="no-scrollbar flex flex-nowrap items-center w-full overflow-x-auto overscroll-x-contain snap-x snap-mandatory gap-4 sm:gap-5 lg:gap-6 px-[8vw] sm:px-6 lg:px-8 py-3 scroll-smooth focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold/50 rounded-lg"
         >
           {t.welcome.photos.map((p, i) => (
             <div
@@ -232,15 +237,22 @@ export function Welcome() {
               role="group"
               aria-roledescription="slide"
               aria-label={`${i + 1} of ${t.welcome.photos.length}`}
-              className="snap-center shrink-0 w-[78vw] max-w-[310px] sm:w-[280px] md:w-[300px] lg:w-[320px] transition-transform duration-300"
+              className="snap-center shrink-0 w-[76vw] max-w-[310px] sm:w-[280px] md:w-[300px] lg:w-[320px] transition-transform duration-300"
             >
               <button
                 type="button"
                 onClick={() => openPhoto(i)}
                 aria-label={`${t.welcome.expandPhoto}: ${p.alt}`}
-                className="group relative block w-full overflow-hidden rounded-[8px] border border-[#dcd4c5]/80 bg-sand text-left shadow-[0_6px_22px_rgba(74,68,54,0.10)] transition-all duration-300 hover:border-gold/60 hover:shadow-[0_12px_32px_rgba(74,68,54,0.16)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold active:scale-[0.99] cursor-pointer"
+                className="group relative block w-full overflow-hidden rounded-[8px] border border-[#dcd4c5]/90 bg-sand text-left shadow-[0_6px_22px_rgba(74,68,54,0.10)] transition-all duration-300 hover:border-gold/60 hover:shadow-[0_12px_32px_rgba(74,68,54,0.16)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold active:scale-[0.99] cursor-pointer"
               >
-                <PhotoSlot src={p.src} alt={p.alt} tone={p.tone} width={3} height={4.2} />
+                <PhotoSlot
+                  src={p.src}
+                  alt={p.alt}
+                  tone={p.tone}
+                  width={3}
+                  height={4.2}
+                  eager={i < 4}
+                />
 
                 {/* Subtle hover gradient and expand badge */}
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
@@ -254,7 +266,7 @@ export function Welcome() {
         </div>
 
         {/* Carousel controls bar: Mobile arrows + indicator dots + slide counter */}
-        <div className="mt-3 sm:mt-5 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
+        <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
           <div className="flex items-center gap-2">
             {/* Mobile prev button */}
             <button
@@ -267,7 +279,7 @@ export function Welcome() {
             </button>
 
             {/* Indicator dots */}
-            <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto max-w-[80vw] py-1 no-scrollbar" role="tablist" aria-label={t.welcome.navLabel}>
+            <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto max-w-[80vw] py-1 no-scrollbar" role="tablist" aria-label={t.welcome.navLabel}>
               {t.welcome.photos.map((p, i) => (
                 <button
                   key={p.key}
