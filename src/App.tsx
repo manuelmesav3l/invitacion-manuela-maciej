@@ -35,10 +35,10 @@ export default function App() {
           <Countdown />
           <Welcome />
           <Venue onClimate={() => setClimate(true)} />
+          <Transportation />
           <Programme />
           <DressCode />
           <Medellin />
-          <Transportation />
           <Gifts />
           <WhereToStay />
           <ThingsToDo />
