@@ -36,12 +36,12 @@ export default function App() {
           <Welcome />
           <Venue onClimate={() => setClimate(true)} />
           <Programme />
-          <WhereToStay />
-          <Transportation />
           <DressCode />
-          <Medellin />
           <Gifts />
           <RsvpSection onRsvp={() => setRsvp(true)} />
+          <Transportation />
+          <WhereToStay />
+          <Medellin />
           <ThankYou />
         </StackCard>
         <Suspense fallback={null}>
