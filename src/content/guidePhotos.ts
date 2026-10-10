@@ -3,6 +3,8 @@ import { asset } from '../lib/asset'
 export interface GuidePhoto {
   src: string
   credit?: { author: string; license: string; url: string }
+  /** 3:4 portrait source: shown uncropped in the modal. */
+  portrait?: boolean
 }
 
 const p = (key: string) => ({ src: asset(`assets/guide/${key}.webp`) })
@@ -10,7 +12,7 @@ const p = (key: string) => ({ src: asset(`assets/guide/${key}.webp`) })
 /** Photos for the Medellín guide cards. Credits are required by the Creative Commons licences (Wikimedia Commons). */
 export const guidePhotos: Record<string, GuidePhoto> = {
   comuna13: p('comuna13'),
-  botero: p('botero-dome'), // user-supplied photo (Palacio de la Cultura dome at dusk)
+  botero: { ...p('botero-bikes'), portrait: true }, // user-supplied photo (Botero statue + Palacio de la Cultura, e-bike tour)
   provenza: p('provenza-arch'), // user-supplied photo (Provenza arch at night)
   laureles: p('laureles-aerial'), // user-supplied photo (aerial view of Laureles)
   arvi: p('arvi-pond'), // user-supplied photo (lake in Parque Arví)
