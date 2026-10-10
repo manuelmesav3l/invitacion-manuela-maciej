@@ -1,3 +1,4 @@
+import { asset } from '../lib/asset'
 import { Divider } from '../components/Ornaments'
 import { Reveal } from '../components/Reveal'
 import { SectionTitle } from '../components/SectionTitle'
@@ -14,7 +15,17 @@ export function Gifts() {
           <div className="mx-auto mt-6 space-y-3">
             {g.body.map((line) => <p key={line} className="label !text-[11px] !leading-[2] text-olive-deep">{line}</p>)}
           </div>
-          <Divider className="mx-auto mt-8 w-40 text-gold" />
+          <img
+            src={asset('assets/gifts-envelope.webp')}
+            width={720}
+            height={449}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+            className="mx-auto mt-9 h-auto w-[min(78%,300px)] select-none drop-shadow-[0_14px_18px_rgba(60,45,20,.25)]"
+          />
+          <Divider className="mx-auto mt-9 w-40 text-gold" />
         </Reveal>
       </div>
     </section>
