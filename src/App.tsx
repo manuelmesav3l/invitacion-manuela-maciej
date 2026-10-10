@@ -14,38 +14,39 @@ import { Welcome } from './sections/Welcome'
 import { StackCard } from './components/StackCard'
 import { LanguageToggle } from './components/LanguageToggle'
 import { LanguageProvider } from './context/LanguageContext'
-import { initScroll } from './lib/scroll'
+import { initScroll, scrollToTarget } from './lib/scroll'
 
 // Lazy load heavy interactive sheets/modals on demand to keep initial heap memory minimal
-const Rsvp = lazy(() => import('./sections/Rsvp').then((m) => ({ default: m.Rsvp })))
 const ClimateSheet = lazy(() => import('./sections/ClimateSheet').then((m) => ({ default: m.ClimateSheet })))
 
 export default function App() {
-  const [rsvp, setRsvp] = useState(false)
   const [climate, setClimate] = useState(false)
   useEffect(() => initScroll(), [])
+
+  const handleScrollToRsvp = () => {
+    scrollToTarget('#rsvp')
+  }
 
   return (
     <LanguageProvider>
       <main>
         <StackCard first>
-          <Hero onRsvp={() => setRsvp(true)} />
+          <Hero onRsvp={handleScrollToRsvp} />
         </StackCard>
         <StackCard>
           <Countdown />
           <Welcome />
           <Venue onClimate={() => setClimate(true)} />
           <Programme />
-          <WhereToStay />
-          <Transportation />
           <DressCode />
-          <Medellin />
           <Gifts />
-          <RsvpSection onRsvp={() => setRsvp(true)} />
+          <RsvpSection />
+          <Transportation />
+          <WhereToStay />
+          <Medellin />
           <ThankYou />
         </StackCard>
         <Suspense fallback={null}>
-          {rsvp && <Rsvp open={rsvp} onClose={() => setRsvp(false)} />}
           {climate && <ClimateSheet open={climate} onClose={() => setClimate(false)} />}
         </Suspense>
 
@@ -54,3 +55,4 @@ export default function App() {
     </LanguageProvider>
   )
 }
+

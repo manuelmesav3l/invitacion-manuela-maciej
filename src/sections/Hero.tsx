@@ -113,7 +113,7 @@ export function Hero({ onRsvp }: { onRsvp: () => void }) {
             />
           )}
 
-          <Flourish className="absolute left-1/2 top-[88.4%] -translate-x-1/2 w-[17.5%] lg:top-[87.4%] lg:w-[8%] text-olive-deep pointer-events-none" />
+          <Flourish className="absolute left-1/2 top-[87.2%] -translate-x-1/2 w-[16%] lg:top-[86.8%] lg:w-[7.5%] text-olive-deep pointer-events-none" />
 
           <RsvpButton onClick={onRsvp} className="absolute left-1/2 top-[93.2%] -translate-x-1/2" />
         </motion.div>

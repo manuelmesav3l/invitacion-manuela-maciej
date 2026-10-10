@@ -18,10 +18,11 @@ const createSchema = (v: { nameMin: string; attendingRequired: string; emailInva
     phone: z.string().trim().max(40).refine((x) => !x || PHONE_RE.test(x), v.emailInvalid).optional().default(''),
     attending: z.boolean({ message: v.attendingRequired }),
     needs_transport: z.boolean().nullable().optional(),
+    transport_notes: z.string().max(200).optional().default(''),
     welcome_meeting: z.boolean().nullable().optional(),
     companions: z.number().int().min(0),
     dietary: z.string().max(500).optional().default(''),
-    message: z.string().max(1000).optional().default(''),
+    message: z.string().max(750).optional().default(''),
     website: z.string().max(0).optional(), // honeypot
   })
 type Form = z.input<ReturnType<typeof createSchema>>
@@ -84,7 +85,7 @@ function Radios({ value, onChange, yes, no }: { value: boolean | undefined; onCh
 }
 
 /** RSVP content (heading + deadline + form). Shared by the modal sheet and the inline section. */
-export function RsvpForm({ open }: { open: boolean }) {
+export function RsvpForm({ open = true, className = '' }: { open?: boolean; className?: string }) {
   const uid = useId()
   const { t } = useLanguage()
   const L = t.rsvp.labels
@@ -97,10 +98,19 @@ export function RsvpForm({ open }: { open: boolean }) {
 
   const { register, handleSubmit, setValue, control, reset, formState: { errors } } = useForm<Form>({
     resolver: zodResolver(schema),
-    defaultValues: { full_name: '', email: '', phone: '', companions: 0, dietary: '', message: '', needs_transport: null, welcome_meeting: null },
+    defaultValues: {
+      full_name: '',
+      email: '',
+      phone: '',
+      companions: 0,
+      dietary: '',
+      transport_notes: '',
+      message: '',
+      needs_transport: null,
+      welcome_meeting: null,
+    },
   })
   const attending = useWatch({ control, name: 'attending' })
-  const needsTransport = useWatch({ control, name: 'needs_transport' })
   const welcomeMeeting = useWatch({ control, name: 'welcome_meeting' })
 
   useEffect(() => {
@@ -108,14 +118,41 @@ export function RsvpForm({ open }: { open: boolean }) {
     fetchGuest(tk).then((g) => {
       if (!g) return
       setGuest(g)
+      const rawMsg = g.response?.message ?? ''
+      const transportMatch = rawMsg.match(/(?:\r?\n|^)\[Transport:\s*([^\]]+)\]\s*$/i)
+      const cleanMessage = transportMatch ? rawMsg.replace(/(?:\r?\n|^)\[Transport:\s*[^\]]+\]\s*$/i, '').trim() : rawMsg
+      const savedTransportNotes = g.response?.transport_notes
+        ? g.response.transport_notes
+        : (transportMatch
+            ? transportMatch[1].trim()
+            : (g.response?.needs_transport !== null && g.response?.needs_transport !== undefined
+                ? (g.response.needs_transport ? 'Yes' : 'No')
+                : ''))
+
       reset(g.response
         ? {
-            full_name: g.response.full_name, attending: g.response.attending, companions: g.response.companions,
-            dietary: g.response.dietary ?? '', message: g.response.message ?? '',
-            email: g.response.email ?? '', phone: g.response.phone ?? '',
-            needs_transport: g.response.needs_transport ?? null, welcome_meeting: g.response.welcome_meeting ?? null,
+            full_name: g.response.full_name,
+            attending: g.response.attending,
+            companions: g.response.companions,
+            dietary: g.response.dietary ?? '',
+            transport_notes: savedTransportNotes,
+            message: cleanMessage,
+            email: g.response.email ?? '',
+            phone: g.response.phone ?? '',
+            needs_transport: g.response.needs_transport ?? null,
+            welcome_meeting: g.response.welcome_meeting ?? null,
           }
-        : { full_name: g.name, email: '', phone: '', companions: 0, dietary: '', message: '', needs_transport: null, welcome_meeting: null })
+        : {
+            full_name: g.name,
+            email: '',
+            phone: '',
+            companions: 0,
+            dietary: '',
+            transport_notes: '',
+            message: '',
+            needs_transport: null,
+            welcome_meeting: null,
+          })
     })
   }, [open, tk, guest, reset])
 
@@ -124,11 +161,35 @@ export function RsvpForm({ open }: { open: boolean }) {
     if (v.website) { setState('done'); return } // bot: pretend success
     setError(''); setState('sending')
     try {
+      const transportText = (v.transport_notes || '').trim()
+      const isNegative = /^(no\b|ningun|ningún|sin\s|none\b|nie\b|false\b)/i.test(transportText)
+      const computedTransport = transportText
+        ? !isNegative
+        : (v.needs_transport ?? null)
+
+      const cleanMsg = (v.message || '').replace(/(?:\r?\n|^)\[Transport:\s*[^\]]+\]\s*$/i, '').trim()
+      let composedMessage = cleanMsg
+      if (transportText && !/^(yes|si|tak|no|nie)$/i.test(transportText)) {
+        composedMessage = cleanMsg
+          ? `${cleanMsg}\n[Transport: ${transportText}]`
+          : `[Transport: ${transportText}]`
+      }
+      if (composedMessage.length > 1000) {
+        composedMessage = composedMessage.slice(0, 1000)
+      }
+
       await submitRsvp({
-        token: tk, full_name: v.full_name, attending: v.attending, companions: v.attending ? v.companions : 0,
-        dietary: v.dietary ?? '', message: v.message ?? '', email: v.email ?? '', phone: v.phone ?? '',
-        needs_transport: v.attending ? (v.needs_transport ?? null) : null,
+        token: tk,
+        full_name: v.full_name,
+        attending: v.attending,
+        companions: v.attending ? v.companions : 0,
+        dietary: v.dietary ?? '',
+        message: composedMessage,
+        email: v.email ?? '',
+        phone: v.phone ?? '',
+        needs_transport: v.attending ? computedTransport : null,
         welcome_meeting: v.attending ? (v.welcome_meeting ?? null) : null,
+        transport_notes: v.attending ? (transportText || null) : null,
       })
       setState('done')
     } catch (e) {
@@ -143,7 +204,8 @@ export function RsvpForm({ open }: { open: boolean }) {
   const err = 'mt-1 font-serif text-[15px] text-[#f3b9a6]'
 
   return (
-    <div className="mx-auto max-w-[460px] px-7 pb-14 pt-14 text-center">
+    <div className={`mx-auto max-w-[480px] px-6 sm:px-7 pb-14 pt-10 text-center ${className}`}>
+      <Flourish className="mx-auto mb-4 w-28 sm:w-36 text-cream-light" />
       <h2 className="m-0 font-serif text-[clamp(56px,18vw,76px)] font-normal leading-none tracking-[0.35em] text-cream-light" style={{ paddingLeft: '0.35em' }}>{t.rsvp.title}</h2>
       <Divider className="mx-auto mt-5 w-40 text-cream-light" />
       <p className="mt-9 font-script text-[clamp(52px,15vw,64px)] italic leading-[0.9] text-[#bf9a58]">{t.rsvp.kindly}</p>
@@ -212,28 +274,20 @@ export function RsvpForm({ open }: { open: boolean }) {
             <input id={`${uid}-dietary`} className={field} {...register('dietary')} />
           </div>
 
-          {attending && (
-            <>
-              <fieldset>
-                <legend className={lab}>{L.transport}</legend>
-                <Radios
-                  value={needsTransport ?? undefined}
-                  onChange={(v) => setValue('needs_transport', v)}
-                  yes={L.transportYes}
-                  no={L.transportNo}
-                />
-              </fieldset>
-              <fieldset>
-                <legend className={lab}>{L.welcome}</legend>
-                <Radios
-                  value={welcomeMeeting ?? undefined}
-                  onChange={(v) => setValue('welcome_meeting', v)}
-                  yes={L.welcomeYes}
-                  no={L.welcomeNo}
-                />
-              </fieldset>
-            </>
-          )}
+          <div>
+            <label htmlFor={`${uid}-transport`} className={lab}>{L.transport}</label>
+            <input id={`${uid}-transport`} className={field} {...register('transport_notes')} />
+          </div>
+
+          <fieldset>
+            <legend className={lab}>{L.welcome}</legend>
+            <Radios
+              value={welcomeMeeting ?? undefined}
+              onChange={(v) => setValue('welcome_meeting', v, { shouldValidate: true, shouldDirty: true })}
+              yes={L.welcomeYes}
+              no={L.welcomeNo}
+            />
+          </fieldset>
 
           <div>
             <label htmlFor={`${uid}-message`} className={lab}>{L.message}</label>
@@ -249,7 +303,7 @@ export function RsvpForm({ open }: { open: boolean }) {
             >
               {state === 'sending' ? '…' : L.send}
             </button>
-            <Flourish className="mx-auto mt-5 h-7 text-cream-light" />
+            <Flourish className="mx-auto mt-6 w-24 sm:w-28 text-cream-light/80" />
           </div>
         </form>
       )}

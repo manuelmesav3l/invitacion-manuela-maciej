@@ -19,16 +19,12 @@ const LEFT = [2, 50, 12, 47, 5, 46, 12, 49]
 /** Board geometry in % of its own width: card width, vertical step, card height. */
 const CARD_W = 44, STEP = 36, CARD_H = 80
 
-/** Scattered, draggable polaroids (same look as the Photos tab); tap opens the detail modal. */
+/** Scattered polaroids in fixed editorial position; tap opens the detail modal. */
 function PickBoard({ items, onOpen }: { items: Pick[]; onOpen: (p: Pick) => void }) {
   const reduce = useReducedMotion()
   const board = useRef<HTMLDivElement>(null)
   // Cards start displaced from their slot, so the *board* (not each card) must drive the reveal.
   const show = useRevealOnce(board)
-  const [order, setOrder] = useState<Record<string, number>>({})
-  const next = useRef(items.length + 1)
-  const dragged = useRef(false)
-  const bringFront = (key: string) => setOrder((o) => ({ ...o, [key]: next.current++ }))
   const heightW = 2 + (items.length - 1) * STEP + CARD_H
 
   return (
@@ -42,20 +38,13 @@ function PickBoard({ items, onOpen }: { items: Pick[]; onOpen: (p: Pick) => void
             type="button"
             aria-haspopup="dialog"
             aria-label={`${p.title}. ${p.lead}`}
-            drag={!reduce}
-            dragConstraints={board}
-            dragElastic={0.2}
-            dragMomentum={false}
-            onPointerDown={() => { dragged.current = false; bringFront(p.key) }}
-            onDragStart={() => { dragged.current = true }}
-            onTap={() => { if (!dragged.current) onOpen(p) }}
-            whileDrag={{ scale: 1.05 }}
+            onClick={() => onOpen(p)}
             whileHover={reduce ? undefined : { scale: 1.02 }}
             initial={reduce ? { opacity: 0 } : { opacity: 0, y: -90, rotate: rotate - 12 }}
             animate={show ? { opacity: 1, y: 0, rotate } : undefined}
             transition={reduce ? { duration: 0.5 } : { type: 'spring', stiffness: 70, damping: 11, delay: (i % 2) * 0.16 }}
-            style={{ left: `${LEFT[i % LEFT.length]}%`, top: `${((2 + i * STEP) / heightW) * 100}%`, width: `${CARD_W}%`, zIndex: order[p.key] ?? items.length - i, touchAction: 'pan-y' }}
-            className="absolute cursor-grab bg-white p-[3.5%] pb-[4%] text-center shadow-[0_14px_28px_-10px_rgba(60,45,20,.45)] active:cursor-grabbing focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            style={{ left: `${LEFT[i % LEFT.length]}%`, top: `${((2 + i * STEP) / heightW) * 100}%`, width: `${CARD_W}%`, zIndex: i + 1 }}
+            className="absolute cursor-pointer bg-white p-[3.5%] pb-[4%] text-center shadow-[0_14px_28px_-10px_rgba(60,45,20,.45)] transition-shadow hover:shadow-[0_18px_32px_-10px_rgba(60,45,20,.55)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
           >
             <span className="pointer-events-none block aspect-[3/4] w-full overflow-hidden bg-sand">
               {photo && <img src={photo.src} alt="" width={900} height={600} loading="lazy" decoding="async" draggable={false} className="h-full w-full object-cover" />}

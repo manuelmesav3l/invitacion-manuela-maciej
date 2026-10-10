@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback, lazy, Suspense } from 'react'
-import { useReducedMotion, motion } from 'motion/react'
+import { useReducedMotion, useInView, motion } from 'motion/react'
 import { PhotoSlot } from '../components/PhotoSlot'
 import { Reveal } from '../components/Reveal'
 import { useLanguage } from '../context/LanguageContext'
@@ -8,30 +8,74 @@ import { gsap } from '../lib/scroll'
 const ImageLightbox = lazy(() => import('../components/ImageLightbox').then((m) => ({ default: m.ImageLightbox })))
 
 const OFFSETS = [-6, 8, -6] // parallax yPercent: centre travels differently than the sides
-// The client asked for BIENVENIDOS in both language versions.
-const GREETING = 'Bienvenidos'
 
 export function Welcome() {
-  const { t } = useLanguage()
+  const { t, locale } = useLanguage()
   const reduce = useReducedMotion()
   const row = useRef<HTMLDivElement>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
+  const headingContainerRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(headingContainerRef, { margin: '0px 0px -5% 0px' })
 
+  // Alternating greetings: prioritises active language while celebrating both cultures
+  const words = locale === 'pl' ? ['Witamy', 'Bienvenidos'] : ['Bienvenidos', 'Witamy']
+
+  const [wordIndex, setWordIndex] = useState(0)
   const [displayText, setDisplayText] = useState('')
+  const [isDeleting, setIsDeleting] = useState(false)
+
+  // Reset to primary word during render whenever user switches site language
+  const [prevLocale, setPrevLocale] = useState(locale)
+  if (prevLocale !== locale) {
+    setPrevLocale(locale)
+    setWordIndex(0)
+    setDisplayText('')
+    setIsDeleting(false)
+  }
 
   // Carousel & Lightbox states
   const [activeSlide, setActiveSlide] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState(0)
 
-  // Calligraphic typewriter: writes the greeting once and leaves it on screen.
+  const currentWord = words[wordIndex % words.length]
+
+  // Stabilized calligraphic typewriter: writes, pauses for reading, and smoothly erases in an alternating loop
   useEffect(() => {
-    if (reduce || displayText.length >= GREETING.length) return
-    // Natural handwriting pacing (slight variation for calligraphic feel)
-    const delay = 125 + (displayText.length % 3 === 0 ? 35 : -15)
-    const timer = setTimeout(() => setDisplayText(GREETING.slice(0, displayText.length + 1)), delay)
+    if (reduce || !isInView) return
+
+    let timer: ReturnType<typeof setTimeout>
+
+    if (!isDeleting) {
+      if (displayText.length < currentWord.length) {
+        // Natural handwriting pacing (slight variation for calligraphic feel)
+        const delay = 120 + (displayText.length % 3 === 0 ? 30 : -15)
+        timer = setTimeout(() => {
+          setDisplayText(currentWord.slice(0, displayText.length + 1))
+        }, delay)
+      } else {
+        // Full word written: pause long enough for guests to read and appreciate
+        timer = setTimeout(() => {
+          setIsDeleting(true)
+        }, 2300)
+      }
+    } else {
+      if (displayText.length > 0) {
+        // Fluid erasing pace
+        timer = setTimeout(() => {
+          setDisplayText(currentWord.slice(0, displayText.length - 1))
+        }, 55)
+      } else {
+        // Brief pause after erasing before starting the next greeting
+        timer = setTimeout(() => {
+          setIsDeleting(false)
+          setWordIndex((prev) => (prev + 1) % words.length)
+        }, 400)
+      }
+    }
+
     return () => clearTimeout(timer)
-  }, [displayText, reduce])
+  }, [displayText, isDeleting, currentWord, words.length, reduce, isInView])
 
   useEffect(() => {
     if (reduce || !row.current) return
@@ -70,24 +114,50 @@ export function Welcome() {
   }
 
   return (
-    <section className="bg-sand pb-12 pt-8 sm:pb-16 sm:pt-10 overflow-hidden" aria-label={GREETING}>
+    <section className="bg-sand pb-12 pt-8 sm:pb-16 sm:pt-10 overflow-hidden" aria-label={words.join(' / ')}>
       <div className="mx-auto max-w-[620px] px-5 text-center">
         <Reveal>
           {/* Minimum height container to completely prevent Cumulative Layout Shift (CLS) */}
-          <div className="flex min-h-[clamp(76px,24vw,120px)] items-center justify-center">
+          <div
+            ref={headingContainerRef}
+            className="flex min-h-[clamp(76px,24vw,120px)] items-center justify-center"
+          >
             <h2
               className="m-0 inline-flex items-center justify-center font-script text-[clamp(72px,22vw,112px)] font-normal leading-none text-olive-deep"
               style={{ transform: 'rotate(-2deg)' }}
-              aria-label={GREETING}
+              aria-label={words.join(' / ')}
             >
-                            <span aria-hidden="true" className="select-none tracking-tight">
-                {reduce ? GREETING : (displayText || '\u00A0')}
-              </span>
-              {!reduce && displayText.length < GREETING.length && (
+              <span className="sr-only">Bienvenidos — Witamy</span>
+
+              {reduce ? (
+                <span aria-hidden="true" className="select-none tracking-tight">
+                  {currentWord}
+                </span>
+              ) : (
                 <span
                   aria-hidden="true"
-                  className="animate-ink-cursor ml-1.5 inline-block h-[0.7em] w-[2px] translate-y-[2px] bg-gold/90 select-none"
-                />
+                  className="relative inline-grid grid-cols-1 grid-rows-1 place-items-start select-none tracking-tight"
+                >
+                  {/* Ghost layer: establishes the exact bounding box of the current word so letters don't shift */}
+                  <span
+                    className="col-start-1 row-start-1 invisible opacity-0 pointer-events-none select-none whitespace-nowrap"
+                    aria-hidden="true"
+                  >
+                    {currentWord}
+                  </span>
+
+                  {/* Visible typing layer: starts at the exact left coordinate of the word, writing towards the right */}
+                  <span
+                    className="col-start-1 row-start-1 whitespace-nowrap inline-flex items-center"
+                    aria-hidden="true"
+                  >
+                    <span>{displayText || '\u00A0'}</span>
+                    <span
+                      aria-hidden="true"
+                      className="animate-ink-cursor ml-1.5 inline-block h-[0.72em] w-[2px] rounded-full bg-gold/90 shadow-[0_0_4px_rgba(173,145,92,0.4)] translate-y-[2px] select-none"
+                    />
+                  </span>
+                </span>
               )}
             </h2>
           </div>
