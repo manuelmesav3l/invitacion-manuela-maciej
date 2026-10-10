@@ -4,7 +4,6 @@ import { PillButton } from '../components/PillButton'
 import { Reveal } from '../components/Reveal'
 import { SectionTitle } from '../components/SectionTitle'
 import { useLanguage } from '../context/LanguageContext'
-import { Transportation } from './Transportation'
 
 export function Venue({ onClimate }: { onClimate: () => void }) {
   const { t, locale } = useLanguage()
@@ -67,8 +66,6 @@ export function Venue({ onClimate }: { onClimate: () => void }) {
             <PillButton onClick={onClimate} ariaHaspopup="dialog" delay={0.2}>{v.climateLabel}</PillButton>
           </div>
         </div>
-
-        <Transportation />
 
         <Reveal className="mt-12 flex flex-col items-center text-olive-deep">
           <p className="label !text-[clamp(11px,2.8vw,13px)] !tracking-[0.36em] text-olive-deep select-none">
