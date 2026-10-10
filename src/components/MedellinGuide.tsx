@@ -14,9 +14,9 @@ interface Pick {
 }
 
 const TILT = [-7, 8, -4, -8, 6, -5, 7, -3]
-const LEFT = [2, 53, 10, 52, 4, 51, 9, 53]
+const LEFT = [2, 50, 12, 47, 5, 46, 12, 49]
 /** Board geometry in % of its own width: card width, vertical step, card height. */
-const CARD_W = 44, STEP = 40, CARD_H = 80
+const CARD_W = 44, STEP = 36, CARD_H = 80
 
 /** Scattered, draggable polaroids (same look as the Photos tab); tap opens the detail modal. */
 function PickBoard({ items, onOpen }: { items: Pick[]; onOpen: (p: Pick) => void }) {
@@ -52,7 +52,7 @@ function PickBoard({ items, onOpen }: { items: Pick[]; onOpen: (p: Pick) => void
             whileInView={{ opacity: 1, y: 0, rotate }}
             viewport={{ once: true, margin: '-10% 0px' }}
             transition={reduce ? { duration: 0.5 } : { type: 'spring', stiffness: 70, damping: 11, delay: (i % 2) * 0.16 }}
-            style={{ left: `${LEFT[i % LEFT.length]}%`, top: `${((2 + i * STEP) / heightW) * 100}%`, width: `${CARD_W}%`, zIndex: order[p.key] ?? i + 1, touchAction: 'pan-y' }}
+            style={{ left: `${LEFT[i % LEFT.length]}%`, top: `${((2 + i * STEP) / heightW) * 100}%`, width: `${CARD_W}%`, zIndex: order[p.key] ?? items.length - i, touchAction: 'pan-y' }}
             className="absolute cursor-grab bg-white p-[3.5%] pb-[4%] text-center shadow-[0_14px_28px_-10px_rgba(60,45,20,.45)] active:cursor-grabbing focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
           >
             <span className="pointer-events-none block aspect-[3/4] w-full overflow-hidden bg-sand">
