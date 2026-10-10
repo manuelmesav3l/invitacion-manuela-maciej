@@ -182,6 +182,7 @@ const en = {
     plusOnes: 'Please note that plus ones are only included, if specifically indicated on your invitation.',
     needLink: 'Please open your personal invitation link to reply.',
     errorSubmit: 'We could not send your response. Please check your personal link and try again.',
+    errorGeneric: 'Something went wrong while sending. Please try again in a moment.',
     labels: {
       name: 'FULL NAME',
       email: 'EMAIL (OPTIONAL)',
@@ -398,6 +399,7 @@ const pl: typeof en = {
     plusOnes: 'Uwaga: Informacja o osobie towarzyszącej, uwzględniona w indywidualnym zaproszeniu.',
     needLink: 'Aby odpowiedzieć, otwórz swój osobisty link do zaproszenia.',
     errorSubmit: 'Nie udało się wysłać odpowiedzi. Sprawdź swój osobisty link i spróbuj ponownie.',
+    errorGeneric: 'Coś poszło nie tak podczas wysyłania. Spróbuj ponownie za chwilę.',
     labels: {
       name: 'IMIĘ I NAZWISKO',
       email: 'EMAIL (OPCJONALNIE)',

@@ -131,8 +131,10 @@ export function RsvpForm({ open }: { open: boolean }) {
         welcome_meeting: v.attending ? (v.welcome_meeting ?? null) : null,
       })
       setState('done')
-    } catch {
-      setState('idle'); setError(t.rsvp.errorSubmit)
+    } catch (e) {
+      // The database rejects a missing/unknown personal token explicitly; anything else is a transient/other failure.
+      const msg = e instanceof Error ? e.message : String((e as { message?: string })?.message ?? '')
+      setState('idle'); setError(/invitation (link|token)/i.test(msg) ? t.rsvp.errorSubmit : t.rsvp.errorGeneric)
     }
   })
 
@@ -167,7 +169,7 @@ export function RsvpForm({ open }: { open: boolean }) {
         </div>
       ) : (
         <form onSubmit={onSubmit} noValidate className="mt-10 space-y-7 text-left">
-          {!tk && <p className="label text-center !text-[10px] !text-cream-light/80">{t.rsvp.needLink}</p>}
+          {!tk && <p role="alert" className="label rounded-[3px] border border-[#f3b9a6]/60 px-4 py-3 text-center !text-[11px] !leading-[1.7] !text-[#f3b9a6]">{t.rsvp.needLink}</p>}
           <div className="hidden" aria-hidden="true"><label>Website<input tabIndex={-1} autoComplete="off" {...register('website')} /></label></div>
 
           <fieldset>
@@ -242,8 +244,8 @@ export function RsvpForm({ open }: { open: boolean }) {
           <div className="pt-3 text-center">
             <button
               type="submit"
-              disabled={state === 'sending'}
-              className="label inline-flex min-h-[48px] items-center justify-center rounded-full bg-[#bf9a58] px-12 py-3 !text-[13px] !tracking-[0.3em] !text-cream-light shadow-md transition-all active:scale-[0.98] hover:bg-[#cba768] touch-manipulation disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream-light focus-visible:ring-offset-2 focus-visible:ring-offset-[#4a5443]"
+              disabled={state === 'sending' || !tk}
+              className="label inline-flex min-h-[48px] items-center justify-center rounded-full bg-[#bf9a58] px-12 py-3 !text-[13px] !tracking-[0.3em] !text-cream-light shadow-md transition-all active:scale-[0.98] hover:bg-[#cba768] touch-manipulation disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream-light focus-visible:ring-offset-2 focus-visible:ring-offset-[#4a5443]"
             >
               {state === 'sending' ? '…' : L.send}
             </button>
