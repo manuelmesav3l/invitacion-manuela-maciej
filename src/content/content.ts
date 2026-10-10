@@ -178,6 +178,7 @@ const en = {
     by: 'by',
     deadline: '15 DEC 2026', // TODO: confirm — max date, ~2 months after the invitation is received
     deadlineNote: 'An exception is made for QR Employees.', // TODO: confirm wording with client
+    note: 'A LITTLE NOTE',
     plusOnes: 'Please note that plus ones are only included, if specifically indicated on your invitation.',
     needLink: 'Please open your personal invitation link to reply.',
     errorSubmit: 'We could not send your response. Please check your personal link and try again.',
@@ -393,6 +394,7 @@ const pl: typeof en = {
     by: 'do',
     deadline: '15/12/2026',
     deadlineNote: 'Wyjątek dotyczy pracowników QR.',
+    note: 'KRÓTKA UWAGA',
     plusOnes: 'Uwaga: Informacja o osobie towarzyszącej, uwzględniona w indywidualnym zaproszeniu.',
     needLink: 'Aby odpowiedzieć, otwórz swój osobisty link do zaproszenia.',
     errorSubmit: 'Nie udało się wysłać odpowiedzi. Sprawdź swój osobisty link i spróbuj ponownie.',

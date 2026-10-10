@@ -3,7 +3,7 @@ import { motion, useReducedMotion } from 'motion/react'
 import { useEffect, useId, useMemo, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
-import { Flourish } from '../components/Ornaments'
+import { Divider, Flourish } from '../components/Ornaments'
 import { Sheet } from '../components/Sheet'
 import { useLanguage } from '../context/LanguageContext'
 import { fetchGuest, submitRsvp, type GuestInfo } from '../lib/supabase'
@@ -31,16 +31,17 @@ const token = () => new URLSearchParams(window.location.search).get('g')
 function Check() {
   const reduce = useReducedMotion()
   return (
-    <svg viewBox="0 0 52 52" width="72" height="72" fill="none" stroke="#3F5A2E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg viewBox="0 0 52 52" width="72" height="72" fill="none" stroke="#FAF5EE" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <motion.circle cx="26" cy="26" r="23" initial={{ pathLength: reduce ? 1 : 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.7 }} />
       <motion.path d="M15 27l8 8 15-17" initial={{ pathLength: reduce ? 1 : 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.5, delay: 0.6 }} />
     </svg>
   )
 }
 
+/** Stacked option bars (attending): translucent cream bars, selected one turns solid cream. */
 function YesNo({ value, onChange, yes, no }: { value: boolean | undefined; onChange: (v: boolean) => void; yes: string; no: string }) {
   return (
-    <div className="mt-2 grid grid-cols-2 gap-3" role="radiogroup">
+    <div className="mt-3 grid grid-cols-1 gap-3" role="radiogroup">
       {([[true, yes], [false, no]] as const).map(([val, text]) => (
         <button
           key={String(val)}
@@ -48,13 +49,34 @@ function YesNo({ value, onChange, yes, no }: { value: boolean | undefined; onCha
           role="radio"
           aria-checked={value === val}
           onClick={() => onChange(val)}
-          className={`label flex min-h-[48px] items-center justify-center rounded-full border px-4 py-3 text-center !text-[11px] sm:!text-[12px] font-medium transition-all active:scale-[0.98] touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
-            value === val
-              ? 'border-olive-deep bg-olive-deep text-[#f8f5ee] shadow-sm'
-              : 'border-gold/70 bg-white/30 text-[#7a6030] hover:border-gold hover:bg-white/60'
+          className={`label flex min-h-[48px] w-full items-center px-4 py-3 text-left !text-[12px] !leading-[1.5] !tracking-[0.16em] transition-colors active:scale-[0.995] touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream-light/80 ${
+            value === val ? 'bg-cream-light !text-[#3b4535]' : 'bg-cream-light/25 !text-cream-light hover:bg-cream-light/35'
           }`}
         >
           {text}
+        </button>
+      ))}
+    </div>
+  )
+}
+
+/** Round radio rows (transport / welcome meeting). */
+function Radios({ value, onChange, yes, no }: { value: boolean | undefined; onChange: (v: boolean) => void; yes: string; no: string }) {
+  return (
+    <div className="mt-3 space-y-3" role="radiogroup">
+      {([[true, yes], [false, no]] as const).map(([val, text]) => (
+        <button
+          key={String(val)}
+          type="button"
+          role="radio"
+          aria-checked={value === val}
+          onClick={() => onChange(val)}
+          className="group flex min-h-[44px] w-full items-center gap-4 text-left touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream-light/80"
+        >
+          <span className={`grid h-6 w-6 shrink-0 place-items-center rounded-full border-2 border-cream-light transition-colors ${value === val ? 'bg-cream-light' : 'bg-transparent group-hover:bg-cream-light/20'}`}>
+            {value === val && <span className="h-2 w-2 rounded-full bg-[#4a5443]" />}
+          </span>
+          <span className="label !text-[12px] !leading-[1.5] !tracking-[0.16em] !text-cream-light">{text}</span>
         </button>
       ))}
     </div>
@@ -114,120 +136,121 @@ export function RsvpForm({ open }: { open: boolean }) {
     }
   })
 
-  const field = 'mt-1.5 w-full rounded-[3px] border border-olive-deep/25 bg-white/50 px-3 py-2.5 font-serif text-[18px] text-ink placeholder:text-ink/40 transition-colors focus:border-gold focus:bg-white/80 focus:outline-none focus:ring-2 focus:ring-gold/40'
-  const lab = 'label !text-[10px] !tracking-[0.2em] text-[#7a6030]'
+  const field = 'mt-2 w-full rounded-none border border-cream-light/45 bg-transparent px-3 py-2.5 font-serif text-[18px] text-cream-light placeholder:text-cream-light/40 transition-colors focus:border-cream-light focus:outline-none focus:ring-1 focus:ring-cream-light [&>option]:text-ink'
+  const lab = "label block !text-[12px] !tracking-[0.16em] !text-cream-light after:content-[':']"
+  const err = 'mt-1 font-serif text-[15px] text-[#f3b9a6]'
 
   return (
-    <div className="mx-auto max-w-[460px] px-7 pb-14 pt-12 text-center">
-        <p className="label !text-[11px] text-olive-deep">{t.hero.kicker}</p>
-        <Flourish className="mx-auto mt-2 h-6 text-olive-deep" />
-        <h2 className="m-0 mt-1 font-serif text-[clamp(56px,18vw,76px)] font-normal leading-none tracking-[0.35em] text-olive-deep" style={{ paddingLeft: '0.35em' }}>{t.rsvp.title}</h2>
-        <div className="mx-auto mt-6 max-w-[320px] border-y border-gold/50 py-5">
-          <p className="m-0 font-script text-[clamp(44px,13vw,56px)] italic leading-[0.9] text-gold">{t.rsvp.kindly}</p>
-          <p className="m-0 mt-2.5 font-serif text-[clamp(24px,7vw,28px)] font-medium leading-none tracking-[0.08em] text-[#8f7240]">{t.rsvp.reply}</p>
-          <p className="m-0 mt-2.5 font-serif text-[clamp(20px,6vw,24px)] tracking-[0.2em] text-[#8f7240]"><span className="font-script text-[1.5em] normal-case italic tracking-normal">{t.rsvp.by}</span> {t.rsvp.deadline}</p>
+    <div className="mx-auto max-w-[460px] px-7 pb-14 pt-14 text-center">
+      <h2 className="m-0 font-serif text-[clamp(56px,18vw,76px)] font-normal leading-none tracking-[0.35em] text-cream-light" style={{ paddingLeft: '0.35em' }}>{t.rsvp.title}</h2>
+      <Divider className="mx-auto mt-5 w-40 text-cream-light" />
+      <p className="mt-9 font-script text-[clamp(52px,15vw,64px)] italic leading-[0.9] text-[#bf9a58]">{t.rsvp.kindly}</p>
+      <p className="m-0 mt-1 font-serif text-[clamp(28px,8vw,34px)] font-medium leading-none tracking-[0.04em] text-[#bf9a58]">{t.rsvp.reply}</p>
+      <p className="m-0 mt-2 font-serif text-[clamp(22px,6.6vw,28px)] tracking-[0.2em] text-[#bf9a58]"><span className="font-script text-[1.5em] normal-case italic tracking-normal">{t.rsvp.by}</span> {t.rsvp.deadline}</p>
+      <p className="label mx-auto mt-3 max-w-[300px] !text-[10px] !leading-[1.8] !text-cream-light/75">{t.rsvp.deadlineNote}</p>
+
+      <p className="label mx-auto mt-7 inline-block rounded-full bg-[#bf9a58] px-7 py-2.5 !text-[13px] !tracking-[0.2em] !text-cream-light">{t.rsvp.note}</p>
+      <p className="label mx-auto mt-4 max-w-[320px] !text-[12px] !leading-[1.7] !tracking-[0.16em] !text-cream-light">{t.rsvp.plusOnes}</p>
+
+      {state === 'done' ? (
+        <div className="mt-10 flex flex-col items-center" role="status">
+          <Check />
+          <p className="mt-4 font-script text-[48px] text-cream-light">{t.rsvp.thanks}</p>
+          <p className="label !text-[12px] !text-cream-light">{t.rsvp.thanksBody}</p>
+          <button
+            type="button"
+            onClick={() => setState('idle')}
+            className="label mt-8 inline-flex min-h-[44px] items-center justify-center rounded-full border border-cream-light/70 px-8 py-3 !text-[12px] !text-cream-light transition-colors active:scale-[0.98] touch-manipulation hover:bg-cream-light/10"
+          >
+            {L.edit}
+          </button>
         </div>
-        <p className="label mx-auto mt-3 max-w-[300px] !text-[10px] !leading-[1.8] text-[#7a6030]">{t.rsvp.deadlineNote}</p>
+      ) : (
+        <form onSubmit={onSubmit} noValidate className="mt-10 space-y-7 text-left">
+          {!tk && <p className="label text-center !text-[10px] !text-cream-light/80">{t.rsvp.needLink}</p>}
+          <div className="hidden" aria-hidden="true"><label>Website<input tabIndex={-1} autoComplete="off" {...register('website')} /></label></div>
 
-        {state === 'done' ? (
-          <div className="mt-10 flex flex-col items-center" role="status">
-            <Check />
-            <p className="mt-4 font-script text-[48px] text-olive-deep">{t.rsvp.thanks}</p>
-            <p className="label !text-[11px] text-ink">{t.rsvp.thanksBody}</p>
-            <button
-              type="button"
-              onClick={() => setState('idle')}
-              className="label mt-8 inline-flex min-h-[44px] items-center justify-center rounded-full border border-gold px-8 py-3 text-[12px] text-gold transition-transform active:scale-[0.98] touch-manipulation hover:bg-gold/10"
-            >
-              {L.edit}
-            </button>
+          <fieldset>
+            <legend className={lab}>{L.attending}</legend>
+            <YesNo
+              value={attending}
+              onChange={(v) => setValue('attending', v, { shouldValidate: true })}
+              yes={L.yes}
+              no={L.no}
+            />
+            {errors.attending && <p role="alert" className={err}>{errors.attending.message}</p>}
+          </fieldset>
+
+          {attending && max > 0 && (
+            <div>
+              <label htmlFor={`${uid}-companions`} className={lab}>{L.companions} (0–{max})</label>
+              <select id={`${uid}-companions`} className={field} {...register('companions', { valueAsNumber: true })}>
+                {Array.from({ length: max + 1 }, (_, i) => <option key={i} value={i}>{i}</option>)}
+              </select>
+            </div>
+          )}
+
+          <div>
+            <label htmlFor={`${uid}-full_name`} className={lab}>{L.name}</label>
+            <input id={`${uid}-full_name`} autoComplete="name" className={field} aria-invalid={!!errors.full_name} {...register('full_name')} />
+            {errors.full_name && <p role="alert" className={err}>{errors.full_name.message}</p>}
           </div>
-        ) : (
-          <form onSubmit={onSubmit} noValidate className="mt-8 space-y-6 rounded-[4px] border border-olive-deep/20 bg-white/30 px-5 py-7 text-left shadow-[0_14px_30px_-20px_rgba(60,45,20,.5)]">
-            {!tk && <p className="label !text-[10px] text-center text-ink">{t.rsvp.needLink}</p>}
-            <div className="hidden" aria-hidden="true"><label>Website<input tabIndex={-1} autoComplete="off" {...register('website')} /></label></div>
+          <div>
+            <label htmlFor={`${uid}-email`} className={lab}>{L.email}</label>
+            <input id={`${uid}-email`} type="email" inputMode="email" autoComplete="email" className={field} aria-invalid={!!errors.email} {...register('email')} />
+            {errors.email && <p role="alert" className={err}>{errors.email.message}</p>}
+          </div>
+          <div>
+            <label htmlFor={`${uid}-phone`} className={lab}>{L.phone}</label>
+            <input id={`${uid}-phone`} type="tel" inputMode="tel" autoComplete="tel" className={field} aria-invalid={!!errors.phone} {...register('phone')} />
+            {errors.phone && <p role="alert" className={err}>{errors.phone.message}</p>}
+          </div>
+          <div>
+            <label htmlFor={`${uid}-dietary`} className={lab}>{L.dietary}</label>
+            <input id={`${uid}-dietary`} className={field} {...register('dietary')} />
+          </div>
 
-            <fieldset>
-              <legend className={lab}>{L.attending}</legend>
-              <YesNo
-                value={attending}
-                onChange={(v) => setValue('attending', v, { shouldValidate: true })}
-                yes={L.yes}
-                no={L.no}
-              />
-              {errors.attending && <p role="alert" className="mt-1 font-serif text-[15px] text-[#8a3a2a]">{errors.attending.message}</p>}
-            </fieldset>
+          {attending && (
+            <>
+              <fieldset>
+                <legend className={lab}>{L.transport}</legend>
+                <Radios
+                  value={needsTransport ?? undefined}
+                  onChange={(v) => setValue('needs_transport', v)}
+                  yes={L.transportYes}
+                  no={L.transportNo}
+                />
+              </fieldset>
+              <fieldset>
+                <legend className={lab}>{L.welcome}</legend>
+                <Radios
+                  value={welcomeMeeting ?? undefined}
+                  onChange={(v) => setValue('welcome_meeting', v)}
+                  yes={L.welcomeYes}
+                  no={L.welcomeNo}
+                />
+              </fieldset>
+            </>
+          )}
 
-            {attending && max > 0 && (
-              <div>
-                <label htmlFor={`${uid}-companions`} className={lab}>{L.companions} (0–{max})</label>
-                <select id={`${uid}-companions`} className={field} {...register('companions', { valueAsNumber: true })}>
-                  {Array.from({ length: max + 1 }, (_, i) => <option key={i} value={i}>{i}</option>)}
-                </select>
-              </div>
-            )}
-            <p className="m-0 font-serif text-[15px] italic leading-snug text-ink/80">{t.rsvp.plusOnes}</p>
+          <div>
+            <label htmlFor={`${uid}-message`} className={lab}>{L.message}</label>
+            <textarea id={`${uid}-message`} rows={4} className="mt-2 w-full resize-none rounded-none border-0 bg-[#b6b3a5] px-3 py-2.5 font-serif text-[18px] text-ink focus:outline-none focus:ring-2 focus:ring-cream-light" {...register('message')} />
+          </div>
 
-            <div>
-              <label htmlFor={`${uid}-full_name`} className={lab}>{L.name}</label>
-              <input id={`${uid}-full_name`} autoComplete="name" className={field} aria-invalid={!!errors.full_name} {...register('full_name')} />
-              {errors.full_name && <p role="alert" className="mt-1 font-serif text-[15px] text-[#8a3a2a]">{errors.full_name.message}</p>}
-            </div>
-            <div>
-              <label htmlFor={`${uid}-email`} className={lab}>{L.email}</label>
-              <input id={`${uid}-email`} type="email" inputMode="email" autoComplete="email" className={field} aria-invalid={!!errors.email} {...register('email')} />
-              {errors.email && <p role="alert" className="mt-1 font-serif text-[15px] text-[#8a3a2a]">{errors.email.message}</p>}
-            </div>
-            <div>
-              <label htmlFor={`${uid}-phone`} className={lab}>{L.phone}</label>
-              <input id={`${uid}-phone`} type="tel" inputMode="tel" autoComplete="tel" className={field} aria-invalid={!!errors.phone} {...register('phone')} />
-              {errors.phone && <p role="alert" className="mt-1 font-serif text-[15px] text-[#8a3a2a]">{errors.phone.message}</p>}
-            </div>
-            <div>
-              <label htmlFor={`${uid}-dietary`} className={lab}>{L.dietary}</label>
-              <input id={`${uid}-dietary`} className={field} {...register('dietary')} />
-            </div>
-
-            {attending && (
-              <>
-                <fieldset>
-                  <legend className={lab}>{L.transport}</legend>
-                  <YesNo
-                    value={needsTransport ?? undefined}
-                    onChange={(v) => setValue('needs_transport', v)}
-                    yes={L.transportYes}
-                    no={L.transportNo}
-                  />
-                </fieldset>
-                <fieldset>
-                  <legend className={lab}>{L.welcome}</legend>
-                  <YesNo
-                    value={welcomeMeeting ?? undefined}
-                    onChange={(v) => setValue('welcome_meeting', v)}
-                    yes={L.welcomeYes}
-                    no={L.welcomeNo}
-                  />
-                </fieldset>
-              </>
-            )}
-
-            <div>
-              <label htmlFor={`${uid}-message`} className={lab}>{L.message}</label>
-              <textarea id={`${uid}-message`} rows={3} className={`${field} resize-none`} {...register('message')} />
-            </div>
-
-            {error && <p role="alert" className="text-center font-serif text-[16px] text-[#8a3a2a]">{error}</p>}
-            <div className="pt-2 text-center">
-              <button
-                type="submit"
-                disabled={state === 'sending'}
-                className="label flex w-full sm:w-auto sm:inline-flex min-h-[48px] items-center justify-center rounded-full bg-gold px-10 py-3.5 !text-[12px] sm:!text-[13px] text-[#f8f1e2] shadow-md transition-all active:scale-[0.98] hover:bg-[#9d8350] touch-manipulation disabled:opacity-60"
-              >
-                {state === 'sending' ? '…' : L.send}
-              </button>
-            </div>
-          </form>
-        )}
+          {error && <p role="alert" className="text-center font-serif text-[16px] text-[#f3b9a6]">{error}</p>}
+          <div className="pt-3 text-center">
+            <button
+              type="submit"
+              disabled={state === 'sending'}
+              className="label inline-flex min-h-[48px] items-center justify-center rounded-full bg-[#bf9a58] px-12 py-3 !text-[13px] !tracking-[0.3em] !text-cream-light shadow-md transition-all active:scale-[0.98] hover:bg-[#cba768] touch-manipulation disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream-light focus-visible:ring-offset-2 focus-visible:ring-offset-[#4a5443]"
+            >
+              {state === 'sending' ? '…' : L.send}
+            </button>
+            <Flourish className="mx-auto mt-5 h-7 text-cream-light" />
+          </div>
+        </form>
+      )}
     </div>
   )
 }
@@ -235,7 +258,7 @@ export function RsvpForm({ open }: { open: boolean }) {
 export function Rsvp({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t } = useLanguage()
   return (
-    <Sheet open={open} onClose={onClose} label={t.rsvp.title} closeLabel={t.rsvp.labels.close} tall>
+    <Sheet open={open} onClose={onClose} label={t.rsvp.title} closeLabel={t.rsvp.labels.close} tall tone="olive">
       <RsvpForm open={open} />
     </Sheet>
   )
