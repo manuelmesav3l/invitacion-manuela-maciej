@@ -41,27 +41,27 @@ export function Venue({ onClimate }: { onClimate: () => void }) {
         <div className="relative mt-10 h-[215px] sm:h-[235px]">
           <div className="absolute left-[12%] sm:left-[16%] top-0 flex flex-col items-center gap-3">
             <img
-              src={asset("assets/venue-icon-pin.webp")}
+              src={asset("assets/venue-icon-pin-alpha.webp")}
               width={162}
               height={232}
               alt=""
               aria-hidden="true"
               loading="lazy"
               decoding="async"
-              className="blend-multiply h-16 sm:h-[76px] w-auto object-contain select-none transition-transform duration-300 hover:scale-105"
+              className="h-16 sm:h-[76px] w-auto object-contain select-none transition-transform duration-300 hover:scale-105"
             />
             <PillButton href={v.mapsUrl} delay={0.05}>{v.mapsLabel}</PillButton>
           </div>
           <div className="absolute right-[4%] sm:right-[6%] top-[98px] sm:top-[108px] flex flex-col items-center gap-3">
             <img
-              src={asset("assets/venue-icon-climate.webp")}
+              src={asset("assets/venue-icon-climate-alpha.webp")}
               width={284}
               height={250}
               alt=""
               aria-hidden="true"
               loading="lazy"
               decoding="async"
-              className="blend-multiply h-16 sm:h-[76px] w-auto object-contain select-none transition-transform duration-300 hover:scale-105"
+              className="h-16 sm:h-[76px] w-auto object-contain select-none transition-transform duration-300 hover:scale-105"
             />
             <PillButton onClick={onClimate} ariaHaspopup="dialog" delay={0.2}>{v.climateLabel}</PillButton>
           </div>

@@ -19,14 +19,14 @@ export function WhereToStay() {
             <li key={h.key}>
               <Reveal className="flex h-full flex-col items-center gap-3 rounded-[4px] border border-olive-deep/20 bg-white/40 px-5 py-6">
                 <img
-                  src={asset('assets/venue-icon-pin.webp')}
+                  src={asset('assets/venue-icon-pin-alpha.webp')}
                   width={162}
                   height={232}
                   alt=""
                   aria-hidden="true"
                   loading="lazy"
                   decoding="async"
-                  className="blend-multiply h-12 w-auto select-none object-contain"
+                  className="h-12 w-auto select-none object-contain"
                 />
                 <p className="label !text-[10px] !tracking-[0.3em] text-olive-deep">{h.area}</p>
                 <p className="m-0 font-serif text-[clamp(20px,5.4vw,23px)] tracking-[0.06em] text-olive-deep">{h.name}</p>

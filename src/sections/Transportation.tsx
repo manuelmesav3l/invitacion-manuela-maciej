@@ -15,14 +15,14 @@ export function Transportation() {
         <Reveal className="mt-8 flex flex-col items-center gap-5 sm:flex-row sm:justify-center sm:gap-10">
           <div className="flex flex-col items-center gap-3">
             <img
-              src={asset('assets/venue-icon-pin.webp')}
+              src={asset('assets/venue-icon-pin-alpha.webp')}
               width={162}
               height={232}
               alt=""
               aria-hidden="true"
               loading="lazy"
               decoding="async"
-              className="blend-multiply h-16 w-auto select-none object-contain sm:h-[76px]"
+              className="h-16 w-auto select-none object-contain sm:h-[76px]"
             />
             <PillButton href={x.mapsUrl}>{x.mapsLabel}</PillButton>
           </div>
