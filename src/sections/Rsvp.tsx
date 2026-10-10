@@ -204,6 +204,7 @@ export function RsvpForm({ open = true, className = '' }: { open?: boolean; clas
 
   return (
     <div className={`mx-auto max-w-[480px] px-6 sm:px-7 pb-14 pt-10 text-center ${className}`}>
+      <Flourish className="mx-auto mb-4 w-28 sm:w-36 text-cream-light" />
       <h2 className="m-0 font-serif text-[clamp(56px,18vw,76px)] font-normal leading-none tracking-[0.35em] text-cream-light" style={{ paddingLeft: '0.35em' }}>{t.rsvp.title}</h2>
       <Divider className="mx-auto mt-5 w-40 text-cream-light" />
       <p className="mt-9 font-script text-[clamp(52px,15vw,64px)] italic leading-[0.9] text-[#bf9a58]">{t.rsvp.kindly}</p>
@@ -301,7 +302,7 @@ export function RsvpForm({ open = true, className = '' }: { open?: boolean; clas
             >
               {state === 'sending' ? '…' : L.send}
             </button>
-            <Flourish className="mx-auto mt-5 h-7 text-cream-light" />
+            <Flourish className="mx-auto mt-6 w-24 sm:w-28 text-cream-light/80" />
           </div>
         </form>
       )}
