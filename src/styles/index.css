@@ -175,3 +175,12 @@ img { display: block; max-width: 100%; }
 .sheet-scroll-olive { scrollbar-color: rgba(250, 245, 238, 0.5) transparent; }
 .sheet-scroll-olive::-webkit-scrollbar-thumb { background: rgba(250, 245, 238, 0.5); background-clip: padding-box; }
 .sheet-scroll-olive::-webkit-scrollbar-thumb:hover { background: rgba(250, 245, 238, 0.75); background-clip: padding-box; }
+
+/* Browser autofill (Safari/Chrome) paints inputs yellow; keep the olive modal fields on-brand */
+.sheet-scroll-olive input:-webkit-autofill,
+.sheet-scroll-olive input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #4a5443 inset;
+  -webkit-text-fill-color: #FAF5EE;
+  caret-color: #FAF5EE;
+  transition: background-color 9999s ease-out 0s;
+}
