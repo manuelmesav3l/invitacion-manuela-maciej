@@ -135,7 +135,7 @@ const en = {
     mapsLabel: 'LOCATION',
     hotels: [
       { key: 'lettera', name: 'LETTERA HOTEL', area: 'POBLADO', url: '', photo: asset('assets/stay-lettera.webp'), mapsUrl: 'https://maps.app.goo.gl/ppPuUyN557i58dhy8' }, // TODO: website + discount code (pending from Isabel)
-      { key: 'lagoon', name: 'LAGOON HOTEL', area: 'POBLADO', url: '', photo: '', mapsUrl: '' }, // TODO: website + discount code (pending from Isabel)
+      { key: 'lagoon', name: 'LAGOON HOTEL', area: 'POBLADO', url: '', photo: asset('assets/stay-lagoon.webp'), mapsUrl: 'https://maps.app.goo.gl/jTmoUAspiK2pSoya9' }, // TODO: website + discount code (pending from Isabel)
     ],
   },
   todo: {
@@ -348,7 +348,7 @@ const pl: typeof en = {
     mapsLabel: 'LOKALIZACJA',
     hotels: [
       { key: 'lettera', name: 'LETTERA HOTEL', area: 'POBLADO', url: '', photo: asset('assets/stay-lettera.webp'), mapsUrl: 'https://maps.app.goo.gl/ppPuUyN557i58dhy8' },
-      { key: 'lagoon', name: 'LAGOON HOTEL', area: 'POBLADO', url: '', photo: '', mapsUrl: '' },
+      { key: 'lagoon', name: 'LAGOON HOTEL', area: 'POBLADO', url: '', photo: asset('assets/stay-lagoon.webp'), mapsUrl: 'https://maps.app.goo.gl/jTmoUAspiK2pSoya9' },
     ],
   },
   todo: {
