@@ -1,11 +1,11 @@
 import { useId, useRef, useState, type KeyboardEvent } from 'react'
 import { useReducedMotion } from 'motion/react'
 import { Reveal } from './Reveal'
+import { guidePhotos } from '../content/guidePhotos'
 import { useLanguage } from '../context/LanguageContext'
 
 interface Pick {
   key: string
-  icon: string
   title: string
   lead: string
   body: string
@@ -14,6 +14,11 @@ interface Pick {
 
 function PickCard({ pick, open, onToggle, topLabel, reduce }: { pick: Pick; open: boolean; onToggle: () => void; topLabel: string; reduce: boolean | null }) {
   const id = useId()
+  const photo = guidePhotos[pick.key]
+  // Load the big photo the first time the card opens, then keep it for instant re-opens.
+  const [seen, setSeen] = useState(open)
+  const [loaded, setLoaded] = useState(false)
+  if (open && !seen) setSeen(true)
   return (
     <li>
       <div className={`rounded-[4px] border bg-white/40 transition-colors duration-300 ${open ? 'border-gold shadow-[0_10px_26px_-14px_rgba(60,50,20,.45)]' : 'border-olive-deep/20 hover:border-gold/70'}`}>
@@ -26,8 +31,18 @@ function PickCard({ pick, open, onToggle, topLabel, reduce }: { pick: Pick; open
             onClick={onToggle}
             className="group flex min-h-[64px] w-full items-center gap-3.5 px-4 py-3 text-left touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
           >
-            <span aria-hidden="true" className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-sand text-[20px] shadow-[inset_0_0_0_1px_rgba(173,145,92,0.45)] transition-transform duration-300 group-hover:scale-105">
-              {pick.icon}
+            <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full bg-sand shadow-[inset_0_0_0_1px_rgba(173,145,92,0.45)]">
+              {photo && (
+                <img
+                  src={photo.thumb}
+                  alt=""
+                  width={112}
+                  height={112}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              )}
             </span>
             <span className="min-w-0 flex-1">
               <span className="block font-serif text-[clamp(19px,5.2vw,23px)] font-medium leading-tight text-olive-deep">{pick.title}</span>
@@ -45,8 +60,32 @@ function PickCard({ pick, open, onToggle, topLabel, reduce }: { pick: Pick; open
           className={`grid ${reduce ? '' : 'transition-[grid-template-rows] duration-300 ease-out'} ${open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
         >
           <div className="overflow-hidden">
-            <div className="px-4 pb-5 pl-[74px]">
-              <p className="m-0 font-serif text-[clamp(17px,4.6vw,19px)] leading-[1.5] text-ink">{pick.body}</p>
+            <div className="px-4 pb-5">
+              {photo && (
+                <figure className="m-0">
+                  <div className="relative aspect-[3/2] w-full overflow-hidden rounded-[3px] bg-sand shadow-[0_8px_20px_-10px_rgba(60,45,20,.5)]">
+                    {seen && (
+                      <img
+                        src={photo.src}
+                        alt={pick.title}
+                        width={900}
+                        height={600}
+                        decoding="async"
+                        onLoad={() => setLoaded(true)}
+                        className={`h-full w-full object-cover ${reduce ? '' : 'transition-opacity duration-500'} ${loaded ? 'opacity-100' : 'opacity-0'}`}
+                      />
+                    )}
+                  </div>
+                  {photo.credit && (
+                    <figcaption className="mt-1.5 text-right font-serif text-[12px] italic leading-tight text-ink/60">
+                      <a href={photo.credit.url} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:underline focus-visible:underline">
+                        {photo.credit.author} · {photo.credit.license}
+                      </a>
+                    </figcaption>
+                  )}
+                </figure>
+              )}
+              <p className="m-0 mt-4 font-serif text-[clamp(17px,4.6vw,19px)] leading-[1.5] text-ink">{pick.body}</p>
               {pick.top && (
                 <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-gold px-3 py-1 font-serif text-[15px] text-[#f8f1e2]">
                   <span aria-hidden="true">⭐</span>{topLabel}
