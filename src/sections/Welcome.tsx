@@ -192,14 +192,14 @@ export function Welcome() {
         </Reveal>
       </div>
 
-      {/* RESPONSIVE CAROUSEL: Mobile swipe + Tablet/Desktop multi-card editorial slider */}
-      <div className="relative mx-auto mt-8 sm:mt-12 max-w-[1200px] px-3 sm:px-8">
+      {/* RESPONSIVE CAROUSEL: Single strictly horizontal row with smooth scroll snap */}
+      <div className="relative mx-auto mt-8 sm:mt-12 max-w-[1240px] px-2 sm:px-6 lg:px-8">
         {/* Floating previous arrow button (visible on tablet/desktop) */}
         <button
           type="button"
           onClick={handlePrev}
           aria-label={t.welcome.prevPhoto}
-          className="hidden sm:flex absolute left-4 lg:left-6 top-[44%] -translate-y-1/2 z-20 h-11 w-11 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-sand/90 backdrop-blur-md border border-olive-deep/20 text-olive-deep shadow-[0_4px_16px_rgba(74,68,54,0.14)] transition-all duration-200 hover:bg-olive-deep hover:text-sand hover:border-olive-deep hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer"
+          className="hidden sm:flex absolute -left-2 md:left-1 lg:left-3 top-[44%] -translate-y-1/2 z-20 h-11 w-11 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-sand/95 backdrop-blur-md border border-olive-deep/20 text-olive-deep shadow-[0_4px_16px_rgba(74,68,54,0.16)] transition-all duration-200 hover:bg-olive-deep hover:text-sand hover:border-olive-deep hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer"
         >
           <ChevronLeftIcon className="h-6 w-6" />
         </button>
@@ -209,12 +209,12 @@ export function Welcome() {
           type="button"
           onClick={handleNext}
           aria-label={t.welcome.nextPhoto}
-          className="hidden sm:flex absolute right-4 lg:right-6 top-[44%] -translate-y-1/2 z-20 h-11 w-11 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-sand/90 backdrop-blur-md border border-olive-deep/20 text-olive-deep shadow-[0_4px_16px_rgba(74,68,54,0.14)] transition-all duration-200 hover:bg-olive-deep hover:text-sand hover:border-olive-deep hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer"
+          className="hidden sm:flex absolute -right-2 md:right-1 lg:right-3 top-[44%] -translate-y-1/2 z-20 h-11 w-11 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-sand/95 backdrop-blur-md border border-olive-deep/20 text-olive-deep shadow-[0_4px_16px_rgba(74,68,54,0.16)] transition-all duration-200 hover:bg-olive-deep hover:text-sand hover:border-olive-deep hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer"
         >
           <ChevronRightIcon className="h-6 w-6" />
         </button>
 
-        {/* Horizontal scroll track with smooth snap */}
+        {/* Horizontal scroll track: strictly single horizontal row (flex-nowrap) */}
         <div
           ref={carouselRef}
           onScroll={handleCarouselScroll}
@@ -224,7 +224,7 @@ export function Welcome() {
           aria-roledescription="carousel"
           aria-label={t.welcome.carouselLabel}
           data-lenis-prevent
-          className="no-scrollbar flex w-full overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-5 lg:gap-6 px-[11vw] sm:px-14 lg:px-16 py-3 scroll-smooth focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold/50 rounded-lg"
+          className="no-scrollbar flex flex-nowrap items-center w-full overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-5 lg:gap-6 px-[11vw] sm:px-12 lg:px-14 py-3 scroll-smooth focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold/50 rounded-lg"
         >
           {t.welcome.photos.map((p, i) => (
             <div
@@ -267,7 +267,7 @@ export function Welcome() {
             </button>
 
             {/* Indicator dots */}
-            <div className="flex items-center gap-1 sm:gap-2" role="tablist" aria-label={t.welcome.navLabel}>
+            <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto max-w-[80vw] py-1 no-scrollbar" role="tablist" aria-label={t.welcome.navLabel}>
               {t.welcome.photos.map((p, i) => (
                 <button
                   key={p.key}
@@ -276,11 +276,11 @@ export function Welcome() {
                   aria-selected={activeSlide === i}
                   aria-label={`${t.welcome.viewPhoto} ${i + 1}`}
                   onClick={() => scrollToSlide(i)}
-                  className="group flex min-h-[44px] min-w-[32px] sm:min-w-[36px] items-center justify-center p-1.5 touch-manipulation focus-visible:outline-none cursor-pointer"
+                  className="group flex min-h-[44px] min-w-[28px] sm:min-w-[32px] items-center justify-center p-1 touch-manipulation focus-visible:outline-none cursor-pointer"
                 >
                   <span
                     className={`h-2 transition-all duration-300 rounded-full ${
-                      activeSlide === i ? 'w-8 bg-olive-deep' : 'w-2 bg-olive-deep/30 group-hover:bg-olive-deep/60'
+                      activeSlide === i ? 'w-7 sm:w-8 bg-olive-deep' : 'w-2 bg-olive-deep/30 group-hover:bg-olive-deep/60'
                     }`}
                   />
                 </button>
@@ -300,7 +300,7 @@ export function Welcome() {
 
           {/* Slide counter */}
           <span className="font-caps text-[11px] tracking-[0.24em] text-ink/60">
-            0{activeSlide + 1} / 0{t.welcome.photos.length}
+            {String(activeSlide + 1).padStart(2, '0')} / {String(t.welcome.photos.length).padStart(2, '0')}
           </span>
         </div>
       </div>
