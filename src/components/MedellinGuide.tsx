@@ -2,7 +2,7 @@ import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'rea
 import { useReducedMotion } from 'motion/react'
 import { Reveal } from './Reveal'
 import { guidePhotos } from '../content/guidePhotos'
-import { guideIcons } from './GuideIcons'
+import { Sheet } from './Sheet'
 import { useLanguage } from '../context/LanguageContext'
 
 interface Pick {
@@ -13,81 +13,70 @@ interface Pick {
   top?: boolean
 }
 
-function PickCard({ pick, open, onToggle, topLabel, reduce }: { pick: Pick; open: boolean; onToggle: () => void; topLabel: string; reduce: boolean | null }) {
-  const id = useId()
+const TILT = [-2.2, 1.8, -1.2, 2.4, -1.8, 1.4, -2.4, 1.1]
+
+function PickPolaroid({ pick, index, lone, onOpen }: { pick: Pick; index: number; lone: boolean; onOpen: () => void }) {
   const photo = guidePhotos[pick.key]
-  const Icon = guideIcons[pick.key]
-  // Load the big photo the first time the card opens, then keep it for instant re-opens.
-  const [seen, setSeen] = useState(open)
-  const [loaded, setLoaded] = useState(false)
-  if (open && !seen) setSeen(true)
   return (
-    <li>
-      <div className={`rounded-[4px] border bg-white/40 transition-colors duration-300 ${open ? 'border-gold shadow-[0_10px_26px_-14px_rgba(60,50,20,.45)]' : 'border-olive-deep/20 hover:border-gold/70'}`}>
-        <h3 className="m-0">
-          <button
-            type="button"
-            aria-expanded={open}
-            aria-controls={`${id}-panel`}
-            id={`${id}-btn`}
-            onClick={onToggle}
-            className="group flex min-h-[64px] w-full items-center gap-3.5 px-4 py-3 text-left touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-          >
-            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-sand/70 text-olive-deep shadow-[inset_0_0_0_1px_rgba(173,145,92,0.45)] transition-colors duration-300 group-hover:bg-gold/20">
-              {Icon && <Icon width={24} height={24} />}
-            </span>
-            <span className="min-w-0 flex-1">
-              <span className="block font-serif text-[clamp(19px,5.2vw,23px)] font-medium leading-tight text-olive-deep">{pick.title}</span>
-              <span className="label mt-1 block !text-[10px] !leading-[1.6] !tracking-[0.18em] text-gold">{pick.lead}</span>
-            </span>
-            <svg aria-hidden="true" viewBox="0 0 12 12" width="14" height="14" fill="none" stroke="#3F5A2E" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" className={`shrink-0 ${reduce ? '' : 'transition-transform duration-300'} ${open ? 'rotate-180' : ''}`}>
-              <path d="M2 4.5 6 8.5l4-4" />
-            </svg>
-          </button>
-        </h3>
-        <div
-          id={`${id}-panel`}
-          role="region"
-          aria-labelledby={`${id}-btn`}
-          className={`grid ${reduce ? '' : 'transition-[grid-template-rows] duration-300 ease-out'} ${open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
-        >
-          <div className="overflow-hidden">
-            <div className="px-4 pb-5">
-              {photo && (
-                <figure className="m-0">
-                  <div className="relative aspect-[3/2] w-full overflow-hidden rounded-[3px] bg-sand shadow-[0_8px_20px_-10px_rgba(60,45,20,.5)]">
-                    {seen && (
-                      <img
-                        src={photo.src}
-                        alt={pick.title}
-                        width={900}
-                        height={600}
-                        decoding="async"
-                        onLoad={() => setLoaded(true)}
-                        className={`h-full w-full object-cover ${reduce ? '' : 'transition-opacity duration-500'} ${loaded ? 'opacity-100' : 'opacity-0'}`}
-                      />
-                    )}
-                  </div>
-                  {photo.credit && (
-                    <figcaption className="mt-1.5 text-right font-serif text-[12px] italic leading-tight text-ink/60">
-                      <a href={photo.credit.url} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:underline focus-visible:underline">
-                        {photo.credit.author} · {photo.credit.license}
-                      </a>
-                    </figcaption>
-                  )}
-                </figure>
-              )}
-              <p className="m-0 mt-4 font-serif text-[clamp(17px,4.6vw,19px)] leading-[1.5] text-ink">{pick.body}</p>
-              {pick.top && (
-                <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-gold px-3 py-1 font-serif text-[15px] text-[#f8f1e2]">
-                  <span aria-hidden="true">⭐</span>{topLabel}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+    <li className={lone ? 'col-span-2 mx-auto w-1/2' : undefined}>
+      <button
+        type="button"
+        onClick={onOpen}
+        aria-haspopup="dialog"
+        style={{ rotate: `${TILT[index % TILT.length]}deg` }}
+        className="group block w-full bg-white p-[5%] pb-[6%] text-left shadow-[0_14px_28px_-12px_rgba(60,45,20,.5)] transition-[transform,box-shadow] duration-300 hover:!rotate-0 hover:-translate-y-1 hover:shadow-[0_20px_34px_-12px_rgba(60,45,20,.55)] active:scale-[0.98] touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
+      >
+        <span className="relative block aspect-square w-full overflow-hidden bg-sand">
+          {photo && (
+            <img src={photo.src} alt="" width={900} height={600} loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          )}
+        </span>
+        <span className="mt-2.5 block text-center">
+          <span className="block font-serif text-[clamp(15px,4.2vw,18px)] font-medium leading-tight text-olive-deep">{pick.title}</span>
+          <span className="label mt-1 block !text-[8.5px] !leading-[1.5] !tracking-[0.16em] text-gold">{pick.lead}</span>
+        </span>
+      </button>
     </li>
+  )
+}
+
+function PickModal({ pick, topLabel, onClose, closeLabel }: { pick: Pick | null; topLabel: string; onClose: () => void; closeLabel: string }) {
+  // Keep the last pick mounted while the sheet animates out.
+  const [last, setLast] = useState<Pick | null>(pick)
+  if (pick && pick !== last) setLast(pick)
+  const shown = pick ?? last
+  const photo = shown ? guidePhotos[shown.key] : undefined
+  return (
+    <Sheet open={!!pick} onClose={onClose} label={shown?.title ?? ''} closeLabel={closeLabel}>
+      {shown && (
+        <article className="px-5 pb-10 pt-[72px] text-center">
+          {photo && (
+            <figure className="m-0">
+              <div className="mx-auto max-w-[420px] -rotate-1 bg-white p-2.5 pb-3 shadow-[0_14px_28px_-12px_rgba(60,45,20,.5)]">
+                <div className="aspect-[3/2] w-full overflow-hidden bg-sand">
+                  <img src={photo.src} alt={shown.title} width={900} height={600} decoding="async" className="h-full w-full object-cover" />
+                </div>
+              </div>
+              {photo.credit && (
+                <figcaption className="mt-2 font-serif text-[12px] italic text-ink/60">
+                  <a href={photo.credit.url} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:underline focus-visible:underline">
+                    {photo.credit.author} · {photo.credit.license}
+                  </a>
+                </figcaption>
+              )}
+            </figure>
+          )}
+          <h3 aria-hidden="true" className="m-0 mt-6 font-belfast text-[clamp(26px,7.5vw,34px)] font-normal leading-tight text-olive-deep">{shown.title}</h3>
+          <p className="label mt-2 !text-[10px] !tracking-[0.2em] text-gold">{shown.lead}</p>
+          <p className="m-0 mx-auto mt-5 max-w-[440px] font-serif text-[clamp(17px,4.6vw,19px)] leading-[1.6] text-ink">{shown.body}</p>
+          {shown.top && (
+            <p className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-gold px-3 py-1 font-serif text-[15px] text-[#f8f1e2]">
+              <span aria-hidden="true">⭐</span>{topLabel}
+            </p>
+          )}
+        </article>
+      )}
+    </Sheet>
   )
 }
 
@@ -101,13 +90,12 @@ export function MedellinGuide({ gallery }: { gallery: ReactNode }) {
     { key: 'photos', label: t.medellin.photosTab, intro: '', items: [] as Pick[], top: '' },
   ] as const
   const [active, setActive] = useState(0)
-  const [openKey, setOpenKey] = useState<string | null>(tabs[0].items[0].key)
+  const [picked, setPicked] = useState<Pick | null>(null)
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
   const uid = useId()
 
   const select = (i: number) => {
     setActive(i)
-    setOpenKey(tabs[i].items[0]?.key ?? null)
   }
   const onKey = (e: KeyboardEvent, i: number) => {
     const next = e.key === 'ArrowRight' ? (i + 1) % tabs.length : e.key === 'ArrowLeft' ? (i + tabs.length - 1) % tabs.length : -1
@@ -159,22 +147,16 @@ export function MedellinGuide({ gallery }: { gallery: ReactNode }) {
           {cur.key === 'photos' ? gallery : (
             <>
               <p className="label mt-6 !text-[10px] !tracking-[0.22em] text-gold">{cur.intro}</p>
-              <ul className="mx-auto mt-5 max-w-[460px] space-y-3 text-left">
-                {cur.items.map((p) => (
-                  <PickCard
-                    key={p.key}
-                    pick={p}
-                    open={openKey === p.key}
-                    onToggle={() => setOpenKey(openKey === p.key ? null : p.key)}
-                    topLabel={cur.top}
-                    reduce={reduce}
-                  />
+              <ul className="mx-auto mt-7 grid max-w-[460px] grid-cols-2 gap-x-5 gap-y-7 px-1">
+                {cur.items.map((p, i) => (
+                  <PickPolaroid key={p.key} pick={p} index={i} lone={i === cur.items.length - 1 && cur.items.length % 2 === 1} onOpen={() => setPicked(p)} />
                 ))}
               </ul>
             </>
           )}
         </Reveal>
       </div>
+      <PickModal pick={picked} topLabel={t.trips.topPick} onClose={() => setPicked(null)} closeLabel={t.rsvp.labels.close} />
     </div>
   )
 }
