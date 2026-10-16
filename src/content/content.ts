@@ -130,12 +130,12 @@ const en = {
     ariaLabel: 'Wedding programme',
     illustrations: { bus: 'Shuttle bus illustration', disco: 'Disco ball illustration', sparkler: 'Sparklers illustration' },
     events: [
-      { key: 'shuttle', label: 'SHUTTLE', time: '3:00', side: 'below' },
-      { key: 'ceremony', label: 'CEREMONY', time: '3:00', side: 'above' },
-      { key: 'dinner', label: 'DINNER', time: '3:00', side: 'below' },
-      { key: 'party', label: 'PARTY', time: '3:00', side: 'above' },
-      { key: 'sendoff', label: 'SEND OFF', time: '3:00', side: 'below' },
-    ] as ProgrammeEvent[], // TODO: real times
+      { key: 'shuttle', label: 'SHUTTLE', time: '2:00 pm', side: 'below' },
+      { key: 'ceremony', label: 'CEREMONY', time: '3:00 pm', side: 'above' },
+      { key: 'dinner', label: 'DINNER', time: '5:30 pm', side: 'below' },
+      { key: 'party', label: 'PARTY', time: '7:00 pm', side: 'above' },
+      { key: 'sendoff', label: 'SEND OFF', time: '12:00 am', side: 'below' },
+    ] as ProgrammeEvent[],
   },
   dress: {
     title: { initial: 'D', first: 'RESS', second: 'CODE', sectionLabel: 'Dress code' },
@@ -190,7 +190,7 @@ const en = {
     mapsLabel: 'LOCATION',
     hotels: [
       { key: 'lettera', name: 'LETTERA HOTEL', area: 'POBLADO', url: '', photo: asset('assets/stay-lettera.webp'), mapsUrl: 'https://maps.app.goo.gl/ppPuUyN557i58dhy8' }, // TODO: website + discount code (pending from Isabel)
-      { key: 'lagoon', name: 'LAGOON HOTEL', area: 'POBLADO', url: '', photo: asset('assets/stay-lagoon.webp'), mapsUrl: 'https://maps.app.goo.gl/jTmoUAspiK2pSoya9' }, // TODO: website + discount code (pending from Isabel)
+      { key: 'lagoon', name: 'LAGOON HOTEL', area: 'RIONEGRO', url: '', photo: asset('assets/stay-lagoon.webp'), mapsUrl: 'https://maps.app.goo.gl/jTmoUAspiK2pSoya9' }, // TODO: website + discount code (pending from Isabel)
     ],
   },
   todo: {
@@ -233,13 +233,16 @@ const en = {
     deadlineNote: 'An exception is made for QR Employees.', // TODO: confirm wording with client
     note: 'A LITTLE NOTE',
     plusOnes: 'Please note that plus ones are only included, if specifically indicated on your invitation.',
-    needLink: 'Please open your personal invitation link to reply.',
-    errorSubmit: 'We could not send your response. Please check your personal link and try again.',
+    needLink: 'Enter your phone number below to unlock your invitation details and RSVP.',
+    phoneFound: 'Guest details found! Please verify or update your information.',
+    phoneNotFound: 'We could not find this phone number in the guest list. Please check the number or contact the couple.',
+    searchingPhone: 'Looking up invitation…',
+    errorSubmit: 'We could not send your response. Please check your phone number or personal link and try again.',
     errorGeneric: 'Something went wrong while sending. Please try again in a moment.',
     labels: {
       name: 'FULL NAME',
       email: 'EMAIL (OPTIONAL)',
-      phone: 'PHONE (OPTIONAL)',
+      phone: 'PHONE NUMBER',
       attending: 'WILL YOU BE ATTENDING?',
       yes: "WOULDN'T MISS IT FOR THE WORLD!",
       no: 'SENDING LOVE FROM AFAR.',
@@ -259,10 +262,14 @@ const en = {
     validation: {
       nameMin: 'Please enter your full name',
       emailInvalid: 'Please enter a valid email address',
+      phoneInvalid: 'Please enter a valid phone number',
       attendingRequired: 'Please choose one',
     },
     thanks: 'Thank you!',
     thanksBody: 'Your response has been received.',
+    whatsappBtn: 'NOTIFY VIA WHATSAPP (+974 5568 3199)',
+    whatsappMessageAttending: 'Hi Manuela & Maciej! I have confirmed my attendance to your wedding.',
+    whatsappMessageNotAttending: 'Hi Manuela & Maciej! Sending love from afar, unfortunately I will not be able to attend your wedding.',
   },
   climate: {
     dialogLabel: 'Climate in Medellín',
@@ -399,11 +406,11 @@ const pl: typeof en = {
     ariaLabel: 'Program Uroczystości',
     illustrations: { bus: 'Ilustracja autobusu', disco: 'Ilustracja kuli dyskotekowej', sparkler: 'Ilustracja zimnych ogni' },
     events: [
-      { key: 'shuttle', label: 'TRANSPORT', time: '15:00', side: 'below' },
+      { key: 'shuttle', label: 'TRANSPORT', time: '14:00', side: 'below' },
       { key: 'ceremony', label: 'CEREMONIA', time: '15:00', side: 'above' },
-      { key: 'dinner', label: 'OBIAD', time: '15:00', side: 'below' },
-      { key: 'party', label: 'ZABAWA', time: '15:00', side: 'above' },
-      { key: 'sendoff', label: 'POWRÓT', time: '15:00', side: 'below' },
+      { key: 'dinner', label: 'OBIAD', time: '17:30', side: 'below' },
+      { key: 'party', label: 'ZABAWA', time: '19:00', side: 'above' },
+      { key: 'sendoff', label: 'POWRÓT', time: '00:00', side: 'below' },
     ] as ProgrammeEvent[],
   },
   dress: {
@@ -460,7 +467,7 @@ const pl: typeof en = {
     mapsLabel: 'LOKALIZACJA',
     hotels: [
       { key: 'lettera', name: 'LETTERA HOTEL', area: 'POBLADO', url: '', photo: asset('assets/stay-lettera.webp'), mapsUrl: 'https://maps.app.goo.gl/ppPuUyN557i58dhy8' },
-      { key: 'lagoon', name: 'LAGOON HOTEL', area: 'POBLADO', url: '', photo: asset('assets/stay-lagoon.webp'), mapsUrl: 'https://maps.app.goo.gl/jTmoUAspiK2pSoya9' },
+      { key: 'lagoon', name: 'LAGOON HOTEL', area: 'RIONEGRO', url: '', photo: asset('assets/stay-lagoon.webp'), mapsUrl: 'https://maps.app.goo.gl/jTmoUAspiK2pSoya9' },
     ],
   },
   todo: {
@@ -503,13 +510,16 @@ const pl: typeof en = {
     deadlineNote: 'Wyjątek dotyczy pracowników QR.',
     note: 'KRÓTKA UWAGA',
     plusOnes: 'Uwaga: Informacja o osobie towarzyszącej, uwzględniona w indywidualnym zaproszeniu.',
-    needLink: 'Aby odpowiedzieć, otwórz swój osobisty link do zaproszenia.',
-    errorSubmit: 'Nie udało się wysłać odpowiedzi. Sprawdź swój osobisty link i spróbuj ponownie.',
+    needLink: 'Wpisz poniżej swój numer telefonu, aby odblokować dane zaproszenia i potwierdzić obecność.',
+    phoneFound: 'Znaleziono dane zaproszenia! Zweryfikuj lub zaktualizuj swoje informacje.',
+    phoneNotFound: 'Nie znaleziono tego numeru telefonu na liście gości. Sprawdź numer lub skontaktuj się z parą młodą.',
+    searchingPhone: 'Wyszukiwanie zaproszenia…',
+    errorSubmit: 'Nie udało się wysłać odpowiedzi. Sprawdź swój numer telefonu lub link i spróbuj ponownie.',
     errorGeneric: 'Coś poszło nie tak podczas wysyłania. Spróbuj ponownie za chwilę.',
     labels: {
       name: 'IMIĘ I NAZWISKO',
       email: 'EMAIL (OPCJONALNIE)',
-      phone: 'NR TELEFONU (OPCJONALNIE)',
+      phone: 'NUMER TELEFONU',
       attending: 'POTWIERDZENIE OBECNOŚCI',
       yes: 'TAK, OCZYWIŚCIE!',
       no: 'NIESTETY NIE.',
@@ -529,10 +539,14 @@ const pl: typeof en = {
     validation: {
       nameMin: 'Proszę podać imię i nazwisko',
       emailInvalid: 'Proszę podać poprawny adres email',
+      phoneInvalid: 'Proszę podać poprawny numer telefonu',
       attendingRequired: 'Proszę dokonać wyboru',
     },
     thanks: 'Dziękujemy!',
     thanksBody: 'Twoja odpowiedź została pomyślnie zapisana.',
+    whatsappBtn: 'POWIADOM PRZEZ WHATSAPP (+974 5568 3199)',
+    whatsappMessageAttending: 'Cześć Manuela i Maciej! Potwierdzam swoją obecność na Waszym weselu.',
+    whatsappMessageNotAttending: 'Cześć Manuela i Maciej! Niestety nie będę mógł/mogła wziąć udziału w weselu. Przesyłam serdeczne pozdrowienia!',
   },
   climate: {
     dialogLabel: 'Klimat w Medellín',
