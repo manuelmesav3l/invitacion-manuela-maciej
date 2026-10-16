@@ -6,6 +6,27 @@
   src: url('/fonts/BelfastSerial-Regular.ttf') format('truetype');
 }
 @font-face {
+  font-family: 'Belfast Serial';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/BelfastSerial-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'BelfastSerial';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/BelfastSerial-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'BelfastSerial';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/BelfastSerial-Regular.ttf') format('truetype');
+}
+@font-face {
   font-family: 'Cormorant Garamond';
   font-style: normal;
   font-weight: 400;
@@ -53,18 +74,34 @@
 @tailwind utilities;
 
 :root {
-  --cream: #f8f5ee;
-  --sand: #f2e9df;
+  --cream: #e8d7c5;
+  --cream-light: #FAF5EE;
+  --sand: #e8d7c5;
   --olive: #3f5a2e;
   --gold: #ad915c;
   --ink: #4a4436;
+}
+
+.bg-cream-light {
+  background-color: #FAF5EE;
 }
 
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
 
-html { -webkit-text-size-adjust: 100%; }
+html {
+  -webkit-text-size-adjust: 100%;
+  color-scheme: light; /* keep the native scrollbar/track light even when the OS is in dark mode */
+  scrollbar-gutter: stable; /* no layout jump when a modal locks the page scroll */
+  scrollbar-width: thin;
+  scrollbar-color: #AD915C #E8D7C5; /* thumb gold on sand track (Firefox + Chromium 121+) */
+}
+/* Chromium/Safari fallback: slim gold thumb that blends into the sand page */
+html::-webkit-scrollbar { width: 10px; }
+html::-webkit-scrollbar-track { background: #E8D7C5; }
+html::-webkit-scrollbar-thumb { background: #AD915C; border-radius: 999px; border: 2px solid #E8D7C5; }
+html::-webkit-scrollbar-thumb:hover { background: #937848; }
 body {
   margin: 0;
   background: var(--sand);
@@ -88,12 +125,63 @@ img { display: block; max-width: 100%; }
 
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-.blend-multiply { mix-blend-mode: multiply; }
 
 @keyframes rsvp-pulse { 0%, 100% { transform: scale(1); opacity: 1 } 50% { transform: scale(1.06); opacity: .8 } }
 @keyframes disco-spin { to { transform: rotate(360deg) } }
 @keyframes sparkle { 0%, 100% { opacity: .55; transform: scale(1) } 50% { opacity: 1; transform: scale(1.12) } }
+@keyframes ink-cursor {
+  0%, 45% { opacity: 1; }
+  50%, 95% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.animate-ink-cursor {
+  animation: ink-cursor 0.9s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+}
+
+/* Responsive Hero Card Container: maximum presence on mobile, widescreen on desktop */
+.hero-card-container {
+  width: min(96vw, calc((100vh - 32px) * 511 / 744), 540px);
+  width: min(96vw, calc((100svh - 32px) * 511 / 744), 540px);
+  aspect-ratio: 511 / 744;
+}
+
+@media (min-width: 1024px) {
+  .hero-card-container {
+    width: 100%;
+    aspect-ratio: 1024 / 700;
+  }
+}
+
+/* Hide scrollbars on modern carousel and overflow elements */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Scrollbars inside modal sheets: transparent track so they blend with the panel colour */
+.sheet-scroll { scrollbar-width: thin; scrollbar-color: #AD915C transparent; }
+.sheet-scroll::-webkit-scrollbar { width: 8px; }
+.sheet-scroll::-webkit-scrollbar-track { background: transparent; margin-block: 18px; }
+.sheet-scroll::-webkit-scrollbar-thumb { background: #AD915C; border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
+.sheet-scroll-olive { scrollbar-color: rgba(250, 245, 238, 0.5) transparent; }
+.sheet-scroll-olive::-webkit-scrollbar-thumb { background: rgba(250, 245, 238, 0.5); background-clip: padding-box; }
+.sheet-scroll-olive::-webkit-scrollbar-thumb:hover { background: rgba(250, 245, 238, 0.75); background-clip: padding-box; }
+
+/* Browser autofill (Safari/Chrome) paints inputs yellow; keep the olive fields on-brand */
+.sheet-scroll-olive input:-webkit-autofill,
+.sheet-scroll-olive input:-webkit-autofill:focus,
+#rsvp input:-webkit-autofill,
+#rsvp input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #4a5443 inset;
+  -webkit-text-fill-color: #FAF5EE;
+  caret-color: #FAF5EE;
+  transition: background-color 9999s ease-out 0s;
 }

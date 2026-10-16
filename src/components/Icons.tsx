@@ -17,6 +17,21 @@ export const SunCloudIcon = (p: P) => (
 export const CloseIcon = (p: P) => (
   <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" {...base} {...p}><path d="M5 5l14 14M19 5 5 19" /></svg>
 )
+export const ChevronLeftIcon = (p: P) => (
+  <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" {...base} {...p}>
+    <path d="M15 18l-6-6 6-6" />
+  </svg>
+)
+export const ChevronRightIcon = (p: P) => (
+  <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" {...base} {...p}>
+    <path d="M9 18l6-6-6-6" />
+  </svg>
+)
+export const ExpandIcon = (p: P) => (
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" {...base} {...p}>
+    <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+  </svg>
+)
 
 /* Hand-drawn sketch icons for the programme (gold/sepia line art; swap for finals in /public/assets). */
 const sk = { fill: 'none', stroke: '#a38658', strokeWidth: 1.3, strokeLinecap: 'round', strokeLinejoin: 'round' } as const

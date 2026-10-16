@@ -5,3 +5,7 @@ dist
 .DS_Store
 *.zip
 .design-ref
+
+# guest list with secret tokens / personal data
+supabase/private/
+.vercel

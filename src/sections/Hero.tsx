@@ -1,44 +1,50 @@
+import { asset } from '../lib/asset'
 import { motion, useReducedMotion } from 'motion/react'
 import { useEffect, useRef } from 'react'
 import { gsap } from '../lib/scroll'
-import { Flourish, RsvpLogo } from '../components/Ornaments'
-import { t } from '../content/content'
+import { Flourish } from '../components/Ornaments'
+import { RsvpButton } from '../components/RsvpButton'
+import { useLanguage } from '../context/LanguageContext'
 
 export function Hero({ onRsvp }: { onRsvp: () => void }) {
+  const { t, locale } = useLanguage()
   const reduce = useReducedMotion()
   const heroRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    if (reduce || !heroRef.current || !sectionRef.current) return
-    const parallax = gsap.to(heroRef.current, {
-      yPercent: 4,
-      ease: 'none',
-      scrollTrigger: { trigger: heroRef.current, start: 'top top', end: 'bottom top', scrub: true },
-    })
-    // The hero is pinned (sticky) under the next card, so drive the fade by scroll distance, not by its own position.
+    if (reduce || !sectionRef.current) return
+
+    // Hero stays completely stationary (no movement on scroll)
+    // and fades out smoothly into the background as the user scrolls.
     const fade = gsap.to(sectionRef.current, {
       opacity: 0,
       ease: 'none',
-      scrollTrigger: { start: 0, end: () => window.innerHeight * 0.85, scrub: true, invalidateOnRefresh: true },
+      scrollTrigger: {
+        start: 0,
+        end: () => window.innerHeight * 0.75,
+        scrub: true,
+        invalidateOnRefresh: true,
+      },
     })
+
     return () => {
-      parallax.scrollTrigger?.kill(); parallax.kill()
-      fade.scrollTrigger?.kill(); fade.kill()
+      fade.scrollTrigger?.kill()
+      fade.kill()
     }
   }, [reduce])
 
   return (
-    <section ref={sectionRef} className="relative w-full bg-cream min-h-screen flex items-center justify-center py-6 sm:py-10 px-2 sm:px-4 overflow-hidden" aria-label={`${t.couple.a} and ${t.couple.b}`}>
+    <section ref={sectionRef} className="relative w-full bg-cream-light min-h-[100svh] flex items-center justify-center py-2 sm:py-10 px-1 sm:px-4 overflow-hidden" aria-label={t.hero.ariaCouple}>
       {/* Gazebo illustration: Monumental scale, shifted left to bleed onto the screen edge */}
-      <div className="absolute left-[-10%] sm:left-[-8%] lg:left-[-10%] xl:left-[-12%] 2xl:left-[-14%] bottom-[-2%] sm:bottom-0 z-0 pointer-events-none w-[clamp(480px,58vw,1020px)] max-h-[100vh] select-none flex items-end justify-start">
+      <div className="hidden lg:flex left-[-10%] xl:left-[-12%] 2xl:left-[-14%] bottom-0 absolute z-0 pointer-events-none w-[clamp(480px,58vw,1020px)] max-h-[100vh] select-none items-end justify-start">
         <img
-          src="/assets/gazebo-full.webp"
+          src={asset("assets/gazebo-full.webp")}
           width={1024}
           height={980}
-          alt={t.venue.illustrationAlt || 'Romantic gazebo sketch'}
+          alt={t.hero.gazeboAlt}
           className="w-full h-auto max-h-[100vh] object-contain block object-left-bottom"
-          loading="eager"
+          loading="lazy"
           decoding="async"
         />
       </div>
@@ -46,61 +52,70 @@ export function Hero({ onRsvp }: { onRsvp: () => void }) {
       <div className="relative w-full max-w-[1024px] 2xl:max-w-[1140px] mx-auto flex items-center justify-center z-10">
         <motion.div
           ref={heroRef}
-          className="relative w-full aspect-[1024/700] select-none"
+          className="hero-card-container relative mx-auto overflow-hidden select-none lg:overflow-visible"
           initial={reduce ? false : { opacity: 0.9, scale: 0.995 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
           {/* Couple illustration with transparent background */}
           <img
-            src="/assets/hero-couple-transparent.webp"
+            src={asset("assets/hero-couple-transparent.webp")}
             width={1024}
             height={700}
             alt={`${t.couple.a} & ${t.couple.b} - ${t.hero.kicker}`}
-            className="w-full h-full object-contain block pointer-events-none"
+            className="absolute left-[-61%] top-[-2.8%] h-auto w-[216.7%] max-w-none pointer-events-none lg:inset-0 lg:h-full lg:w-full lg:max-w-full lg:object-contain"
             fetchPriority="high"
             decoding="async"
           />
 
           {/* Top kicker */}
-          <p className="absolute top-[5.2%] inset-x-0 text-center font-caps text-[clamp(11px,1.45vw,15px)] font-medium tracking-[0.32em] text-olive-deep pointer-events-none">
+          <p className="absolute top-[3.2%] inset-x-0 text-center font-caps text-[clamp(10px,2.6vw,15px)] lg:top-[5.6%] lg:text-[clamp(11px,1.45vw,15px)] font-medium tracking-[0.32em] text-olive-deep pointer-events-none">
             {t.hero.kicker}
           </p>
 
           {/* Names lockup (SVG): positioned per the reference artboard */}
           <img
-            src="/assets/hero-names.svg"
+            src={asset("assets/hero-names.svg")}
             alt=""
             aria-hidden="true"
-            className="absolute left-[30.7%] top-[31.9%] w-[39.5%] h-auto pointer-events-none"
+            className="absolute left-[5.5%] top-[30%] w-[88%] lg:left-[30.7%] lg:top-[31.9%] lg:w-[39.5%] h-auto pointer-events-none"
             decoding="async"
           />
 
           {/* Date (SVG with rules) */}
-          <img
-            src="/assets/hero-date.svg"
-            alt={`${t.hero.day} ${t.hero.month} ${t.hero.year}`}
-            className="absolute left-[40%] top-[79%] w-[21.1%] h-auto pointer-events-none"
-            decoding="async"
-          />
-
-          <Flourish className="absolute left-[50.5%] top-[86.8%] w-[8%] -translate-x-1/2 text-olive-deep pointer-events-none" />
-
-          {/* RSVP button with luxury hover interaction */}
-          <button
-            type="button"
-            onClick={onRsvp}
-            aria-label="Confirmar asistencia (RSVP)"
-            className="group absolute left-[50.6%] top-[91.6%] w-[10%] -translate-x-1/2 cursor-pointer p-1 -m-1 text-olive-deep transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] hover:scale-105 hover:text-gold active:scale-95 active:text-[#937848] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream rounded select-none"
-          >
-            <RsvpLogo className="w-full h-auto block transition-all duration-300 drop-shadow-none group-hover:drop-shadow-[0_2px_10px_rgba(173,145,92,0.4)]" />
-
-            {/* Hairline golden underline expanding smoothly on hover */}
-            <span
-              className="absolute -bottom-0.5 left-1/2 h-[1px] w-full -translate-x-1/2 bg-gradient-to-r from-transparent via-gold to-transparent opacity-0 scale-x-0 transition-all duration-400 ease-out group-hover:opacity-100 group-hover:scale-x-100 pointer-events-none"
-              aria-hidden="true"
+          {locale === 'pl' ? (
+            <svg
+              viewBox="0 0 328.83 71.25"
+              aria-label={t.hero.dateText}
+              className="absolute left-1/2 top-[79.6%] -translate-x-1/2 w-[46%] lg:top-[79.4%] lg:w-[21.1%] h-auto pointer-events-none select-none overflow-visible"
+            >
+              <line x1="0" y1="0.5" x2="328.83" y2="0.5" stroke="#3F5A2E" strokeWidth="1" />
+              <text
+                x="50%"
+                y="51%"
+                textAnchor="middle"
+                dominantBaseline="central"
+                fill="#3F5A2E"
+                fontFamily="BelfastSerial, 'Belfast Serial', serif"
+                fontSize="47"
+                letterSpacing="0.035em"
+              >
+                {t.hero.dateText}
+              </text>
+              <line x1="0" y1="70.75" x2="328.83" y2="70.75" stroke="#3F5A2E" strokeWidth="1" />
+            </svg>
+          ) : (
+            <img
+              src={asset("assets/hero-date.svg")}
+              alt={`${t.hero.day} ${t.hero.month} ${t.hero.year}`}
+              className="absolute left-1/2 top-[79.6%] -translate-x-1/2 w-[46%] lg:top-[79.4%] lg:w-[21.1%] h-auto pointer-events-none"
+              decoding="async"
             />
-          </button>
+          )}
+
+          <Flourish className="absolute left-1/2 top-[87.2%] -translate-x-1/2 w-[16%] lg:top-[86.8%] lg:w-[7.5%] text-olive-deep pointer-events-none" />
+
+          <RsvpButton onClick={onRsvp} className="absolute left-1/2 top-[93.2%] -translate-x-1/2" />
         </motion.div>
       </div>
     </section>
