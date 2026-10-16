@@ -8,3 +8,4 @@ dist
 
 # guest list with secret tokens / personal data
 supabase/private/
+.vercel
