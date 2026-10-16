@@ -197,6 +197,8 @@ export function RsvpForm({ open = true, className = '' }: { open?: boolean; clas
           applyGuestData(found, clean)
           setPhoneStatus('found')
         } else {
+          setGuest(null)
+          setActiveToken('')
           setPhoneStatus('not_found')
         }
       } catch {
@@ -208,7 +210,7 @@ export function RsvpForm({ open = true, className = '' }: { open?: boolean; clas
   }, [phoneValue, open, applyGuestData])
 
   // Unlocked state: strictly require that the guest is verified in the guest list (found) or has a valid URL token
-  const isUnlocked = Boolean((tk && guest) || activeToken || phoneStatus === 'found')
+  const isUnlocked = Boolean(guest && (phoneStatus === 'found' || Boolean(tk || activeToken)))
 
   const [submittedData, setSubmittedData] = useState<{ name: string; attending: boolean; companions: number; phone: string } | null>(null)
 
