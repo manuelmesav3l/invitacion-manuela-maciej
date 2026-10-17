@@ -263,15 +263,23 @@ export function RsvpForm({ open = true, className = '' }: { open?: boolean; clas
     }
   })
 
-  // WhatsApp notification link to Manuela Yepes (+974 5568 3199)
-  const whatsappUrl = useMemo(() => {
+  // WhatsApp notification links: Manuela (+974 5568 3199) and Maciej (+48 600 168 982)
+  const whatsappUrlManuela = useMemo(() => {
     if (!submittedData) return ''
     const baseText = submittedData.attending ? t.rsvp.whatsappMessageAttending : t.rsvp.whatsappMessageNotAttending
     const details = submittedData.attending && submittedData.companions > 0
       ? ` (${submittedData.name} + ${submittedData.companions})`
       : ` (${submittedData.name})`
-    const fullText = `${baseText}${details}`
-    return `https://wa.me/97455683199?text=${encodeURIComponent(fullText)}`
+    return `https://wa.me/97455683199?text=${encodeURIComponent(`${baseText}${details}`)}`
+  }, [submittedData, t.rsvp])
+
+  const whatsappUrlMaciej = useMemo(() => {
+    if (!submittedData) return ''
+    const baseText = submittedData.attending ? t.rsvp.whatsappMessageAttending : t.rsvp.whatsappMessageNotAttending
+    const details = submittedData.attending && submittedData.companions > 0
+      ? ` (${submittedData.name} + ${submittedData.companions})`
+      : ` (${submittedData.name})`
+    return `https://wa.me/48600168982?text=${encodeURIComponent(`${baseText}${details}`)}`
   }, [submittedData, t.rsvp])
 
   const field = 'mt-2 w-full rounded-none border border-cream-light/45 bg-transparent px-3 py-2.5 font-serif text-[18px] text-cream-light placeholder:text-cream-light/40 transition-colors focus:border-cream-light focus:outline-none focus:ring-1 focus:ring-cream-light [&>option]:text-ink'
@@ -298,19 +306,35 @@ export function RsvpForm({ open = true, className = '' }: { open?: boolean; clas
           <p className="mt-4 font-script text-[48px] text-cream-light">{t.rsvp.thanks}</p>
           <p className="label !text-[12px] !text-cream-light">{t.rsvp.thanksBody}</p>
 
-          {whatsappUrl && (
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="label mt-7 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-[#25D366] px-8 py-3 !text-[12px] !tracking-[0.18em] !text-[#0f341b] font-semibold shadow-lg transition-all active:scale-[0.98] hover:bg-[#20ba5a] touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]"
-            >
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.78 14.07c-.24.68-1.4 1.25-1.92 1.33-.5.08-1.13.12-3.32-.78-2.67-1.1-4.38-3.83-4.52-4.01-.13-.18-1.07-1.42-1.07-2.72 0-1.29.68-1.93.92-2.19.24-.26.53-.33.7-.33.18 0 .35 0 .5.01.16.01.38-.06.59.45.23.55.78 1.9.85 2.04.07.15.12.32.02.51-.09.19-.14.3-.28.47-.14.16-.3.37-.43.5-.15.14-.3.3-.13.6.17.29.77 1.26 1.64 2.04 1.13 1 2.07 1.31 2.37 1.45.29.15.46.13.63-.07.18-.19.74-.86.94-1.16.2-.29.4-.24.68-.14.27.1 1.73.81 2.03.96.29.15.49.23.56.35.07.13.07.75-.17 1.43z" />
-              </svg>
-              <span>{t.rsvp.whatsappBtn}</span>
-            </a>
-          )}
+          <div className="mt-7 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 w-full max-w-[480px]">
+            {whatsappUrlManuela && (
+              <a
+                href={whatsappUrlManuela}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="label flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-full bg-[#25D366] px-4 py-3 !text-[11px] !tracking-[0.14em] !text-[#0f341b] font-semibold shadow-lg transition-all active:scale-[0.98] hover:bg-[#20ba5a] touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]"
+              >
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" className="shrink-0">
+                  <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.78 14.07c-.24.68-1.4 1.25-1.92 1.33-.5.08-1.13.12-3.32-.78-2.67-1.1-4.38-3.83-4.52-4.01-.13-.18-1.07-1.42-1.07-2.72 0-1.29.68-1.93.92-2.19.24-.26.53-.33.7-.33.18 0 .35 0 .5.01.16.01.38-.06.59.45.23.55.78 1.9.85 2.04.07.15.12.32.02.51-.09.19-.14.3-.28.47-.14.16-.3.37-.43.5-.15.14-.3.3-.13.6.17.29.77 1.26 1.64 2.04 1.13 1 2.07 1.31 2.37 1.45.29.15.46.13.63-.07.18-.19.74-.86.94-1.16.2-.29.4-.24.68-.14.27.1 1.73.81 2.03.96.29.15.49.23.56.35.07.13.07.75-.17 1.43z" />
+                </svg>
+                <span>{t.rsvp.whatsappBtnManuela}</span>
+              </a>
+            )}
+
+            {whatsappUrlMaciej && (
+              <a
+                href={whatsappUrlMaciej}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="label flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-full bg-[#25D366] px-4 py-3 !text-[11px] !tracking-[0.14em] !text-[#0f341b] font-semibold shadow-lg transition-all active:scale-[0.98] hover:bg-[#20ba5a] touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]"
+              >
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" className="shrink-0">
+                  <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.78 14.07c-.24.68-1.4 1.25-1.92 1.33-.5.08-1.13.12-3.32-.78-2.67-1.1-4.38-3.83-4.52-4.01-.13-.18-1.07-1.42-1.07-2.72 0-1.29.68-1.93.92-2.19.24-.26.53-.33.7-.33.18 0 .35 0 .5.01.16.01.38-.06.59.45.23.55.78 1.9.85 2.04.07.15.12.32.02.51-.09.19-.14.3-.28.47-.14.16-.3.37-.43.5-.15.14-.3.3-.13.6.17.29.77 1.26 1.64 2.04 1.13 1 2.07 1.31 2.37 1.45.29.15.46.13.63-.07.18-.19.74-.86.94-1.16.2-.29.4-.24.68-.14.27.1 1.73.81 2.03.96.29.15.49.23.56.35.07.13.07.75-.17 1.43z" />
+                </svg>
+                <span>{t.rsvp.whatsappBtnMaciej}</span>
+              </a>
+            )}
+          </div>
 
           <button
             type="button"
