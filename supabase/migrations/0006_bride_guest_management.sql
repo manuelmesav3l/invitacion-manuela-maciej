@@ -196,3 +196,10 @@ grant execute on function admin_get_guests(text) to anon;
 grant execute on function admin_save_guest(text, uuid, text, text, text, int, text) to anon;
 grant execute on function admin_delete_guest(text, uuid) to anon;
 grant execute on function admin_change_pin(text, text) to anon;
+
+-- 8. Insertar invitado: Fahad Al Haroon (idempotente)
+insert into guests (name, phone, max_companions, token)
+select 'Fahad Al Haroon', '5505 3590', 0, encode(gen_random_bytes(6), 'hex')
+where not exists (
+  select 1 from guests where name = 'Fahad Al Haroon' or phone = '5505 3590'
+);
