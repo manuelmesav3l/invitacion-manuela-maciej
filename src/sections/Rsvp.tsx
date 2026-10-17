@@ -373,7 +373,7 @@ export function RsvpForm({ open = true, className = '' }: { open?: boolean; clas
               type="tel"
               inputMode="tel"
               autoComplete="tel"
-              placeholder="+57 300 123 4567"
+              placeholder="+123 456 7890"
               className={field}
               aria-invalid={!!errors.phone}
               {...register('phone')}
