@@ -2,7 +2,7 @@ import { Reveal } from '../components/Reveal'
 import { SectionTitle } from '../components/SectionTitle'
 import { useLanguage } from '../context/LanguageContext'
 
-export function ThankYou() {
+export function ThankYou({ onOpenAdmin }: { onOpenAdmin?: () => void }) {
   const { t } = useLanguage()
   const k = t.thanks
   return (
@@ -16,6 +16,19 @@ export function ThankYou() {
           </div>
           <p className="label !text-[12px] !leading-[1.9] !tracking-[0.25em] text-olive-deep">{k.body}</p>
         </Reveal>
+
+        {onOpenAdmin && (
+          <div className="mt-8 text-center">
+            <button
+              type="button"
+              onClick={onOpenAdmin}
+              className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.2em] text-[#8b9670] hover:text-olive-deep transition-colors py-2 px-3 rounded-full hover:bg-black/5"
+            >
+              <span>🔒</span>
+              <span>Área de los Novios · Invitados</span>
+            </button>
+          </div>
+        )}
       </div>
     </section>
   )
