@@ -100,7 +100,7 @@ export function GuestFormModal({ open, onClose, guestToEdit, onSave }: GuestForm
             <input
               id="guest-phone"
               type="tel"
-              placeholder="Ej: +57 300 123 4567"
+              placeholder="Ej: +123 456 7890"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               className="w-full px-4 py-2.5 rounded-lg bg-[#181d14] border border-[#bf9a58]/30 text-cream-light placeholder:text-cream-light/30 focus:outline-none focus:ring-2 focus:ring-[#bf9a58] text-sm"
