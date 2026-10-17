@@ -18,10 +18,29 @@ import { initScroll, scrollToTarget } from './lib/scroll'
 
 // Lazy load heavy interactive sheets/modals on demand to keep initial heap memory minimal
 const ClimateSheet = lazy(() => import('./sections/ClimateSheet').then((m) => ({ default: m.ClimateSheet })))
+const BrideGuestManager = lazy(() =>
+  import('./components/admin/BrideGuestManager').then((m) => ({ default: m.BrideGuestManager }))
+)
 
 export default function App() {
   const [climate, setClimate] = useState(false)
+  const [adminOpen, setAdminOpen] = useState(() => {
+    if (typeof window === 'undefined') return false
+    const params = new URLSearchParams(window.location.search)
+    return params.has('admin') || params.has('novia') || window.location.hash === '#admin'
+  })
+
   useEffect(() => initScroll(), [])
+
+  useEffect(() => {
+    const checkHash = () => {
+      if (window.location.hash === '#admin') {
+        setAdminOpen(true)
+      }
+    }
+    window.addEventListener('hashchange', checkHash)
+    return () => window.removeEventListener('hashchange', checkHash)
+  }, [])
 
   const handleScrollToRsvp = () => {
     scrollToTarget('#rsvp')
@@ -44,10 +63,13 @@ export default function App() {
           <Transportation />
           <WhereToStay />
           <Medellin />
-          <ThankYou />
+          <ThankYou onOpenAdmin={() => setAdminOpen(true)} />
         </StackCard>
         <Suspense fallback={null}>
           {climate && <ClimateSheet open={climate} onClose={() => setClimate(false)} />}
+        </Suspense>
+        <Suspense fallback={null}>
+          {adminOpen && <BrideGuestManager open={adminOpen} onClose={() => setAdminOpen(false)} />}
         </Suspense>
 
         <LanguageToggle />
