@@ -122,7 +122,7 @@ const en = {
     weekday: 'THURSDAY',
     time: '3 PM',
     dateText: '06 MAY 2027',
-    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Casa+Primavera+Medell%C3%ADn', // TODO: exact link
+    mapsUrl: 'https://maps.app.goo.gl/boTrM4GGPUsJujcdA?g_st=iw',
     coords: { lat: 6.2442, lon: -75.5812 }, // TODO: real Casa Primavera coordinates (Medellín centre for now)
   },
   programme: {
@@ -400,7 +400,7 @@ const pl: typeof en = {
     weekday: 'CZWARTEK',
     time: '15.00',
     dateText: '06 MAJA 2027',
-    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Casa+Primavera+Medell%C3%ADn',
+    mapsUrl: 'https://maps.app.goo.gl/boTrM4GGPUsJujcdA?g_st=iw',
     coords: { lat: 6.2442, lon: -75.5812 },
   },
   programme: {
